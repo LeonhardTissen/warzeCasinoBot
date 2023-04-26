@@ -131,11 +131,13 @@ client.on('messageCreate', (message) => {
 	if (message.author.bot) return;
 
 	let cmd;
+	let num_cmd;
 	if (message.content.startsWith(PREFIX)) {
 		cmd = message.content.substring(1);
 	} else {
 		return;
 	}
+	num_cmd = parseInt(cmd);
   
 	// Check if the message content is a valid command
 	if (cmd.startsWith('balance') || cmd.startsWith('bal') || cmd.startsWith('b')) {
@@ -168,10 +170,10 @@ client.on('messageCreate', (message) => {
 		message.channel.send(game.state.player1.string())
 	}
 
-	if (['1','2','3','4','5'].includes(cmd)) {
+	if (num_cmd >= 1 && num_cmd <= 5) {
 		const cgame = ongoing_games[message.author.id];
 		if (cgame) {
-			cgame.state.player1.toggleSingleCard(parseInt(cmd) - 1)
+			cgame.state.player1.toggleSingleCard(num_cmd - 1)
 
 			message.channel.send(cgame.state.player1.string())
 		}
