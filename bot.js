@@ -5,9 +5,14 @@ const { db } = require('./db');
 const { emojis } = require('./emojis');
 const { send } = require('./general');
 
-// Load environment variables from .env file
+// Load bot token
 require('dotenv').config();
+const TOKEN = process.env.TOKEN;
 
+// Prefix for all commands
+const PREFIX = '-';
+
+// Required intents
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -16,11 +21,6 @@ const client = new Client({
 		GatewayIntentBits.GuildMembers,
 	],
 });
-
-// Bot token from .env file
-const TOKEN = process.env.TOKEN;
-// Prefix for all commands
-const PREFIX = '-';
 
 // Event handler for when the bot is ready
 client.on('ready', () => {
