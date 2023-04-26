@@ -1,9 +1,9 @@
 // Import the Discord.js library
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const { C2Deck } = require('./casino2');
+const { db } = require('./db');
 const { emojis } = require('./emojis');
 const { send } = require('./general');
-const sqlite3 = require('sqlite3').verbose();
 
 // Load environment variables from .env file
 require('dotenv').config();
@@ -19,6 +19,8 @@ const client = new Client({
 
 // Bot token from .env file
 const TOKEN = process.env.TOKEN;
+// Prefix for all commands
+const PREFIX = '-';
 
 // Event handler for when the bot is ready
 client.on('ready', () => {
@@ -32,25 +34,7 @@ client.on('ready', () => {
  	console.log(`Logged in as ${client.user.tag}.`);
 });
 
-// Connect to the SQLite database
-const db = new sqlite3.Database('./currency.db', (err) => {
-	if (err) {
-		console.error(err.message);
-	}
-	console.log('Connected to the currency database.');
-});
-  
-// Create the "users" table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
-	id TEXT PRIMARY KEY,
-	balance INTEGER DEFAULT 0
-)
-`);
-
 const ongoing_games = {};
-
-const PREFIX = '-';
 
 // Event handler for when a message is received
 client.on('messageCreate', (message) => {
