@@ -1,8 +1,8 @@
-const { cmdBalance } = require('./balance');
-const { cmdCasino2Test, cmdCasino2CardToggle, cmdCasino2CardSwap } = require('./casino2');
-const { createClient } = require('./client');
+const { cmdBalance } = require('./commands/balance');
+const { cmdCasino2Test, cmdCasino2CardToggle, cmdCasino2CardSwap } = require('./commands/casino2');
+const { createClient } = require('./utils/client');
 
-const { getNums } = require('./numchoice');
+const { getNums } = require('./utils/numchoice');
 
 // Load bot token
 require('dotenv').config();
