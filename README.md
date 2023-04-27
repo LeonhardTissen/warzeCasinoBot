@@ -8,6 +8,7 @@ npm install
 ```bash
 TOKEN=123YOURTOKENHERE123
 ADMIN=345103284463206400
+PREFIX=-
 ```
 ### Run the bot
 ```bash
