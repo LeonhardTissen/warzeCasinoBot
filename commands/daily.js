@@ -16,10 +16,9 @@ function daily(message) {
             return;
         }
 
+        const now = Math.floor(Date.now() / 1000);
         const last = row ? row.last : 0;
 
-        const now = Math.floor(Date.now() / 1000);
-        console.log(last, now)
         if (now < last + sec_daily) {
             const to_wait = sec_daily - (now - last)
             send(message, `<@${target}>, you need to wait **${secToReadable(to_wait)}**.`);
