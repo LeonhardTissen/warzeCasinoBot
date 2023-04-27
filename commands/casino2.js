@@ -1,18 +1,22 @@
 const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
 const { randRange, send } = require("../utils/general");
+const { createCanvas, loadImage } = require('canvas');
+const { AttachmentBuilder } = require("discord.js");
 
 function randCard() {
-	return emojis['card' + randRange(1,6)]
+	const id = 'card' + randRange(1,6);
+	return {
+		emoji: emojis[id],
+		cardid: id
+	}
 }
 
 class C2Card {
-	constructor() {
+	constructor(position) {
 		this.face = randCard();
 		this.shown = true;
-	}
-	string() {
-		return (this.shown ? this.face : emojis.cardclosed);
+		this.position = position;
 	}
 	toggle() {
 		this.shown = !this.shown;
@@ -22,19 +26,28 @@ class C2Card {
 class C2Deck {
 	constructor() {
 		this.cards = [
-			new C2Card(),
-			new C2Card(),
-			new C2Card(),
-			new C2Card(),
-			new C2Card()
+			new C2Card(1),
+			new C2Card(2),
+			new C2Card(3),
+			new C2Card(4),
+			new C2Card(5)
 		]
 	}
-	string() {
-		let final = '';
+	canvas(message) {
+		const cvs = createCanvas(248, 72);
+    	const ctx = cvs.getContext('2d');
+		
 		this.cards.forEach((card) => {
-			final += card.string();
+			let filename = card.shown ? card.face.cardid : 'cardclosed';
+			loadImage('images/' + filename + '.png').then((img) => {
+				ctx.drawImage(img, (card.position - 1) * 50, 0);
+			})
 		});
-		return final;
+
+		setTimeout(() => {
+			const attachment = new AttachmentBuilder(cvs.toBuffer(), {name: 'image.png'});
+			message.channel.send({files: [attachment]});
+		}, 100)
 	}
 	toggleSingleCard(id) {
 		this.cards[id].toggle();
@@ -68,7 +81,7 @@ function casino2Test(message) {
 	send(message, `You started a new game, here's your **Deck**:`);
 
 	// Send the current deck
-	message.channel.send(game.state.player1.deck.string());
+	game.state.player1.deck.canvas(message);
 }
 registerCommand(casino2Test, "Test Command for the Casino 2 game", ['casino2test', 'c2t']);
 
@@ -86,7 +99,7 @@ function casino2CardToggle(message, indices) {
 			})
 
 			// Send the current deck
-			message.channel.send(cgame.state.player1.deck.string())
+			cgame.state.player1.deck.canvas(message);
 		} else {
 			send(message, 'You already swapped this round!')
 		}
@@ -105,7 +118,7 @@ function casino2CardSwap(message) {
 			cgame.state.player1.swapped = true;
 
 			// Send the current deck
-			message.channel.send(cgame.state.player1.deck.string())
+			cgame.state.player1.deck.canvas(message);
 		} else {
 			send(message, 'You already swapped this round!')
 		}
