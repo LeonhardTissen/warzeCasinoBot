@@ -1,5 +1,4 @@
 const { registerCommand } = require("../commands");
-const { isAdmin } = require("../utils/admin");
 const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/general");
