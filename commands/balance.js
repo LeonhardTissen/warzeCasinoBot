@@ -3,8 +3,13 @@ const { db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/general");
 
-function balance(message) {
-    db.get('SELECT balance FROM users WHERE id = ?', [message.author.id], (err, row) => {
+function balance(message, target) {
+    // Set self as target if not provided
+    if (!target) {
+        target = message.author.id;
+    };
+
+    db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
         if (err) {
             console.error(err.message);
             return;
@@ -13,22 +18,32 @@ function balance(message) {
         // Send the user's balance as a response
         const balance = row ? row.balance : 0;
   
-        send(message, `<@${message.author.id}>'s Balance: **${balance} ${emojis.diamond}**`);
+        send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**`);
     });
 }
 exports.cmdBalance = balance;
 
-function setBalance(message, amount) {
+function setBalance(message, amount, target) {
     if (!isAdmin(message)) {
         return;
     };
-    db.run('UPDATE users SET balance = ? WHERE id = ?', [amount, message.author.id], (err) => {
+
+    // Set self as target if not provided
+    if (!target) {
+        target = message.author.id;
+    };
+    if (!amount) {
+        send(message, `Invalid amount.`)
+        return
+    }
+
+    db.run('UPDATE users SET balance = ? WHERE id = ?', [amount, target], (err) => {
         if (err) {
             console.error(err.message);
             return;
         }
 
-        send(message, `<@${message.author.id}>'s Balance is now: **${amount} ${emojis.diamond}**`)
+        send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`)
     });
 }
 exports.cmdSetBalance = setBalance;
