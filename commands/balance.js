@@ -7,7 +7,7 @@ function balance(message, target) {
     // Set self as target if not provided
     if (!target) {
         target = message.author.id;
-    };
+    }
 
     db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
         if (err) {
@@ -26,12 +26,12 @@ exports.cmdBalance = balance;
 function setBalance(message, amount, target) {
     if (!isAdmin(message)) {
         return;
-    };
+    }
 
     // Set self as target if not provided
     if (!target) {
         target = message.author.id;
-    };
+    }
     if (!amount) {
         send(message, `Invalid amount.`)
         return

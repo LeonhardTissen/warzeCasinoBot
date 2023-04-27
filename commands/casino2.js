@@ -82,7 +82,7 @@ function casino2CardToggle(message, indices) {
 			// Toggle all cards at indices
 			indices.forEach((index) => {
 				cgame.state.player1.deck.toggleSingleCard(index - 1);
-			});
+			})
 
 			// Send the current deck
 			message.channel.send(cgame.state.player1.deck.string())
