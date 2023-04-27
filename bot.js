@@ -51,10 +51,6 @@ client.on('messageCreate', (message) => {
 	if (cmd_numbers.length > 0) {
 		cmdCasino2CardToggle(message, cmd_numbers);
 	}
-	
-	// db.run('INSERT OR IGNORE INTO users (id) VALUES (?)', [message.author.id], (err) => {
-	// db.run('UPDATE users SET balance = balance + 1 WHERE id = ?', [message.author.id], (err) => {
-	// db.run('UPDATE users SET balance = balance - 1 WHERE id = ?', [message.author.id], (err) => {
 });
 
 // Log in the bot using the token

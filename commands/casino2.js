@@ -81,7 +81,9 @@ function casino2CardToggle(message, indices) {
 		if (!cgame.state.player1.swapped) {
 			// Toggle all cards at indices
 			indices.forEach((index) => {
-				cgame.state.player1.deck.toggleSingleCard(index - 1);
+				if (index >= 1 && index <= 5) {
+					cgame.state.player1.deck.toggleSingleCard(index - 1);
+				}
 			})
 
 			// Send the current deck

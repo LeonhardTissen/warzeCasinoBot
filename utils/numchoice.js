@@ -1,4 +1,4 @@
-const valid_nums = "12345";
+const valid_nums = "123456789";
 
 function getNums(str) {
     const nums = [];
