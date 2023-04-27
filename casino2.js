@@ -1,5 +1,5 @@
 const { emojis } = require("./emojis");
-const { randRange } = require("./general");
+const { randRange, send } = require("./general");
 
 function randCard() {
 	return emojis['card' + randRange(1,6)]
@@ -39,5 +39,73 @@ class C2Deck {
 	toggleSingleCard(id) {
 		this.cards[id].toggle();
 	}
+	cardSwap() {
+		this.cards.forEach((card) => {
+			if (!card.shown) {
+				card.shown = true;
+				card.face = randCard();
+			}
+		})
+	}
 }
 exports.C2Deck = C2Deck;
+
+function casino2Test(message) {
+	if (ongoing_games[message.author.id]) {
+		send(message, 'You already have an ongoing game!');
+		return;
+	}
+	const game = {
+		type: 'casino2',
+		state: {
+			player1: {
+				deck: new C2Deck(),
+				swapped: false
+			}
+		}
+	}
+	ongoing_games[message.author.id] = game;
+
+	send(message, `You started a new game, here's your **Deck**:`);
+
+	// Send the current deck
+	message.channel.send(game.state.player1.deck.string());
+}
+exports.cmdCasino2Test = casino2Test;
+
+function casino2CardToggle(message, indices) {
+	const cgame = ongoing_games[message.author.id];
+
+	if (cgame && cgame.type === 'casino2') {
+
+		// Toggle all cards at indices
+		indices.forEach((index) => {
+			cgame.state.player1.deck.toggleSingleCard(index - 1);
+		});
+
+		// Send the current deck
+		message.channel.send(cgame.state.player1.deck.string())
+
+	}
+}
+exports.cmdCasino2CardToggle = casino2CardToggle;
+
+function casino2CardSwap(message) {
+	const cgame = ongoing_games[message.author.id];
+
+	if (cgame && cgame.type === 'casino2') {
+
+		if (!cgame.state.player1.swapped) {
+			cgame.state.player1.deck.cardSwap();
+			cgame.state.player1.swapped = true;
+
+			// Send the current deck
+			message.channel.send(cgame.state.player1.deck.string())
+		} else {
+			send(message, 'You already swapped this round!')
+		}
+
+
+	}
+}
+exports.cmdCasino2CardSwap = casino2CardSwap;
