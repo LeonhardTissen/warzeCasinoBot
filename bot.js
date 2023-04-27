@@ -1,5 +1,6 @@
 const { commands } = require('./commands');
 require('./commands/balance');
+require('./commands/setbalance');
 require('./commands/canvas');
 const { cmdCasino2CardToggle } = require('./commands/casino2');
 require('./commands/coinflip');

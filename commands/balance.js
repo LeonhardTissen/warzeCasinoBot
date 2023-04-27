@@ -29,31 +29,3 @@ function balance(message, target) {
     });
 }
 registerCommand(balance, "Check your balance.", ['balance', 'bal', 'b']);
-
-function setBalance(message, amount, target) {
-    if (!isAdmin(message)) {
-        return;
-    }
-
-    // Set self as target if not provided
-    if (!target) {
-        target = message.author.id;
-    }
-    target = parseUser(target);
-
-    if (!amount) {
-        send(message, `Invalid amount.`)
-        return
-    }
-    amount = parseInt(amount);
-
-    db.run('UPDATE users SET balance = ? WHERE id = ?', [amount, target], (err) => {
-        if (err) {
-            console.error(err.message);
-            return;
-        }
-
-        send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`)
-    });
-}
-registerCommand(setBalance, "Set a users balance.", ['setbalance', 'setbal']);

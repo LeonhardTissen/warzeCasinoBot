@@ -5,7 +5,7 @@ function generateCommandOverview() {
     let commandoverview = "```ansi\n";
     commands.forEach((command) => {
         commandoverview += 
-        "[0;40m" + 
+        (command.adminOnly ? "[0;41m" : "[0;40m") + 
         command.aliases.map(a => PREFIX + a).join(', ').padEnd(20, ' ') + 
         '[0;39m - ' + 
         command.description + '\n';
