@@ -16,4 +16,12 @@ CREATE TABLE IF NOT EXISTS users (
 )
 `);
 
+// Create the "dailies" table if it doesn't exist
+db.run(`
+CREATE TABLE IF NOT EXISTS dailies (
+	id TEXT PRIMARY KEY,
+	last INTEGER DEFAULT 0
+)
+`);
+
 exports.db = db;

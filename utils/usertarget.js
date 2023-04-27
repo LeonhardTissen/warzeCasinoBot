@@ -1,4 +1,7 @@
-function parseUser(str) {
+function parseUser(str, fallback) {
+    if (!str) {
+        return fallback;
+    }
     if (str.startsWith('<@') && str.endsWith('>')) {
         str = str.substring(2, str.length - 1);
     }

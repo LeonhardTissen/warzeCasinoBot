@@ -1,5 +1,7 @@
 const { cmdBalance, cmdSetBalance } = require('./commands/balance');
 const { cmdCasino2Test, cmdCasino2CardToggle, cmdCasino2CardSwap } = require('./commands/casino2');
+const { cmdCoinFlip } = require('./commands/coinflip');
+const { cmdDaily } = require('./commands/daily');
 
 const { createClient } = require('./utils/client');
 const { TOKEN } = require('./utils/env');
@@ -31,13 +33,19 @@ client.on('messageCreate', (message) => {
 			cmdBalance(message, parseUser(cmd[1]));
 			break;
 		case 'sb': case 'setbal': case 'setbalance':
-			cmdSetBalance(message, parseInt(cmd[1]), parseUser(cmd[2]));
+			cmdSetBalance(message, parseInt(cmd[1]), parseUser(cmd[2], message.author.id));
 			break;
 		case 'c2t': case 'casino2test':
 			cmdCasino2Test(message);
 			break;
 		case 'swap':
 			cmdCasino2CardSwap(message);
+			break;
+		case 'coinflip': case 'cf':
+			cmdCoinFlip(message, parseInt(cmd[1]));
+			break;
+		case 'd': case 'daily':
+			cmdDaily(message);
 			break;
 	};
 	if (cmd_numbers.length > 0) {
