@@ -1,5 +1,5 @@
 const { registerCommand } = require("../commands");
-const { db } = require("../utils/db");
+const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/general");
 const { secToReadable } = require("../utils/timestr");
@@ -25,6 +25,8 @@ function daily(message) {
             send(message, `<@${target}>, you need to wait **${secToReadable(to_wait)}**.`);
             return;
         }
+
+        createRowIfNotExists(target);
             
         // Reward daily
         const resulting_balance_change = daily_amount;

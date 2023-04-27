@@ -24,4 +24,15 @@ CREATE TABLE IF NOT EXISTS dailies (
 )
 `);
 
+function createRowIfNotExists(user) {
+	// Create a user entry if not exists
+	db.run('INSERT OR IGNORE INTO users (id) VALUES (?)', [user], (err) => {
+		if (err) {
+			console.log(err.message);
+			return;
+		}
+	});
+}
+exports.createRowIfNotExists = createRowIfNotExists;
+
 exports.db = db;

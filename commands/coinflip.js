@@ -1,6 +1,6 @@
 const { registerCommand } = require("../commands");
 const { checkMinBalance } = require("../utils/currency");
-const { db } = require("../utils/db");
+const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/general");
 
@@ -15,6 +15,8 @@ function coinFlip(message, amount) {
         send(message, `You need to bet atleast **2 ${emojis.diamond}**.`);
         return;
     }
+
+    createRowIfNotExists(message.author.id);
 
     checkMinBalance(message.author.id, amount).then((hasEnoughDiamonds) => {
         if (!hasEnoughDiamonds) {
