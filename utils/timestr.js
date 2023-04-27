@@ -19,8 +19,8 @@ function secToReadable(seconds) {
         final_string += min + ` minute${pluralS(min)}, `;
     }
     if (final_string != '') {
-        final_string.substring(0, final_string.length - 1);
-        final_string += 'and ';
+        final_string = final_string.substring(0, final_string.length - 2);
+        final_string += ' and ';
     }
     final_string += sec + ` second${pluralS(sec)}`;
 

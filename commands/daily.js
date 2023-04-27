@@ -20,40 +20,39 @@ function daily(message) {
 
         const now = Math.floor(Date.now() / 1000);
         console.log(last, now)
-        if (now > last + sec_daily) {
-            
-            // Reward daily
-            const resulting_balance_change = daily_amount;
-            db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [resulting_balance_change, target], (err) => {
-                if (err) {
-                    console.error(err.message);
-                    return;
-                }
-    
-                send(message, `<@${target}>, you collected: **${daily_amount} ${emojis.diamond}**`);
-
-            });
-            
-            // Insert user
-            db.run('INSERT OR IGNORE INTO dailies (id) VALUES (?)', [target], (err) => {
-                if (err) {
-                    console.log(err.message);
-                    return;
-                }
-            });
-
-            // Apply a timer that the user has to wait before collecting the next daily
-            db.run('UPDATE dailies SET last = ? WHERE id = ?', [now, target], (err) => {
-                if (err) {
-                    console.log(err.message);
-                    return;
-                }
-            })
-
-        } else {
+        if (now < last + sec_daily) {
             const to_wait = sec_daily - (now - last)
             send(message, `<@${target}>, you need to wait **${secToReadable(to_wait)}**.`);
+            return;
         }
+            
+        // Reward daily
+        const resulting_balance_change = daily_amount;
+        db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [resulting_balance_change, target], (err) => {
+            if (err) {
+                console.error(err.message);
+                return;
+            }
+
+            send(message, `<@${target}>, you collected: **${daily_amount} ${emojis.diamond}**`);
+
+        });
+        
+        // Insert user into dailies db if not exists
+        db.run('INSERT OR IGNORE INTO dailies (id) VALUES (?)', [target], (err) => {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+        });
+
+        // Apply a timer that the user has to wait before collecting the next daily
+        db.run('UPDATE dailies SET last = ? WHERE id = ?', [now, target], (err) => {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+        })
 
     });
 }
