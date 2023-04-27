@@ -1,12 +1,16 @@
+const { registerCommand } = require("../commands");
 const { isAdmin } = require("../utils/admin");
 const { db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/general");
+const { parseUser } = require("../utils/usertarget");
 
 function balance(message, target) {
     // Set self as target if not provided
     if (!target) {
         target = message.author.id;
+    } else {
+        target = parseUser(target);
     }
 
     db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
@@ -21,7 +25,7 @@ function balance(message, target) {
         send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**`);
     });
 }
-exports.cmdBalance = balance;
+registerCommand(balance, "Check your balance.", ['balance', 'bal', 'b']);
 
 function setBalance(message, amount, target) {
     if (!isAdmin(message)) {
@@ -32,10 +36,12 @@ function setBalance(message, amount, target) {
     if (!target) {
         target = message.author.id;
     }
+    target = parseUser(target);
     if (!amount) {
         send(message, `Invalid amount.`)
         return
     }
+    amount = parseInt(amount);
 
     db.run('UPDATE users SET balance = ? WHERE id = ?', [amount, target], (err) => {
         if (err) {
@@ -46,4 +52,4 @@ function setBalance(message, amount, target) {
         send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`)
     });
 }
-exports.cmdSetBalance = setBalance;
+registerCommand(setBalance, "Set a users balance.", ['setbalance', 'setbal']);

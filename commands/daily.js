@@ -1,3 +1,4 @@
+const { registerCommand } = require("../commands");
 const { db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/general");
@@ -55,4 +56,4 @@ function daily(message) {
 
     });
 }
-exports.cmdDaily = daily;
+registerCommand(daily, "Collect 100 diamonds everyday.", ['daily', 'd']);

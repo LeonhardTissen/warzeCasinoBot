@@ -1,3 +1,4 @@
+const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
 const { randRange, send } = require("../utils/general");
 
@@ -17,7 +18,6 @@ class C2Card {
 		this.shown = !this.shown;
 	}
 }
-exports.C2Card = C2Card;
 
 class C2Deck {
 	constructor() {
@@ -48,7 +48,6 @@ class C2Deck {
 		})
 	}
 }
-exports.C2Deck = C2Deck;
 
 function casino2Test(message) {
 	if (ongoing_games[message.author.id]) {
@@ -71,7 +70,7 @@ function casino2Test(message) {
 	// Send the current deck
 	message.channel.send(game.state.player1.deck.string());
 }
-exports.cmdCasino2Test = casino2Test;
+registerCommand(casino2Test, "Test Command for the Casino 2 game", ['casino2test', 'c2t']);
 
 function casino2CardToggle(message, indices) {
 	const cgame = ongoing_games[message.author.id];
@@ -111,7 +110,6 @@ function casino2CardSwap(message) {
 			send(message, 'You already swapped this round!')
 		}
 
-
 	}
 }
-exports.cmdCasino2CardSwap = casino2CardSwap;
+registerCommand(casino2CardSwap, "Test Command for the Casino 2 game", ['swap']);

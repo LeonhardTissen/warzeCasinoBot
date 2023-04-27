@@ -1,3 +1,4 @@
+const { registerCommand } = require("../commands");
 const { checkMinBalance } = require("../utils/currency");
 const { db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
@@ -8,6 +9,7 @@ function coinFlip(message, amount) {
         send(message, "No amount provided.");
         return;
     }
+    amount = parseInt(amount);
 
     if (amount < 2) {
         send(message, `You need to bet atleast **2 ${emojis.diamond}**.`);
@@ -37,4 +39,4 @@ function coinFlip(message, amount) {
         });
     });
 }
-exports.cmdCoinFlip = coinFlip;
+registerCommand(coinFlip, "Flip a coin and bet diamonds.", ['coinflip', 'cf']);
