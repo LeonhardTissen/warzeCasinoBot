@@ -1,5 +1,7 @@
 # Warze.org/casino Discord bot
 ## Setup
+### Create an application
+<https://discordapp.com/developers>
 ### Get required packages
 ```bash
 npm install
