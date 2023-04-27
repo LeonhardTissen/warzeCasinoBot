@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 function createEmbed(messageContents) {
 	const embed = new EmbedBuilder()
-		.setColor('#5000F6')
+		.setColor('#5300F9')
 		.setDescription(messageContents)
 
 	return embed;

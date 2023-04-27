@@ -1,12 +1,9 @@
-const { cmdBalance } = require('./commands/balance');
+const { cmdBalance, cmdSetBalance } = require('./commands/balance');
 const { cmdCasino2Test, cmdCasino2CardToggle, cmdCasino2CardSwap } = require('./commands/casino2');
 const { createClient } = require('./utils/client');
+const { TOKEN } = require('./utils/env');
 
 const { getNums } = require('./utils/numchoice');
-
-// Load bot token
-require('dotenv').config();
-const TOKEN = process.env.TOKEN;
 
 // Prefix for all commands
 const PREFIX = '-';
@@ -30,6 +27,9 @@ client.on('messageCreate', (message) => {
 	switch (cmd[0]) {
 		case 'b': case 'bal': case 'balance':
 			cmdBalance(message);
+			break;
+		case 'sb': case 'setbal': case 'setbalance':
+			cmdSetBalance(message, parseInt(cmd[1]));
 			break;
 		case 'c2t': case 'casino2test':
 			cmdCasino2Test(message);
