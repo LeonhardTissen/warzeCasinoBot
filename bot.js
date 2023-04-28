@@ -8,7 +8,8 @@ require('./commands/help');
 require('./commands/sample');
 require('./commands/avatar');
 require('./commands/pay');
-require('./commands/casino2');
+require('./commands/casino2start');
+require('./commands/casino2swap');
 
 const { createClient } = require('./utils/client');
 const { TOKEN, PREFIX } = require('./utils/env');
