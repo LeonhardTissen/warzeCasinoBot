@@ -1,5 +1,5 @@
 const { ADMIN } = require("./env");
-const { send } = require("./general");
+const { send } = require("./sender");
 
 function isAdmin(message) {
     if (message.author.id === ADMIN) {

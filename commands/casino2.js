@@ -1,8 +1,9 @@
 const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
-const { randRange, send } = require("../utils/general");
+const { randRange } = require("../utils/general");
 const { createCanvas, loadImage } = require('canvas');
 const { AttachmentBuilder } = require("discord.js");
+const { send } = require("../utils/sender");
 
 function randCard() {
 	const id = 'card' + randRange(1,6);

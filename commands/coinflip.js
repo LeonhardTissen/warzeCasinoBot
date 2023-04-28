@@ -2,7 +2,7 @@ const { registerCommand } = require("../commands");
 const { checkMinBalance } = require("../utils/currency");
 const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
-const { send } = require("../utils/general");
+const { send } = require("../utils/sender");
 
 function coinFlip(message, amount) {
     if (!amount) {

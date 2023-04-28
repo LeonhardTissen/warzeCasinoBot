@@ -3,7 +3,7 @@ const { db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { parseUser } = require("../utils/usertarget");
 const { isAdmin } = require("../utils/admin");
-const { send } = require("../utils/general");
+const { send } = require("../utils/sender");
 
 function setBalance(message, amount, target) {
     if (!isAdmin(message)) {

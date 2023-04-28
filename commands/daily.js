@@ -1,7 +1,7 @@
 const { registerCommand } = require("../commands");
 const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
-const { send } = require("../utils/general");
+const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 
 const daily_amount = 100;
