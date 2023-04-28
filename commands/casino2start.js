@@ -4,6 +4,7 @@ const { send } = require("../utils/sender");
 const { changeBalance, checkIfLarger } = require("../utils/currency");
 const { validateBetAmount } = require("../utils/bet");
 const { C2Deck } = require("../utils/casino2deck");
+const { ongoing_games } = require("../utils/games");
 
 function casino2Start(message, betamount) {
 	// Users can only partake in 1 game at a time

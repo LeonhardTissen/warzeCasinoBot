@@ -2,6 +2,7 @@ const { registerCommand } = require("../commands");
 const { C2Deck } = require("../utils/casino2deck");
 const { changeBalance } = require("../utils/currency");
 const { emojis } = require("../utils/emojis");
+const { ongoing_games } = require("../utils/games");
 const { getNums } = require("../utils/numchoice");
 const { send } = require("../utils/sender");
 
