@@ -6,6 +6,8 @@ const { cmdCasino2CardToggle } = require('./commands/casino2');
 require('./commands/coinflip');
 require('./commands/daily');
 require('./commands/help');
+require('./commands/sample');
+require('./commands/avatar');
 
 const { createClient } = require('./utils/client');
 const { TOKEN, PREFIX } = require('./utils/env');
