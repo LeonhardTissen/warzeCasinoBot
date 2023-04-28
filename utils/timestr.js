@@ -1,7 +1,9 @@
+// Add an s to a word if the number is not 1
 function pluralS(i) {
     return i == 1 ? '' : 's';
 }
 
+// Convert seconds into a more readable time format, used in -daily
 function secToReadable(seconds) {
     const day = Math.floor(seconds / 86400);
     const hrs = Math.floor((seconds % 86400) / 3600);

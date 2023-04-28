@@ -6,8 +6,9 @@ const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/sender");
 
 function coinFlip(message, amount) {
-    amount = validateBetAmount(message, amount, 2);
 
+    // Validate the bet passed in, must be atleast 2
+    amount = validateBetAmount(message, amount, 2);
     if (!amount) {
         return;
     }
@@ -15,11 +16,13 @@ function coinFlip(message, amount) {
     createRowIfNotExists(message.author.id);
 
     checkIfLarger(message.author.id, amount).then((hasEnoughDiamonds) => {
+        
         if (!hasEnoughDiamonds) {
             send(message, "You don't have enough diamonds.");
             return;
         }
-
+        
+        // 50% chance of winning
         let resulting_balance_change;
         if (Math.random() >= 0.5) {
             resulting_balance_change = -amount;
@@ -29,6 +32,7 @@ function coinFlip(message, amount) {
             send(message, `${emojis.geizeangry} You won! **+${resulting_balance_change}** ${emojis.diamond}`);
         };
 
+        // Change the users balance
         db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [resulting_balance_change, message.author.id], (err) => {
             if (err) {
                 console.log(err.message);

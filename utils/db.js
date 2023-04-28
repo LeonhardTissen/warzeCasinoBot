@@ -7,6 +7,7 @@ const db = new sqlite3.Database('./currency.db', (err) => {
 	}
 	console.log('Connected to the currency database.');
 });
+exports.db = db;
   
 // Create the "users" table if it doesn't exist
 db.run(`
@@ -34,5 +35,3 @@ function createRowIfNotExists(user) {
 	});
 }
 exports.createRowIfNotExists = createRowIfNotExists;
-
-exports.db = db;

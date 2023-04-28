@@ -1,6 +1,7 @@
 const { emojis } = require("./emojis");
 const { send } = require("./sender");
 
+// Check if a bet is high enough to meet the requirements of a gambling command
 function validateBetAmount(message, betamount, minimum = 1) {
     betamount = parseInt(betamount);
     if (betamount < minimum) {

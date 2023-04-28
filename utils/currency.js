@@ -1,5 +1,6 @@
 const { db, createRowIfNotExists } = require("./db");
 
+// Check if the target has enough coins for a transaction
 function checkIfLarger(target, comparedAmount) {
     if (comparedAmount < 0) {
         return true;
@@ -19,6 +20,7 @@ function checkIfLarger(target, comparedAmount) {
 }
 exports.checkIfLarger = checkIfLarger;
 
+// Changes the targets balance by any amount, does not take into account if they end up with negative money 
 function changeBalance(target, changeAmount) {
     return new Promise((resolve) => {
         createRowIfNotExists(target);

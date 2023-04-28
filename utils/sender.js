@@ -1,5 +1,6 @@
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 
+// Creates a basic embed
 function createEmbed(messageContents) {
 	const embed = new EmbedBuilder()
 		.setColor('#5300F9')
@@ -8,6 +9,7 @@ function createEmbed(messageContents) {
 	return embed;
 };
 
+// Send a message to the channel with contents in an embed
 function send(message, messageContents) {
 	message.channel.send({
 		embeds: [
@@ -17,6 +19,7 @@ function send(message, messageContents) {
 }
 exports.send = send;
 
+// Sends a message to the channel with a canvas as a fileupload
 function sendCvs(message, cvs) {
     message.channel.send({ 
         files: [

@@ -1,3 +1,5 @@
+// Repository of Discord emojis, can be expanded freely
+
 const emojis = {
 	diamond: '<a:diamond:1100814792769409185>',
 	cardopen: '<:cardopen:1100811766193205249>',

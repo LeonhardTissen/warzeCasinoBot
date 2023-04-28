@@ -4,8 +4,11 @@ const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 
+// Amount of diamonds the daily command grants
 const daily_amount = 100;
-const sec_daily = 600 //86400;
+
+// Change back to 86400 in prod, just wanted to get some diamonds quickly
+const sec_daily = 600;
 
 function daily(message) {
     // Target is always author
@@ -17,6 +20,7 @@ function daily(message) {
             return;
         }
 
+        // Check if it's too early
         const now = Math.floor(Date.now() / 1000);
         const last = row ? row.last : 0;
 
@@ -28,7 +32,7 @@ function daily(message) {
 
         createRowIfNotExists(target);
             
-        // Reward daily
+        // Reward the user with their hard-earned daily diamonds
         const resulting_balance_change = daily_amount;
         db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [resulting_balance_change, target], (err) => {
             if (err) {
