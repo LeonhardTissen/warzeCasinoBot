@@ -9,3 +9,6 @@ exports.ADMIN = ADMIN;
 
 const PREFIX = process.env.PREFIX;
 exports.PREFIX = PREFIX;
+
+const CHANNEL = process.env.CHANNEL;
+exports.CHANNEL = CHANNEL;

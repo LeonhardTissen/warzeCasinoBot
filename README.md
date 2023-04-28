@@ -8,9 +8,10 @@ npm install
 ```
 ### Create a .env with your Discord Bot Token and Discord User ID:
 ```bash
-TOKEN=123YOURTOKENHERE123
-ADMIN=345103284463206400
+TOKEN=DISCORD_BOT_TOKEN_HERE
+ADMIN=ADMIN_USER_ID_HERE
 PREFIX=-
+CHANNEL=CHANNEL_ID_HERE
 ```
 ### Run the bot
 ```bash

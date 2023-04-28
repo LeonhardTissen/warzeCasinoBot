@@ -12,7 +12,7 @@ require('./commands/casino2start');
 require('./commands/casino2swap');
 
 const { createClient } = require('./utils/client');
-const { TOKEN, PREFIX } = require('./utils/env');
+const { TOKEN, PREFIX, CHANNEL } = require('./utils/env');
 
 const client = createClient();
 
@@ -23,6 +23,9 @@ client.on('messageCreate', (message) => {
 
 	// Ignore messages from bots
 	if (message.author.bot) return;
+
+	// Ignore messages outside of the designated channel
+	if (message.channel.id != CHANNEL) return;
 
 	// Only act on commands starting with the prefix
 	if (!message.content.startsWith(PREFIX)) return;
