@@ -1,4 +1,4 @@
-const { db } = require("./db");
+const { db, createRowIfNotExists } = require("./db");
 
 function checkIfLarger(target, comparedAmount) {
     if (comparedAmount < 0) {
@@ -21,6 +21,8 @@ exports.checkIfLarger = checkIfLarger;
 
 function changeBalance(target, changeAmount) {
     return new Promise((resolve) => {
+        createRowIfNotExists(target);
+        
         db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [changeAmount, target], (err) => {
             if (err) {
                 console.log(err.message);
