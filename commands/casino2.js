@@ -183,6 +183,7 @@ function casino2CardSwap(message) {
 					} else {
 						send(message, emojis.geizehappy + ' Ya lost, DUMBASS!');
 					}
+					delete ongoing_games[message.author.id];
 				})
 			}, 500)
 		} else {
