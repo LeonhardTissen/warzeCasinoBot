@@ -1,6 +1,9 @@
 const { db } = require("./db");
 
-function checkMinBalance(target, minAmount) {
+function checkIfLarger(target, comparedAmount) {
+    if (comparedAmount < 0) {
+        return true;
+    }
     return new Promise((resolve) => {
         db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
             if (err) {
@@ -10,8 +13,21 @@ function checkMinBalance(target, minAmount) {
     
             const balance = row ? row.balance : 0;
 
-            resolve(balance >= minAmount)
+            resolve(balance >= comparedAmount)
         });
     })
 }
-exports.checkMinBalance = checkMinBalance;
+exports.checkIfLarger = checkIfLarger;
+
+function changeBalance(target, changeAmount) {
+    return new Promise((resolve) => {
+        db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [changeAmount, target], (err) => {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+            resolve(true)
+        });
+    });
+}
+exports.changeBalance = changeBalance;

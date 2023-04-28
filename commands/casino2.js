@@ -4,6 +4,8 @@ const { randRange } = require("../utils/general");
 const { createCanvas } = require('canvas');
 const { send, sendCvs } = require("../utils/sender");
 const { assets } = require("../utils/images");
+const { changeBalance, checkIfLarger } = require("../utils/currency");
+const { validateBetAmount } = require("../utils/bet");
 
 function randCard() {
 	const num = randRange(1,6);
@@ -114,28 +116,43 @@ class C2Deck {
 	}
 }
 
-function casino2Test(message) {
+function casino2Start(message, betamount) {
 	if (ongoing_games[message.author.id]) {
 		send(message, 'You already have an ongoing game!');
 		return;
 	}
-	const game = {
-		type: 'casino2',
-		state: {
-			player1: {
-				deck: new C2Deck(),
-				swapped: false
-			}
-		}
+	betamount = validateBetAmount(message, betamount, 1);
+	if (!betamount) {
+		return;
 	}
-	ongoing_games[message.author.id] = game;
 
-	send(message, `You started a new game, here's your **Deck**:`);
+	checkIfLarger(message.author.id, betamount).then((success) => {
+		if (!success) {
+			send(message, `You don't have enough diamonds ${emojis.diamond}.`);
+			return;
+		}
 
-	// Send the current deck
-	game.state.player1.deck.canvas(message);
+		changeBalance(message.author.id, - betamount).then((success) => {
+			const game = {
+				type: 'casino2',
+				state: {
+					player1: {
+						deck: new C2Deck(),
+						swapped: false,
+						bet: betamount
+					}
+				}
+			}
+			ongoing_games[message.author.id] = game;
+		
+			send(message, `You started a new game, here's your **Deck**:`);
+		
+			// Send the current deck
+			game.state.player1.deck.canvas(message);
+		})
+	})
 }
-registerCommand(casino2Test, "Test Command for the Casino 2 game", ['casino2test', 'c2t']);
+registerCommand(casino2Start, "Start a Casino 2 game", ['casino2', 'c2t', 'c2']);
 
 function casino2CardToggle(message, indices) {
 	const cgame = ongoing_games[message.author.id];
@@ -179,9 +196,11 @@ function casino2CardSwap(message) {
 				const your_score = cgame.state.player1.deck.getScore();
 				setTimeout(function() {
 					if (your_score > opponent_score) {
-						send(message, emojis.geizesleep + ' You won... this time.');
+						const bet_win = cgame.state.player1.bet
+						send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
+						changeBalance(message.author.id, bet_win * 2)
 					} else {
-						send(message, emojis.geizehappy + ' Ya lost, DUMBASS!');
+						send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
 					}
 					delete ongoing_games[message.author.id];
 				})
