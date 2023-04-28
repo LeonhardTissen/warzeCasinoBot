@@ -3,6 +3,7 @@ const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
+const { changeBalance } = require("../utils/currency");
 
 // Amount of diamonds the daily command grants
 const daily_amount = 1000;
@@ -34,15 +35,9 @@ function daily(message) {
             
         // Reward the user with their hard-earned daily diamonds
         const resulting_balance_change = daily_amount;
-        db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [resulting_balance_change, target], (err) => {
-            if (err) {
-                console.error(err.message);
-                return;
-            }
-
+        changeBalance(target, resulting_balance_change).then(() => {
             send(message, `<@${target}>, you collected: **${daily_amount} ${emojis.diamond}**`);
-
-        });
+        })
         
         // Insert user into dailies db if not exists
         db.run('INSERT OR IGNORE INTO dailies (id) VALUES (?)', [target], (err) => {
