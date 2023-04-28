@@ -17,11 +17,11 @@ client.on('messageCreate', (message) => {
 	if (!message.content.startsWith(PREFIX)) return;
 
 	// Convert message to lowercase array and go through all the registered commands
-	const cmd = message.content.substring(PREFIX.length).toLowerCase().split(' ');
-	commands.forEach((item) => {
+	const args = message.content.substring(PREFIX.length).toLowerCase().split(' ');
+	commands.forEach((command) => {
 		// If the message matches any of the aliases, execute the corresponding function
-		if (item.aliases.includes(cmd[0])) {
-			item.func(message, cmd[1], cmd[2], cmd[3])
+		if (command.aliases.includes(args[0])) {
+			command.func(message, args[1], args[2], args[3])
 		}
 	})
 });
