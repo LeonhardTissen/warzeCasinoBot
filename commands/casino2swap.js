@@ -42,11 +42,17 @@ function casino2CardSwap(message, indices = "") {
 				
 				setTimeout(() => {
 					// Decide who won
-					if (your_score > opponent_score) {
-						const bet_win = cgame.state.player1.bet
+					const bet_win = cgame.state.player1.bet;
+					if (your_score === opponent_score) {
+						// Tie
+						send(message, `${emojis.geizeangry} We tied...? Impossible. (**+0** ${emojis.diamond})`);
+						changeBalance(message.author.id, bet_win);
+					} else if (your_score > opponent_score) {
+						// Win
 						send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
 						changeBalance(message.author.id, bet_win * 2)
 					} else {
+						// Loss
 						send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
 					}
 					// Delete ongoing game
