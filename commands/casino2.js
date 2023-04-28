@@ -6,6 +6,7 @@ const { send, sendCvs } = require("../utils/sender");
 const { assets } = require("../utils/images");
 const { changeBalance, checkIfLarger } = require("../utils/currency");
 const { validateBetAmount } = require("../utils/bet");
+const { getNums } = require("../utils/numchoice");
 
 function randCard() {
 	const num = randRange(1,6);
@@ -97,22 +98,24 @@ class C2Deck {
 		return score
 	}
 	autoSolve(message) {
-		send(message, `${emojis.geizehappy} My turn!`);
-		this.canvas(message);
-
-		const summary = this.getSummarized(false).counts;
-
-		for (let i = 0; i < 5; i ++) {
-			if (summary[this.cards[i].face.idnum] === 1) {
-				this.toggleSingleCard(i);
+		return new Promise((resolve) => {
+			send(message, `${emojis.geizehappy} My turn!`);
+			this.canvas(message);
+	
+			const summary = this.getSummarized(false).counts;
+	
+			for (let i = 0; i < 5; i ++) {
+				if (summary[this.cards[i].face.idnum] === 1) {
+					this.toggleSingleCard(i);
+				}
 			}
-		}
-		
-		this.canvas(message);
-		this.cardSwap();
-		this.canvas(message);
-		const opponent_score = this.getScore();
-		return opponent_score;
+			
+			this.canvas(message);
+			this.cardSwap();
+			this.canvas(message);
+			const opponent_score = this.getScore();
+			resolve(opponent_score);
+		})
 	}
 }
 
@@ -154,11 +157,12 @@ function casino2Start(message, betamount) {
 }
 registerCommand(casino2Start, "Start a Casino 2 game", ['casino2', 'c2t', 'c2'], "[amount]");
 
-function casino2CardToggle(message, indices) {
+function casino2CardSwap(message, indices = "") {
 	const cgame = ongoing_games[message.author.id];
+	indices = getNums(indices)
 
 	if (cgame && cgame.type === 'casino2') {
-		
+
 		if (!cgame.state.player1.swapped) {
 			// Toggle all cards at indices
 			indices.forEach((index) => {
@@ -169,42 +173,33 @@ function casino2CardToggle(message, indices) {
 
 			// Send the current deck
 			cgame.state.player1.deck.canvas(message);
-		} else {
-			send(message, 'You already swapped this round!')
-		}
 
-	}
-}
-exports.cmdCasino2CardToggle = casino2CardToggle;
-
-function casino2CardSwap(message) {
-	const cgame = ongoing_games[message.author.id];
-
-	if (cgame && cgame.type === 'casino2') {
-
-		if (!cgame.state.player1.swapped) {
 			cgame.state.player1.deck.cardSwap();
 			cgame.state.player1.swapped = true;
 
-			// Send the current deck
+			// Send the current deck after swapping
 			cgame.state.player1.deck.canvas(message);
 
 			setTimeout(function() {
 				const aideck = new C2Deck()
-	
-				const opponent_score = aideck.autoSolve(message);
-				const your_score = cgame.state.player1.deck.getScore();
-
-				// Decide who won
-				if (your_score > opponent_score) {
-					const bet_win = cgame.state.player1.bet
-					send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
-					changeBalance(message.author.id, bet_win * 2)
-				} else {
-					send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
-				}
-				// Delete ongoing game
-				delete ongoing_games[message.author.id];
+				
+				aideck.autoSolve(message).then((score) => {
+					const opponent_score = score;
+					const your_score = cgame.state.player1.deck.getScore();
+					
+					setTimeout(() => {
+						// Decide who won
+						if (your_score > opponent_score) {
+							const bet_win = cgame.state.player1.bet
+							send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
+							changeBalance(message.author.id, bet_win * 2)
+						} else {
+							send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
+						}
+						// Delete ongoing game
+						delete ongoing_games[message.author.id];
+					}, 500);
+				});
 			}, 500)
 		} else {
 			send(message, 'You already swapped this round!')
@@ -212,4 +207,4 @@ function casino2CardSwap(message) {
 
 	}
 }
-registerCommand(casino2CardSwap, "Test Command for the Casino 2 game", ['swap']);
+registerCommand(casino2CardSwap, "Test Command for the Casino 2 game", ['swap'], "[cardnumbers]");

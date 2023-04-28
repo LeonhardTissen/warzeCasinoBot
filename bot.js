@@ -1,5 +1,4 @@
 const { commands } = require('./commands');
-const { cmdCasino2CardToggle } = require('./commands/casino2');
 require('./commands/balance');
 require('./commands/setbalance');
 require('./commands/canvas');
@@ -9,11 +8,10 @@ require('./commands/help');
 require('./commands/sample');
 require('./commands/avatar');
 require('./commands/pay');
+require('./commands/casino2');
 
 const { createClient } = require('./utils/client');
 const { TOKEN, PREFIX } = require('./utils/env');
-
-const { getNums } = require('./utils/numchoice');
 
 const client = createClient();
 
@@ -34,11 +32,6 @@ client.on('messageCreate', (message) => {
 			item.func(message, cmd[1], cmd[2], cmd[3])
 		}
 	})
-
-	const cmd_numbers = getNums(cmd[0]);
-	if (cmd_numbers.length > 0) {
-		cmdCasino2CardToggle(message, cmd_numbers);
-	}
 });
 
 // Log in the bot using the token
