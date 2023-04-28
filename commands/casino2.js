@@ -1,8 +1,9 @@
 const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
 const { randRange } = require("../utils/general");
-const { createCanvas, loadImage } = require('canvas');
+const { createCanvas } = require('canvas');
 const { send, sendCvs } = require("../utils/sender");
+const { assets } = require("../utils/images");
 
 function randCard() {
 	const id = 'card' + randRange(1,6);
@@ -39,14 +40,10 @@ class C2Deck {
 		
 		this.cards.forEach((card) => {
 			let filename = card.shown ? card.face.cardid : 'cardclosed';
-			loadImage('images/' + filename + '.png').then((img) => {
-				ctx.drawImage(img, (card.position - 1) * 50, 0);
-			})
+			
+			ctx.drawImage(assets[filename], (card.position - 1) * 50, 0);
 		});
-
-		setTimeout(() => {
-			sendCvs(message, cvs);
-		}, 100)
+		sendCvs(message, cvs);
 	}
 	toggleSingleCard(id) {
 		this.cards[id].toggle();
