@@ -2,8 +2,7 @@ const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
 const { randRange } = require("../utils/general");
 const { createCanvas, loadImage } = require('canvas');
-const { AttachmentBuilder } = require("discord.js");
-const { send } = require("../utils/sender");
+const { send, sendCvs } = require("../utils/sender");
 
 function randCard() {
 	const id = 'card' + randRange(1,6);
@@ -46,8 +45,7 @@ class C2Deck {
 		});
 
 		setTimeout(() => {
-			const attachment = new AttachmentBuilder(cvs.toBuffer(), {name: 'image.png'});
-			message.channel.send({files: [attachment]});
+			sendCvs(message, cvs);
 		}, 100)
 	}
 	toggleSingleCard(id) {
