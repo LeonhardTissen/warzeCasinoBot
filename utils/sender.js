@@ -1,9 +1,10 @@
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { COLOR } = require("./env");
 
 // Creates a basic embed
 function createEmbed(messageContents) {
 	const embed = new EmbedBuilder()
-		.setColor('#5300F9')
+		.setColor('#' + COLOR)
 		.setDescription(messageContents)
 
 	return embed;
