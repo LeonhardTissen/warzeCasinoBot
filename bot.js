@@ -10,6 +10,7 @@ require('./commands/avatar');
 require('./commands/pay');
 require('./commands/casino2start');
 require('./commands/casino2swap');
+require('./commands/leaderboard');
 
 const { createClient } = require('./utils/client');
 const { TOKEN, PREFIX, CHANNEL } = require('./utils/env');
@@ -30,7 +31,7 @@ client.on('messageCreate', (message) => {
 	// Only act on commands starting with the prefix
 	if (!message.content.startsWith(PREFIX)) return;
 
-	const cmd = message.content.substring(1).toLowerCase().split(' ');
+	const cmd = message.content.substring(PREFIX.length).toLowerCase().split(' ');
 	commands.forEach((item) => {
 		if (item.aliases.includes(cmd[0])) {
 			item.func(message, cmd[1], cmd[2], cmd[3])
