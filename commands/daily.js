@@ -5,10 +5,10 @@ const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 
 // Amount of diamonds the daily command grants
-const daily_amount = 100;
+const daily_amount = 1000;
 
-// Change back to 86400 in prod, just wanted to get some diamonds quickly
-const sec_daily = 600;
+// Seconds to wait after collecting daily
+const sec_daily = 86400;
 
 function daily(message) {
     // Target is always author
