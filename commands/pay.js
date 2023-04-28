@@ -6,9 +6,13 @@ const { parseUser } = require("../utils/usertarget");
 
 function cmdPay(message, amount, target) {
 	amount = parseInt(amount);
-	target = parseUser(target);
 	if (amount <= 0 || isNaN(amount)) {
 		send(message, `Invalid amount`);
+		return;
+	};
+	target = parseUser(target, message.author.id);
+	if (!target || target == message.author.id) {
+		send(message, `Invalid target`);
 		return;
 	};
 	checkIfLarger(message.author.id, amount).then((success) => {

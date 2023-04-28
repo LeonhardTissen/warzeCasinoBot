@@ -6,10 +6,10 @@ const { parseUser } = require("../utils/usertarget");
 
 function balance(message, target) {
     // Set self as target if not provided
+    target = parseUser(target, message.author.id);
     if (!target) {
-        target = message.author.id;
-    } else {
-        target = parseUser(target);
+        send(message, `Invalid target`);
+        return;
     }
 
     createRowIfNotExists(target);
