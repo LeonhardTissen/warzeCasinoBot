@@ -1,13 +1,14 @@
 const { commands } = require('./commands');
+const { cmdCasino2CardToggle } = require('./commands/casino2');
 require('./commands/balance');
 require('./commands/setbalance');
 require('./commands/canvas');
-const { cmdCasino2CardToggle } = require('./commands/casino2');
 require('./commands/coinflip');
 require('./commands/daily');
 require('./commands/help');
 require('./commands/sample');
 require('./commands/avatar');
+require('./commands/pay');
 
 const { createClient } = require('./utils/client');
 const { TOKEN, PREFIX } = require('./utils/env');
