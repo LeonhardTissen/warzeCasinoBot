@@ -194,16 +194,17 @@ function casino2CardSwap(message) {
 	
 				const opponent_score = aideck.autoSolve(message);
 				const your_score = cgame.state.player1.deck.getScore();
-				setTimeout(function() {
-					if (your_score > opponent_score) {
-						const bet_win = cgame.state.player1.bet
-						send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
-						changeBalance(message.author.id, bet_win * 2)
-					} else {
-						send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
-					}
-					delete ongoing_games[message.author.id];
-				})
+
+				// Decide who won
+				if (your_score > opponent_score) {
+					const bet_win = cgame.state.player1.bet
+					send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
+					changeBalance(message.author.id, bet_win * 2)
+				} else {
+					send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
+				}
+				// Delete ongoing game
+				delete ongoing_games[message.author.id];
 			}, 500)
 		} else {
 			send(message, 'You already swapped this round!')
