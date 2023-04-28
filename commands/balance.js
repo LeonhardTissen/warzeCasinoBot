@@ -27,4 +27,4 @@ function balance(message, target) {
         send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**`);
     });
 }
-registerCommand(balance, "Check your balance.", ['balance', 'bal', 'b']);
+registerCommand(balance, "Check your balance.", ['balance', 'bal', 'b'], "[@user?]");

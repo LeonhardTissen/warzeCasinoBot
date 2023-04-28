@@ -152,7 +152,7 @@ function casino2Start(message, betamount) {
 		})
 	})
 }
-registerCommand(casino2Start, "Start a Casino 2 game", ['casino2', 'c2t', 'c2']);
+registerCommand(casino2Start, "Start a Casino 2 game", ['casino2', 'c2t', 'c2'], "[amount]");
 
 function casino2CardToggle(message, indices) {
 	const cgame = ongoing_games[message.author.id];

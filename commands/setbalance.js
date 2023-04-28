@@ -31,4 +31,4 @@ function setBalance(message, amount, target) {
         send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`)
     });
 }
-registerCommand(setBalance, "Set a users balance.", ['setbalance', 'setbal'], true);
+registerCommand(setBalance, "Set a users balance.", ['setbalance', 'setbal'], "[amount] [@user?]", true);

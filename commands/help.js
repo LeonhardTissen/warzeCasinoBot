@@ -8,7 +8,8 @@ function generateCommandOverview() {
         (command.adminOnly ? "[0;41m" : "[0;40m") + 
         command.aliases.map(a => PREFIX + a).join(', ').padEnd(20, ' ') + 
         '[0;39m - ' + 
-        command.description + '\n';
+        command.description + '\n' +
+        'Example: ' + PREFIX + command.aliases[0] + ' ' + command.usage + '\n\n';
     });
     commandoverview += "```";
     return commandoverview;
