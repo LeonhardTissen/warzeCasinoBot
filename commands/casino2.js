@@ -6,10 +6,12 @@ const { send, sendCvs } = require("../utils/sender");
 const { assets } = require("../utils/images");
 
 function randCard() {
-	const id = 'card' + randRange(1,6);
+	const num = randRange(1,6);
+	const id = 'card' + num;
 	return {
 		emoji: emojis[id],
-		cardid: id
+		cardid: id,
+		idnum: num - 1
 	}
 }
 
@@ -55,6 +57,60 @@ class C2Deck {
 				card.face = randCard();
 			}
 		})
+	}
+	getSummarized(ordered) {
+		let score = 0;
+		let counts = [0, 0, 0, 0, 0, 0];
+
+		this.cards.forEach((card) => {
+			counts[card.face.idnum] ++;
+			score = Math.max(score, card.face.idnum);
+		})
+
+		if (ordered) {
+			counts = counts.sort().reverse();
+		}
+
+		return {score, counts};
+	}
+	getScore() {
+		const summary = this.getSummarized(true);
+		let score = summary.score;
+		const ordered = summary.counts;
+
+		if (ordered[0] === 5) {
+			score += 60;
+		} else if (ordered[0] === 4) {
+			score += 50;
+		} else if (ordered[0] === 3 && ordered[1] === 2) {
+			score += 40;
+		} else if (ordered[0] === 3) {
+			score += 30;
+		} else if (ordered[0] === 2 && ordered[1] === 2) {
+			score += 20;
+		} else if (ordered[0] === 2) {
+			score += 10;
+		}
+
+		return score
+	}
+	autoSolve(message) {
+		send(message, `${emojis.geizehappy} My turn!`);
+		this.canvas(message);
+
+		const summary = this.getSummarized(false).counts;
+
+		for (let i = 0; i < 5; i ++) {
+			if (summary[this.cards[i].face.idnum] === 1) {
+				this.toggleSingleCard(i);
+			}
+		}
+		
+		this.canvas(message);
+		this.cardSwap();
+		this.canvas(message);
+		const opponent_score = this.getScore();
+		return opponent_score;
 	}
 }
 
@@ -115,6 +171,20 @@ function casino2CardSwap(message) {
 
 			// Send the current deck
 			cgame.state.player1.deck.canvas(message);
+
+			setTimeout(function() {
+				const aideck = new C2Deck()
+	
+				const opponent_score = aideck.autoSolve(message);
+				const your_score = cgame.state.player1.deck.getScore();
+				setTimeout(function() {
+					if (your_score > opponent_score) {
+						send(message, emojis.geizesleep + ' You won... this time.');
+					} else {
+						send(message, emojis.geizehappy + ' Ya lost, DUMBASS!');
+					}
+				})
+			}, 500)
 		} else {
 			send(message, 'You already swapped this round!')
 		}
