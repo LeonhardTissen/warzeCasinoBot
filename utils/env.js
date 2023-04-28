@@ -1,17 +1,7 @@
-// Load emvironment file
+// Load .env file and export them
 require('dotenv').config();
 
-const TOKEN = process.env.TOKEN;
-exports.TOKEN = TOKEN;
-
-const ADMIN = process.env.ADMIN;
-exports.ADMIN = ADMIN;
-
-const PREFIX = process.env.PREFIX;
-exports.PREFIX = PREFIX;
-
-const CHANNEL = process.env.CHANNEL;
-exports.CHANNEL = CHANNEL;
-
-const COLOR = process.env.COLOR;
-exports.COLOR = COLOR;
+const vars = ['TOKEN', 'ADMIN', 'PREFIX', 'CHANNEL', 'COLOR'];
+vars.forEach((v) => {
+    exports[v] = process.env[v];
+});
