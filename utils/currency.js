@@ -1,5 +1,21 @@
 const { db, createRowIfNotExists } = require("./db");
 
+// Create the "users" table if it doesn't exist
+db.run(`
+CREATE TABLE IF NOT EXISTS users (
+	id TEXT PRIMARY KEY,
+	balance INTEGER DEFAULT 0
+)
+`);
+
+// Create the "dailies" table if it doesn't exist
+db.run(`
+CREATE TABLE IF NOT EXISTS dailies (
+	id TEXT PRIMARY KEY,
+	last INTEGER DEFAULT 0
+)
+`);
+
 // Check if the target has enough coins for a transaction
 function checkIfLarger(target, comparedAmount) {
     if (comparedAmount < 0) {
