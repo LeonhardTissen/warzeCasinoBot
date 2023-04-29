@@ -4,8 +4,8 @@ const { send } = require("../utils/sender");
 
 function cmdSetPrefix(message, newPrefix) {
 	// This command does nothing except for return this message
-    if (!newPrefix) {
-        send(message, `You must provide a valid prefix.`);
+    if (!newPrefix || newPrefix.length > 3) {
+        send(message, `You must provide a valid prefix that's 3 characters in length or less.`);
         return;
     }
 
