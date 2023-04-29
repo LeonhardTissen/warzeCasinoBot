@@ -1,21 +1,5 @@
 const { db, createRowIfNotExists } = require("./db");
 
-// Create the "users" table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
-	id TEXT PRIMARY KEY,
-	balance INTEGER DEFAULT 0
-)
-`);
-
-// Create the "dailies" table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS dailies (
-	id TEXT PRIMARY KEY,
-	last INTEGER DEFAULT 0
-)
-`);
-
 // Check if the target has enough coins for a transaction
 function checkIfLarger(target, comparedAmount) {
     if (comparedAmount < 0) {
@@ -39,7 +23,7 @@ exports.checkIfLarger = checkIfLarger;
 // Changes the targets balance by any amount, does not take into account if they end up with negative money 
 function changeBalance(target, changeAmount) {
     return new Promise((resolve) => {
-        createRowIfNotExists(target);
+        createRowIfNotExists(target, 'users');
         
         db.run('UPDATE users SET balance = balance + ? WHERE id = ?', [changeAmount, target], (err) => {
             if (err) {
@@ -55,7 +39,7 @@ exports.changeBalance = changeBalance;
 // Set the targets balance by any amount
 function setBalance(target, setAmount) {
     return new Promise((resolve) => {
-        createRowIfNotExists(target);
+        createRowIfNotExists(target, 'users');
         
         db.run('UPDATE users SET balance = ? WHERE id = ?', [setAmount, target], (err) => {
             if (err) {

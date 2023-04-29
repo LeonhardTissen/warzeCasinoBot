@@ -11,7 +11,7 @@ function coinFlip(message, amount) {
     amount = validateBetAmount(message, amount, 2);
     if (!amount) return;
 
-    createRowIfNotExists(message.author.id);
+    createRowIfNotExists(message.author.id, 'users');
 
     checkIfLarger(message.author.id, amount).then((hasEnoughDiamonds) => {
         

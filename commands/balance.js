@@ -5,6 +5,7 @@ const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
 const { PREFIX } = require('../utils/env');
+const { getPrefix } = require("../utils/getprefix");
 
 function balance(message, target) {
     // Set self as target if not provided
@@ -14,7 +15,7 @@ function balance(message, target) {
         return;
     }
 
-    createRowIfNotExists(target);
+    createRowIfNotExists(target, 'users');
 
     // Get the users balance
     db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
@@ -27,11 +28,13 @@ function balance(message, target) {
         const balance = row.balance;
         
         getSecUntilDaily(target).then((seconds) => {
-            let added_message = '';
-            if (seconds <= 0) {
-                added_message = `\n*(Collect your ${PREFIX}daily to receive **1000** ${emojis.diamond})*`
-            }
-            send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**${added_message}`);
+            getPrefix(target).then((preferred_prefix) => {
+                let added_message = '';
+                if (seconds <= 0) {
+                    added_message = `\n*(Collect your ${preferred_prefix}daily to receive **1000** ${emojis.diamond})*`
+                }
+                send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**${added_message}`);
+            })
         })
     });
 }
