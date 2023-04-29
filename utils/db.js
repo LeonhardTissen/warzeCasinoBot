@@ -37,7 +37,6 @@ exports.db = db;
 
 function createRowIfNotExists(user, table) {
 	// Create a user entry if not exists
-	console.log(table, user)
 	db.run(`INSERT OR IGNORE INTO ${table} (id) VALUES (?)`, [user], (err) => {
 		if (err) {
 			console.log("Error while inserting: " + err.message);
