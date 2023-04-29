@@ -1,8 +1,10 @@
 const { registerCommand } = require("../commands");
 const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
+const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
+const { PREFIX } = require('./utils/env');
 
 function balance(message, target) {
     // Set self as target if not provided
@@ -23,8 +25,14 @@ function balance(message, target) {
 
         // Send the user's balance as a response
         const balance = row.balance;
-  
-        send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**`);
+        
+        getSecUntilDaily(target).then((seconds) => {
+            let added_message = '';
+            if (seconds <= 0) {
+                added_message = `\n*(Collect your ${PREFIX}daily to receive **1000** ${emojis.diamond})*`
+            }
+            send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**${added_message}`);
+        })
     });
 }
 registerCommand(balance, "Check your balance.", ['balance', 'bal', 'b'], "[@user?]");
