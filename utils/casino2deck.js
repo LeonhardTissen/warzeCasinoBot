@@ -3,6 +3,7 @@ const { assets } = require('./images')
 const { randRange } = require("../utils/general");
 const { createCanvas } = require('canvas');
 const { emojis } = require("./emojis");
+const { CvsBundler } = require("./cvsbundler");
 
 function randCard() {
 	const num = randRange(1,6);
@@ -35,7 +36,7 @@ class C2Deck {
 			new C2Card(5)
 		]
 	}
-	canvas(message) {
+	canvas(message = false) {
 		// Send a canvas representation of the deck
 		const cvs = createCanvas(248, 72);
     	const ctx = cvs.getContext('2d');
@@ -45,7 +46,11 @@ class C2Deck {
 			
 			ctx.drawImage(assets[filename], (card.position - 1) * 50, 0);
 		});
-		sendCvs(message, cvs);
+		if (message) {
+			sendCvs(message, cvs);
+		} else {
+			return cvs;
+		}
 	}
 	toggleSingleCard(id) {
 		// Turn a single card around and mark it to be swapped
@@ -111,7 +116,8 @@ class C2Deck {
 			send(message, `${emojis.geizehappy} My turn!`);
 
 			// Shows his current deck before any actions were taken
-			this.canvas(message);
+			const cvs = new CvsBundler();
+			cvs.add(this.canvas());
 	
 			// Geize turns cards around that only appear once
 			const summary = this.getSummarized();
@@ -121,9 +127,10 @@ class C2Deck {
 				}
 			}
 			// Show his deck before swapping and after swapping
-			this.canvas(message);
+			cvs.add(this.canvas());
 			this.cardSwap();
-			this.canvas(message);
+			cvs.add(this.canvas());
+			cvs.send(message);
 
 			// Return the score of Geize's deck
 			resolve(this.getScore());

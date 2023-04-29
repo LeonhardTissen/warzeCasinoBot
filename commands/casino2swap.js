@@ -1,6 +1,7 @@
 const { registerCommand } = require("../commands");
 const { C2Deck } = require("../utils/casino2deck");
 const { changeBalance } = require("../utils/currency");
+const { CvsBundler } = require("../utils/cvsbundler");
 const { emojis } = require("../utils/emojis");
 const { ongoing_games } = require("../utils/games");
 const { getNums } = require("../utils/numchoice");
@@ -25,14 +26,15 @@ function casino2CardSwap(message, indices = "") {
 			}
 		})
 
-		// Send the current deck
-		cgame.state.player1.deck.canvas(message);
+		const cvs = new CvsBundler()
+		cvs.add(cgame.state.player1.deck.canvas());
 
+		// Swap marked cards now
 		cgame.state.player1.deck.cardSwap();
 		cgame.state.player1.swapped = true;
 
-		// Send the current deck after swapping
-		cgame.state.player1.deck.canvas(message);
+		cvs.add(cgame.state.player1.deck.canvas());
+		cvs.send(message);
 
 		setTimeout(function() {
 			const aideck = new C2Deck();
