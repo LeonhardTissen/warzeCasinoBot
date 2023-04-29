@@ -9,9 +9,7 @@ function coinFlip(message, amount) {
 
     // Validate the bet passed in, must be atleast 2
     amount = validateBetAmount(message, amount, 2);
-    if (!amount) {
-        return;
-    }
+    if (!amount) return;
 
     createRowIfNotExists(message.author.id);
 

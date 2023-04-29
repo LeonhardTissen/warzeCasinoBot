@@ -1,11 +1,12 @@
 const { registerCommand } = require("../commands");
-const { db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { parseUser } = require("../utils/usertarget");
 const { isAdmin } = require("../utils/admin");
 const { send } = require("../utils/sender");
+const { setBalance } = require("../utils/currency");
+const { validateAmount } = require("../utils/bet");
 
-function setBalance(message, amount, target) {
+function cmdSetBalance(message, amount, target) {
     // Only admin can execute this command
     if (!isAdmin(message)) {
         return;
@@ -17,22 +18,13 @@ function setBalance(message, amount, target) {
     }
     target = parseUser(target);
 
-    // Validate amount of diamonds to grant
-    if (!amount) {
-        send(message, `Invalid amount.`)
-        return
-    }
-    amount = parseInt(amount);
+    amount = validateAmount(message, amount);
+    console.log(amount);
+    if (amount === false) return;
 
     // vince
-    db.run('UPDATE users SET balance = ? WHERE id = ?', [amount, target], (err) => {
-        if (err) {
-            console.error(err.message);
-            return;
-        }
-
-        send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`)
-    });
+    setBalance(target, amount);
+    send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`);
 }
 // The true at the end makes it an admin only command & changes the output of the help command
-registerCommand(setBalance, "Set a users balance.", ['setbalance', 'setbal'], "[amount] [@user?]", true);
+registerCommand(cmdSetBalance, "Set a users balance.", ['setbalance', 'setbal'], "[amount] [@user?]", true);

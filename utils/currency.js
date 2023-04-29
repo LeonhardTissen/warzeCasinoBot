@@ -35,3 +35,19 @@ function changeBalance(target, changeAmount) {
     });
 }
 exports.changeBalance = changeBalance;
+
+// Set the targets balance by any amount
+function setBalance(target, setAmount) {
+    return new Promise((resolve) => {
+        createRowIfNotExists(target);
+        
+        db.run('UPDATE users SET balance = ? WHERE id = ?', [setAmount, target], (err) => {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+            resolve(true)
+        });
+    });
+}
+exports.setBalance = setBalance;
