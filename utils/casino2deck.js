@@ -60,40 +60,47 @@ class C2Deck {
 			}
 		})
 	}
-	getSummarized(ordered) {
-		let score = 0;
-		let counts = [0, 0, 0, 0, 0, 0];
+	getSummarized() {
+		// Count the cards depending on type
+		let counts = new Array(6).fill(0);
 
 		this.cards.forEach((card) => {
 			counts[card.face.idnum] ++;
-			score = Math.max(score, card.face.idnum);
 		})
 
-		if (ordered) {
-			counts = counts.sort().reverse();
-		}
-
-		return {score, counts};
+		return counts;
 	}
 	getScore() {
 		// How much worth the deck is to compare
-		const summary = this.getSummarized(true);
-		let score = summary.score;
-		const ordered = summary.counts;
+		const summary = this.getSummarized();
+		let score = 0;
 
-		if (ordered[0] === 5) {
+		// Make a copy of the array that is sorted with biggest card combos at the start
+		const ordered_counts = JSON.parse(JSON.stringify(summary)).sort().reverse();
+
+		// Determine the strength of the build
+		if (ordered_counts[0] === 5) {
 			score += 60;
-		} else if (ordered[0] === 4) {
+		} else if (ordered_counts[0] === 4) {
 			score += 50;
-		} else if (ordered[0] === 3 && ordered[1] === 2) {
+		} else if (ordered_counts[0] === 3 && ordered_counts[1] === 2) {
 			score += 40;
-		} else if (ordered[0] === 3) {
+		} else if (ordered_counts[0] === 3) {
 			score += 30;
-		} else if (ordered[0] === 2 && ordered[1] === 2) {
+		} else if (ordered_counts[0] === 2 && ordered_counts[1] === 2) {
 			score += 20;
-		} else if (ordered[0] === 2) {
+		} else if (ordered_counts[0] === 2) {
 			score += 10;
 		}
+
+		// Check the highest card and add it to the score for a tiebreaker
+		let highest_card = 0;
+		for (let i = 0; i < 6; i ++) {
+			if (summary[i] > 1) {
+				highest_card = Math.max(highest_card, i + 1);
+			}
+		}
+		score += highest_card;
 
 		return score
 	}
@@ -107,7 +114,7 @@ class C2Deck {
 			this.canvas(message);
 	
 			// Geize turns cards around that only appear once
-			const summary = this.getSummarized(false).counts;
+			const summary = this.getSummarized();
 			for (let i = 0; i < 5; i ++) {
 				if (summary[this.cards[i].face.idnum] === 1) {
 					this.toggleSingleCard(i);
