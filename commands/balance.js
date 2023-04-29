@@ -4,7 +4,7 @@ const { emojis } = require("../utils/emojis");
 const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
-const { PREFIX } = require('./utils/env');
+const { PREFIX } = require('../utils/env');
 
 function balance(message, target) {
     // Set self as target if not provided
