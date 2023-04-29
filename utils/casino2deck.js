@@ -116,7 +116,7 @@ class C2Deck {
 			send(message, `${emojis.geizehappy} My turn!`);
 
 			// Shows his current deck before any actions were taken
-			const cvs = new CvsBundler();
+			const cvs = new CvsBundler(5);
 			cvs.add(this.canvas());
 	
 			// Geize turns cards around that only appear once

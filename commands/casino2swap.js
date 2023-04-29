@@ -26,7 +26,7 @@ function casino2CardSwap(message, indices = "") {
 			}
 		})
 
-		const cvs = new CvsBundler()
+		const cvs = new CvsBundler(5)
 		cvs.add(cgame.state.player1.deck.canvas());
 
 		// Swap marked cards now
