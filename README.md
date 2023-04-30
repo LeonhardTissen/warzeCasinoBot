@@ -2,7 +2,8 @@
 You can try the bot over on my Discord server: https://discord.gg/jtcqgvkZY7
 ## Setup
 ### Create an application
-<https://discordapp.com/developers>
+- Build a bot at https://discordapp.com/developers
+- Copy the token for later
 ### Get required packages, make sure you're on a recent version of node
 ```bash
 npm install
@@ -11,7 +12,7 @@ npm install
 ```bash
 npm install canvas
 ```
-### Enter your bot's token and discord user ID in the settings.json:
+### Enter your bot's token and discord user ID in "/settings.json" (You can rename "/sample_settings.json):
 ```json
 {
     "token": "BOTTOKENHERE",
@@ -25,3 +26,5 @@ npm install canvas
 ```bash
 node bot.js
 ```
+### Add your own emotes
+Because the bot won't have access to the predefined emotes referenced in "/utils/emojis.js", you should add your own.
