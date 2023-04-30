@@ -12,12 +12,14 @@ function getSecUntilDaily(target) {
                 return;
             }
 
+            // Retrieve the last daily of the user
             db.get('SELECT last FROM dailies WHERE id = ?', [target], (err, row) => {
                 if (err) {
                     console.error(err.message);
                     return;
                 }
-        
+                
+                // Determine how long it takes for the next daily, if negative it's ready
                 const now = Math.floor(Date.now() / 1000);
                 const last = row ? row.last : 0;
         

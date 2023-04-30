@@ -7,17 +7,15 @@ exports.isNumeric = isNumeric;
 
 // Grab all numbers from a str and seperate them into an array.
 function getNums(str) {
-    if (!isNumeric(str)) {
-        return [];
-    }
+    // Split string into array with characters
+    const arr = str.split('')
     
-    const nums = [];
-    for (let i = 0; i < str.length; i ++) {
-        const char = str[i];
+    // Change all strings into an integer
+    const nums = arr.map((s) => parseInt(s))
 
-        nums.push(parseInt(char));
-    }
+    // Remove all entries from the array that are not integers
+    const filtered_nums = nums.filter((s) => !isNaN(s))
 
-    return nums;
+    return filtered_nums;
 }
 exports.getNums = getNums;

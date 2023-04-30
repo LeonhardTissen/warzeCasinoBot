@@ -1,6 +1,6 @@
 const { sendCvs, send } = require("./sender");
 const { assets } = require('./images')
-const { randRange } = require("../utils/general");
+const { randRange } = require("../utils/random");
 const { createCanvas } = require('canvas');
 const { emojis } = require("./emojis");
 const { CvsBundler } = require("./cvsbundler");

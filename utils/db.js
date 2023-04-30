@@ -9,29 +9,19 @@ const db = new sqlite3.Database('./users.db', (err) => {
 	console.log('Connected to the users database.');
 });
 
-// Create the "users" table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
+function createDatabaseTable(tablename, column) {
+	db.run(`
+CREATE TABLE IF NOT EXISTS ${tablename} (
 	id TEXT PRIMARY KEY,
-	balance INTEGER DEFAULT 0
+	${column.name} ${column.type} DEFAULT ${column.default}
 )
 `);
+}
 
-// Create the "dailies" table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS dailies (
-	id TEXT PRIMARY KEY,
-	last INTEGER DEFAULT 0
-)
-`);
-
-// Create the "prefix" table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS prefix (
-	id TEXT PRIMARY KEY,
-	prefix TEXT DEFAULT "${settings.prefix}"
-)
-`);
+// Create database tables if they don't exist yet
+createDatabaseTable('users', {name: 'balance', type: 'INTEGER', default: '0'})
+createDatabaseTable('dailies', {name: 'last', type: 'INTEGER', default: '0'})
+createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
 
 exports.db = db;
 

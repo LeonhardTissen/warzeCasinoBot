@@ -13,7 +13,7 @@ function createClient() {
     
     // Event handler for when the bot is ready
     client.on('ready', () => {
-        // Set bot's status to streaming, this is just cosmetic
+        // Set bot's status to streaming, this is purely cosmetic
         client.user.setActivity({
             name: "on Warze.org",
             type: ActivityType.Streaming,

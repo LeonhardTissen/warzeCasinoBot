@@ -10,5 +10,5 @@ exports.registerCommand = registerCommand;
 const { readdirSync } = require('fs');
 const files = readdirSync('./commands');
 files.map((f) => {
-    require('./commands/' + f.substring(0, f.length - 3));
+    require('./commands/' + f);
 })
