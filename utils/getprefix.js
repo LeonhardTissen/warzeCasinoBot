@@ -1,5 +1,5 @@
 const { db } = require("./db");
-const { PREFIX } = require('../utils/env');
+const settings = require('../settings.json');
 
 function getPrefix(target) {
     return new Promise((resolve) => {
@@ -7,7 +7,7 @@ function getPrefix(target) {
             if (err) {
                 console.log("Error retrieving prefix: " + err.message);
                 // Return the fallback prefix not to break anything
-                resolve(PREFIX);
+                resolve(settings.prefix);
             }
     
             // User has registered a custom prefix, resolve it
@@ -16,7 +16,7 @@ function getPrefix(target) {
             }
     
             // Default to the bot prefix
-            resolve(PREFIX);
+            resolve(settings.prefix);
         })
     })
 }
