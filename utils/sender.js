@@ -1,10 +1,10 @@
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
-const { COLOR } = require("./env");
+const settings = require('../settings.json');
 
 // Creates a basic embed
 function createEmbed(messageContents) {
 	const embed = new EmbedBuilder()
-		.setColor('#' + COLOR)
+		.setColor('#' + settings.color)
 		.setDescription(messageContents)
 
 	return embed;

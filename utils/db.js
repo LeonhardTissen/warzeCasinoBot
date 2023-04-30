@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const { PREFIX } = require('../utils/env');
+const settings = require('../settings.json');
 
 // Connect to the SQLite database
 const db = new sqlite3.Database('./users.db', (err) => {
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS dailies (
 db.run(`
 CREATE TABLE IF NOT EXISTS prefix (
 	id TEXT PRIMARY KEY,
-	prefix TEXT DEFAULT "${PREFIX}"
+	prefix TEXT DEFAULT "${settings.prefix}"
 )
 `);
 

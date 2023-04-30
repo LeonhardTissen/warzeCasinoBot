@@ -11,13 +11,15 @@ npm install
 ```bash
 npm install canvas
 ```
-### Create a .env with your Discord Bot Token, Discord User ID etc.:
-```bash
-TOKEN=DISCORD_BOT_TOKEN_HERE
-ADMIN=ADMIN_USER_ID_HERE
-PREFIX=-
-CHANNEL=CHANNEL_ID_HERE
-COLOR=5300F9
+### Enter your bot's token and discord user ID in the settings.json:
+```json
+{
+    "token": "BOTTOKENHERE",
+    "admin": "345103284463206400",
+    "prefix": "--",
+    "channel": "1101531707934527580",
+    "color": "23F843"
+}
 ```
 ### Run the bot
 ```bash

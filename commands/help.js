@@ -1,5 +1,4 @@
 const { commands, registerCommand } = require("../commands");
-const { PREFIX } = require("../utils/env");
 const { getPrefix } = require("../utils/getprefix");
 
 function generateCommandOverview(prefix) {

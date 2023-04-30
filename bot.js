@@ -1,7 +1,7 @@
 const { commands } = require('./commands');
 const { createClient } = require('./utils/client');
-const { TOKEN, CHANNEL } = require('./utils/env');
 const { getPrefix } = require('./utils/getprefix');
+const settings = require('./settings.json');
 
 const client = createClient();
 
@@ -12,7 +12,7 @@ client.on('messageCreate', (message) => {
 	if (message.author.bot) return;
 
 	// Ignore messages outside of the designated channel
-	if (message.channel.id != CHANNEL) return;
+	if (message.channel.id != settings.channel) return;
 
 	// Get the preferred prefix of the user, but default to the bot prefix
 	getPrefix(message.author.id).then((preferred_prefix) => {
@@ -32,4 +32,4 @@ client.on('messageCreate', (message) => {
 });
 
 // Log in the bot using the token
-client.login(TOKEN);
+client.login(settings.token);
