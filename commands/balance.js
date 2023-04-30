@@ -4,7 +4,6 @@ const { emojis } = require("../utils/emojis");
 const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
-const { PREFIX } = require('../utils/env');
 const { getPrefix } = require("../utils/getprefix");
 
 function balance(message, target) {
