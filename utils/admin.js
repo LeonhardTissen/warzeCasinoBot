@@ -1,7 +1,7 @@
 const { send } = require("./sender");
 const settings = require('../settings.json');
 
-// Check if a given message author is an admin, as provided in the .env file
+// Check if a given message author is an admin, as provided in the settings.json file
 function isAdmin(message) {
     if (message.author.id === settings.admin) {
         return true;

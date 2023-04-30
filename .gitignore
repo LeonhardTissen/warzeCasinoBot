@@ -1,4 +1,3 @@
-.env
 settings.json
 node_modules
 *.db
