@@ -1,35 +1,15 @@
-const { commands } = require('./commands');
-const { createClient } = require('./utils/client');
-const { getPrefix } = require('./utils/getprefix');
-const settings = require('./settings.json');
+const cluster = require('cluster');
+const { startBot } = require('./start');
+if (cluster.isMaster) {
+    cluster.fork();
 
-const client = createClient();
+    cluster.on('exit', function(worker, code, signal) {
+        console.log("Bot restarting!")
 
-// Event handler for when a message is received
-client.on('messageCreate', (message) => {
+        cluster.fork();
+    });
+}
 
-	// Ignore messages from bots
-	if (message.author.bot) return;
-
-	// Ignore messages outside of the designated channel
-	if (message.channel.id != settings.channel) return;
-
-	// Get the preferred prefix of the user, but default to the bot prefix
-	getPrefix(message.author.id).then((preferred_prefix) => {
-	
-		// Only act on commands starting with the prefix
-		if (!message.content.startsWith(preferred_prefix)) return;
-	
-		// Convert message to lowercase array and go through all the registered commands
-		const args = message.content.substring(preferred_prefix.length).toLowerCase().split(' ');
-		commands.forEach((command) => {
-			// If the message matches any of the aliases, execute the corresponding function
-			if (command.aliases.includes(args[0])) {
-				command.func(message, args[1], args[2], args[3])
-			}
-		})
-	})
-});
-
-// Log in the bot using the token
-client.login(settings.token);
+if (cluster.isWorker) {
+    startBot();
+}

@@ -8,10 +8,6 @@ You can try the bot over on my Discord server: https://discord.gg/jtcqgvkZY7
 ```bash
 npm install
 ```
-### You may also need to install canvas
-```bash
-npm install canvas
-```
 ### Enter your bot's token and discord user ID in "/settings.json" (You can rename "/sample_settings.json):
 ```json
 {
@@ -22,7 +18,7 @@ npm install canvas
     "color": "23F843"
 }
 ```
-### Run the bot
+### Run the bot master
 ```bash
 node bot.js
 ```

@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "canvas": "^2.11.2",
+    "cluster": "^0.7.7",
     "discord.js": "^14.9.0",
     "sqlite3": "^5.1.6"
   }
