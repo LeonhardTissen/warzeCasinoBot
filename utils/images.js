@@ -8,10 +8,8 @@ const { readdirSync } = require('fs');
 const files = readdirSync('./images');
 files.forEach((filename) => {
     path = 'images/' + filename;
-    console.log(path);
     loadImage(path).then((img) => {
         assets[filename.split('.')[0]] = img;
-        console.log(assets);
     })
 })
 exports.assets = assets;
