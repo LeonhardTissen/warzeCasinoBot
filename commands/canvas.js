@@ -1,14 +1,9 @@
-const { createCanvas } = require('canvas');
 const { registerCommand } = require("../commands");
+const { getCanvasHead } = require('../utils/canvashead');
 const { sendCvs } = require("../utils/sender");
 
 function canvasTest(message) {
-    const cvs = createCanvas(200, 200);
-    const ctx = cvs.getContext('2d');
-
-    // Set the fill style to red
-    ctx.fillStyle = 'red';
-    ctx.fillRect(0, 0, 200, 200)
+    const cvs = getCanvasHead(248, message.author.username)
 
     sendCvs(message, cvs);
 }

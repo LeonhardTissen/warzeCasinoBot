@@ -4,6 +4,7 @@ const { randRange } = require("../utils/random");
 const { createCanvas } = require('canvas');
 const { emojis } = require("./emojis");
 const { CvsBundler } = require("./cvsbundler");
+const { getCanvasHead, getCanvasFooter } = require("./canvashead");
 
 function randCard() {
 	const num = randRange(1,6);
@@ -117,6 +118,7 @@ class C2Deck {
 
 			// Shows his current deck before any actions were taken
 			const cvs = new CvsBundler(5);
+			cvs.add(getCanvasHead(248, "Geize's Deck:"))
 			cvs.add(this.canvas());
 	
 			// Geize turns cards around that only appear once
@@ -130,6 +132,7 @@ class C2Deck {
 			cvs.add(this.canvas());
 			this.cardSwap();
 			cvs.add(this.canvas());
+			cvs.add(getCanvasFooter(248, `Score: ${this.getScore()}`))
 			cvs.send(message);
 
 			// Return the score of Geize's deck

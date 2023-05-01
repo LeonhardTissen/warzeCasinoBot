@@ -1,4 +1,5 @@
 const { registerCommand } = require("../commands");
+const { getCanvasHead, getCanvasFooter } = require("../utils/canvashead");
 const { C2Deck } = require("../utils/casino2deck");
 const { changeBalance } = require("../utils/currency");
 const { CvsBundler } = require("../utils/cvsbundler");
@@ -19,21 +20,25 @@ function casino2CardSwap(message, indices = "") {
 			return;
 		}
 
+		const deck = cgame.state.player1.deck
 		// Toggle all cards at indices
 		indices.forEach((index) => {
 			if (index >= 1 && index <= 5) {
-				cgame.state.player1.deck.toggleSingleCard(index - 1);
+				deck.toggleSingleCard(index - 1);
 			}
 		})
 
 		const cvs = new CvsBundler(5)
-		cvs.add(cgame.state.player1.deck.canvas());
+		cvs.add(getCanvasHead(248, message.author.username));
+
+		cvs.add(deck.canvas());
 
 		// Swap marked cards now
-		cgame.state.player1.deck.cardSwap();
+		deck.cardSwap();
 		cgame.state.player1.swapped = true;
 
-		cvs.add(cgame.state.player1.deck.canvas());
+		cvs.add(deck.canvas());
+		cvs.add(getCanvasFooter(248, `Score: ${deck.getScore()}`));
 		cvs.send(message);
 
 		setTimeout(function() {
@@ -41,7 +46,7 @@ function casino2CardSwap(message, indices = "") {
 			
 			aideck.autoSolve(message).then((score) => {
 				const opponent_score = score;
-				const your_score = cgame.state.player1.deck.getScore();
+				const your_score = deck.getScore();
 				
 				setTimeout(() => {
 					// Decide who won

@@ -5,6 +5,9 @@ const { changeBalance, checkIfLarger } = require("../utils/currency");
 const { validateBetAmount } = require("../utils/bet");
 const { C2Deck } = require("../utils/casino2deck");
 const { ongoing_games } = require("../utils/games");
+const { CvsBundler } = require("../utils/cvsbundler");
+const { getCanvasHead, getCanvasFooter } = require("../utils/canvashead");
+const { getPrefix } = require("../utils/getprefix");
 
 function casino2Start(message, betamount) {
 	// Users can only partake in 1 game at a time
@@ -38,10 +41,17 @@ function casino2Start(message, betamount) {
 			}
 			ongoing_games[message.author.id] = game;
 		
-			send(message, `You started a new game, here's your **Deck**:`);
-		
 			// Send the current deck
-			game.state.player1.deck.canvas(message);
+			getPrefix(message.author.id).then((prefix) => {
+				const cvs = new CvsBundler(5);
+				cvs.add(getCanvasHead(248, `${message.author.username}'s Deck:`));
+	
+				cvs.add(game.state.player1.deck.canvas());
+	
+				cvs.add(getCanvasFooter(248, `Ex: ${prefix}swap 135`));
+	
+				cvs.send(message);
+			});
 		})
 	})
 }
