@@ -102,7 +102,7 @@ class C2Deck {
 		// Check the highest card and add it to the score for a tiebreaker
 		let highest_card = 0;
 		for (let i = 0; i < 6; i ++) {
-			if (summary[i] > 1) {
+			if (summary[i] === ordered_counts[0]) {
 				highest_card = Math.max(highest_card, i + 1);
 			}
 		}
