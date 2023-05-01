@@ -35,4 +35,4 @@ function daily(message) {
         })
     })
 }
-registerCommand(daily, "Collect 100 diamonds everyday.", ['daily', 'd']);
+registerCommand(daily, "Collect 1000 diamonds everyday.", ['daily', 'd']);

@@ -6,7 +6,7 @@ function generateCommandOverview(prefix) {
     commands.forEach((command) => {
         const desccolor = (command.adminOnly ? "[0;31m" : "[0;34m")
         const cmdcolor = (command.adminOnly ? "[0;41m" : "[0;40m")
-        const aliases = command.aliases.map(a => prefix + a).join(', ').padEnd(20, ' ');
+        const aliases = command.aliases.map(a => prefix + a).join(', ').padEnd(30, ' ');
         commandoverview += 
         `${desccolor}- ${command.description}
 ${cmdcolor}${aliases}[0;39m
