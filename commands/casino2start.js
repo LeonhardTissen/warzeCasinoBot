@@ -32,11 +32,10 @@ function casino2Start(message, betamount) {
 			const game = {
 				type: 'casino2',
 				state: {
-					player1: {
-						deck: new C2Deck(),
-						swapped: false,
-						bet: betamount
-					}
+					deck: new C2Deck(),
+					swapped: false,
+					bet: betamount,
+					opponent: "AI"
 				}
 			}
 			ongoing_games[message.author.id] = game;
@@ -46,7 +45,7 @@ function casino2Start(message, betamount) {
 				const cvs = new CvsBundler(5);
 				cvs.add(getCanvasHead(248, `${message.author.username}'s Deck:`));
 	
-				cvs.add(game.state.player1.deck.canvas());
+				cvs.add(game.state.deck.canvas());
 	
 				cvs.add(getCanvasFooter(248, `Ex: ${prefix}swap 135`));
 	

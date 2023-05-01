@@ -44,11 +44,9 @@ function casino2StartMulti(message, betamount, target) {
 	// 		const game = {
 	// 			type: 'casino2',
 	// 			state: {
-	// 				player1: {
-	// 					deck: new C2Deck(),
-	// 					swapped: false,
-	// 					bet: betamount
-	// 				}
+// 					deck: new C2Deck(),
+// 					swapped: false,
+// 					bet: betamount
 	// 			}
 	// 		}
 	// 		ongoing_games[message.author.id] = game;
@@ -58,7 +56,7 @@ function casino2StartMulti(message, betamount, target) {
 	// 			const cvs = new CvsBundler(5);
 	// 			cvs.add(getCanvasHead(248, `${message.author.username}'s Deck:`));
 	
-	// 			cvs.add(game.state.player1.deck.canvas());
+	// 			cvs.add(game.state.deck.canvas());
 	
 	// 			cvs.add(getCanvasFooter(248, `Ex: ${prefix}swap 135`));
 	
