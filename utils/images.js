@@ -5,9 +5,9 @@ const assets = {}
 
 // Go through the "/images" directory and save the loaded image in the object
 const { readdirSync } = require('fs');
-const files = readdirSync('./images');
+const files = readdirSync('./images/load/');
 files.forEach((filename) => {
-    path = 'images/' + filename;
+    path = 'images/load/' + filename;
     loadImage(path).then((img) => {
         assets[filename.split('.')[0]] = img;
     })
