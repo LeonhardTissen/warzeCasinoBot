@@ -6,7 +6,7 @@ You can try the bot over on my Discord server: https://discord.gg/jtcqgvkZY7
 - Copy the token for later
 ### Get required packages, make sure you're on a recent version of node
 ```bash
-npm install
+npm i
 ```
 ### Enter your bot's token and discord user ID in "/settings.json" (You can rename "/sample_settings.json):
 ```json
