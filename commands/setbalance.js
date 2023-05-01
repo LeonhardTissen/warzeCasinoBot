@@ -13,13 +13,9 @@ function cmdSetBalance(message, amount, target) {
     }
 
     // Validate the target of the command, author if not provided
-    if (!target) {
-        target = message.author.id;
-    }
-    target = parseUser(target);
+    target = parseUser(target, message.author.id);
 
     amount = validateAmount(message, amount);
-    console.log(amount);
     if (amount === false) return;
 
     // vince
