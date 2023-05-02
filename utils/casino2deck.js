@@ -40,13 +40,13 @@ class C2Deck {
 			new C2Card(5)
 		]
 	}
-	canvas(message = false) {
+	canvas(message = false, cardtype = 'normal') {
 		// Send a canvas representation of the deck
 		const cvs = createCanvas(248, 72);
     	const ctx = cvs.getContext('2d');
 		
 		this.cards.forEach((card) => {
-			let filename = card.shown ? card.face.cardid : 'cardclosed';
+			let filename = card.shown ? card.face.cardid : 'cardclosed' + cardtype;
 			
 			ctx.drawImage(assets[filename], (card.position - 1) * 50, 0);
 		});

@@ -22,6 +22,8 @@ CREATE TABLE IF NOT EXISTS ${tablename} (
 createDatabaseTable('users', {name: 'balance', type: 'INTEGER', default: '0'})
 createDatabaseTable('dailies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('hourlies', {name: 'last', type: 'INTEGER', default: '0'})
+createDatabaseTable('shop', {name: 'bought', type: 'TEXT', default: '""'})
+createDatabaseTable('cascard', {name: 'cardtype', type: 'TEXT', default: '""'})
 createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
 
 exports.db = db;
