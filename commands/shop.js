@@ -17,7 +17,7 @@ function shopCommand(message) {
 
         const owned_items = row.bought.split(',');
 
-        const cvs = new Canvas(300, 72 * 5);
+        const cvs = new Canvas(300, 72 * shop_items.length);
         const ctx = cvs.getContext('2d');
         const space_per_item = 72;
         let ypos = 0;
