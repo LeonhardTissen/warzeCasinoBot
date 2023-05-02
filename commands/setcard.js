@@ -25,7 +25,7 @@ function setCardCommand(message, cardid) {
         const owned_items = row.bought.split(',');
 
         // Look if the user owns that card
-        if (owned_items.includes(cardid)) {
+        if (owned_items.includes(cardid) || cardid === 'normal') {
             db.run('UPDATE cascard SET cardtype = ? WHERE id = ?', [cardid, message.author.id], (err) => {
                 if (err) {
                     console.log(err.message);
