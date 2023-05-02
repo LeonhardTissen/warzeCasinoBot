@@ -25,7 +25,7 @@ function casino2StartMulti(message, betamount, target) {
 		send(message, 'You already have an ongoing game!');
 		return;
 	}
-	if (ongoing_requests.recipient === sender || ongoing_requests.seder === sender) {
+	if (ongoing_requests.recipient === sender || ongoing_requests.sender === sender) {
 		send(message, 'You already have an ongoing request!');
 		return;
 	}
