@@ -2,13 +2,13 @@ const { commands } = require('./commands');
 const { createClient } = require('./utils/client');
 const { getPrefix } = require('./utils/getprefix');
 const settings = require('./settings.json');
+const { isAdmin } = require('./utils/admin');
 
 function startBot() {
 	const client = createClient();
 
 	// Event handler for when a message is received
 	client.on('messageCreate', (message) => {
-
 		// Ignore messages from bots
 		if (message.author.bot) return;
 
@@ -26,7 +26,12 @@ function startBot() {
 			commands.forEach((command) => {
 				// If the message matches any of the aliases, execute the corresponding function
 				if (command.aliases.includes(args[0])) {
-					command.func(message, args[1], args[2], args[3])
+					// Only admin can execute this command
+					if (command.adminOnly && !isAdmin(message)) {
+						return;
+					} else {
+						command.func(message, args[1], args[2], args[3])
+					}
 				}
 			})
 		})

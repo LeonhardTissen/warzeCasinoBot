@@ -3,7 +3,7 @@ const { send } = require("../utils/sender");
 
 function sampleCommand(message) {
 	// This command does nothing except for return this message
-	send(message, 'This is a sample command')
+	send(message, 'This is a sample command');
 }
 
 // Register the command as this function with the description "Sample command", aliases ['sample', 'smpl'] and arguments

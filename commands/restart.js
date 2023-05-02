@@ -2,7 +2,7 @@ const { registerCommand } = require("../commands");
 const { send } = require("../utils/sender");
 
 function restartCommand(message) {
-    send(message, 'Sayonara');
+    send(message, 'Bot is now restarting!');
 
     setTimeout(() => {
         process.exit(0);

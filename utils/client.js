@@ -1,8 +1,9 @@
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 
+let client;
 function createClient() {
     // Get all the necessary intents from Discord
-    const client = new Client({
+    client = new Client({
         intents: [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
@@ -26,3 +27,8 @@ function createClient() {
     return client;
 }
 exports.createClient = createClient;
+
+function getCache(userid) {
+    return client.users.cache.get(userid);
+}
+exports.getCache = getCache;

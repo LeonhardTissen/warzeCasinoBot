@@ -4,65 +4,73 @@ const { send } = require("../utils/sender");
 const { changeBalance, checkIfLarger } = require("../utils/currency");
 const { validateBetAmount } = require("../utils/bet");
 const { C2Deck } = require("../utils/casino2deck");
-const { ongoing_games } = require("../utils/games");
+const { ongoing_games, ongoing_requests } = require("../utils/games");
 const { CvsBundler } = require("../utils/cvsbundler");
 const { getCanvasHead, getCanvasFooter } = require("../utils/canvashead");
 const { getPrefix } = require("../utils/getprefix");
 const { parseUser } = require("../utils/usertarget");
 
 function casino2StartMulti(message, betamount, target) {
-	// Users can only partake in 1 game at a time
-	if (ongoing_games[message.author.id]) {
+	// Validate recipient
+	const recipient = parseUser(target);
+	const sender = message.author.id;
+	if (!recipient) {
+		send(message, `Invalid target`);
+		return;
+	}
+	if (recipient === sender) {
+		send(message, `You can't play against yourself.`);
+		return;
+	}
+	
+	// Check if the sender has ongoing games or requests
+	if (ongoing_games[sender]) {
 		send(message, 'You already have an ongoing game!');
 		return;
 	}
-	let challenger = parseUser(target);
-	if (!challenger) {
-		send(message, `Invalid target`);
+	if (ongoing_requests.recipient === sender || ongoing_requests.seder === sender) {
+		send(message, 'You already have an ongoing request!');
 		return;
-	};
-	if (ongoing_games[challenger]) {
-		send(message, `<@${challenger}> already has an ongoing game!`);
+	}
+
+	// Check if the recipient has ongoing games or requests
+	if (ongoing_games[recipient]) {
+		send(message, `<@${recipient}> already has an ongoing game!`);
 		return;
-	};
+	}
+	if (ongoing_requests.recipient === recipient || ongoing_requests.seder === recipient) {
+		send(message, `<@${recipient}> already has an ongoing request!`);
+		return;
+	}
 
 	// Validate bet amount, must be atleast 1
 	betamount = validateBetAmount(message, betamount, 1);
 	if (!betamount) {
 		return;
 	}
-
-	send(message, `WIP`)
-
-	// checkIfLarger(message.author.id, betamount).then((success) => {
-	// 	if (!success) {
-	// 		send(message, `You don't have enough diamonds ${emojis.diamond}.`);
-	// 		return;
-	// 	}
-
-	// 	changeBalance(message.author.id, - betamount).then((success) => {
-	// 		const game = {
-	// 			type: 'casino2',
-	// 			state: {
-// 					deck: new C2Deck(),
-// 					swapped: false,
-// 					bet: betamount
-	// 			}
-	// 		}
-	// 		ongoing_games[message.author.id] = game;
+	
+	checkIfLarger(sender, betamount).then((success) => {
+		if (!success) {
+			send(message, `You don't have enough diamonds ${emojis.diamond}.`);
+			return;
+		}
 		
-	// 		// Send the current deck
-	// 		getPrefix(message.author.id).then((prefix) => {
-	// 			const cvs = new CvsBundler(5);
-	// 			cvs.add(getCanvasHead(248, `${message.author.username}'s Deck:`));
-	
-	// 			cvs.add(game.state.deck.canvas());
-	
-	// 			cvs.add(getCanvasFooter(248, `Ex: ${prefix}swap 135`));
-	
-	// 			cvs.send(message);
-	// 		});
-	// 	})
-	// })
+		checkIfLarger(recipient, betamount).then((success) => {
+			if (!success) {
+				send(message, `<@${recipient}> doesn't have enough diamonds ${emojis.diamond}.`);
+				return;
+			}
+			getPrefix(recipient).then((prefix) => {
+				message.channel.send(`<@${recipient}>, ${message.author.username} wants to play a game of Casino 2 with you for **${betamount}** ${emojis.diamond}.\nType ${prefix}req accept or ${prefix}req deny.`);
+			})
+
+			ongoing_requests.push({
+				sender: sender,
+				recipient: recipient,
+				type: "casino2",
+				amount: betamount
+			})
+		})
+	});
 }
 registerCommand(casino2StartMulti, "Start a Casino 2 game with another player", ['casino2multi', 'c2m'], "[amount] [2nd player]");

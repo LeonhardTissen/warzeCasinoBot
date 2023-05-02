@@ -6,7 +6,7 @@ function isAdmin(message) {
     if (message.author.id === settings.admin) {
         return true;
     } else {
-        send(message, "You don't have access to this command");
+        send(message, "You don't have access to this command.");
         return false;
     }
 }

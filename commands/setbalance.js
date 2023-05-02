@@ -7,11 +7,6 @@ const { setBalance } = require("../utils/currency");
 const { validateAmount } = require("../utils/bet");
 
 function cmdSetBalance(message, amount, target) {
-    // Only admin can execute this command
-    if (!isAdmin(message)) {
-        return;
-    }
-
     // Validate the target of the command, author if not provided
     target = parseUser(target, message.author.id);
 

@@ -29,7 +29,7 @@ function casino2CardSwap(message, indices = "") {
 		})
 
 		const cvs = new CvsBundler(5)
-		cvs.add(getCanvasHead(248, message.author.username));
+		cvs.add(getCanvasHead(248, `${message.author.username}'s Deck`));
 
 		cvs.add(deck.canvas());
 
@@ -69,6 +69,32 @@ function casino2CardSwap(message, indices = "") {
 					}, 500);
 				});
 			}, 500);
+		} else {
+			const ogame = ongoing_games[cgame.state.opponent];
+			if (ogame.state.swapped) {
+				setTimeout(() => {
+					const oscore = ogame.state.deck.getScore();
+					const pscore = cgame.state.deck.getScore();
+					const bet = ogame.state.bet
+
+					// Reward the winner
+					if (pscore == oscore) {
+						send(message, `You both tied! **+0** ${emojis.diamond}`);
+						changeBalance(ogame.state.opponent, bet);
+						changeBalance(cgame.state.opponent, bet);
+					} else if (pscore > oscore) {
+						send(message, `<@${ogame.state.opponent}> won **+${bet}** ${emojis.diamond}`);
+						changeBalance(ogame.state.opponent, bet * 2);
+					} else {
+						send(message, `<@${cgame.state.opponent}> won **+${bet}** ${emojis.diamond}`);
+						changeBalance(cgame.state.opponent, bet * 2);
+					}
+					
+					// Remove the game from ongoing games
+					delete ongoing_games[cgame.state.opponent];
+					delete ongoing_games[ogame.state.opponent];
+				}, 500)
+			}
 		}
 	}
 }
