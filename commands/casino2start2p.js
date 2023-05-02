@@ -1,12 +1,9 @@
 const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/sender");
-const { changeBalance, checkIfLarger } = require("../utils/currency");
+const { checkIfLarger } = require("../utils/currency");
 const { validateBetAmount } = require("../utils/bet");
-const { C2Deck } = require("../utils/casino2deck");
 const { ongoing_games, ongoing_requests } = require("../utils/games");
-const { CvsBundler } = require("../utils/cvsbundler");
-const { getCanvasHead, getCanvasFooter } = require("../utils/canvashead");
 const { getPrefix } = require("../utils/getprefix");
 const { parseUser } = require("../utils/usertarget");
 

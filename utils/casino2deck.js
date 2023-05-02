@@ -168,5 +168,6 @@ function startGame(message, player, opponent, betamount) {
 
 		cvs.send(message);
 	});
+	return game;
 }
 exports.startGame = startGame;
