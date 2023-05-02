@@ -21,7 +21,7 @@ function casino2CardSwap(message, indices = "") {
 			return;
 		}
 
-		const cardtype = row.cardtype;
+		const cardtype = row ? row.cardtype : 'normal';
 
 		if (cgame && cgame.type === 'casino2') {
 
