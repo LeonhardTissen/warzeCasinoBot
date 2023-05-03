@@ -20,25 +20,28 @@ function casino2StartMulti(message, betamount, target) {
 		return;
 	}
 	
-	// Check if the sender has ongoing games or requests
+	// Check if the sender or recipient have ongoing games
 	if (ongoing_games[sender]) {
 		send(message, 'You already have an ongoing game!');
 		return;
 	}
-	if (ongoing_requests.recipient === sender || ongoing_requests.sender === sender) {
-		send(message, 'You already have an ongoing request!');
-		return;
-	}
-
-	// Check if the recipient has ongoing games or requests
 	if (ongoing_games[recipient]) {
 		send(message, `<@${recipient}> already has an ongoing game!`);
 		return;
 	}
-	if (ongoing_requests.recipient === recipient || ongoing_requests.seder === recipient) {
-		send(message, `<@${recipient}> already has an ongoing request!`);
-		return;
-	}
+
+	// Check if the sender or recipient have ongoing requests
+	let has_ongoing = false;
+	ongoing_requests.forEach((request) => {
+		if (request.recipient === sender || request.sender === sender) {
+			send(message, 'You already have an ongoing request!');
+			has_ongoing = true;
+		} else if (request.recipient === recipient || request.sender === recipient) {
+			send(message, `<@${recipient}> already has an ongoing request!`);
+			has_ongoing = true;
+		}
+	})
+	if (has_ongoing) return;
 
 	// Validate bet amount, must be atleast 1
 	betamount = validateBetAmount(message, betamount, 1);
