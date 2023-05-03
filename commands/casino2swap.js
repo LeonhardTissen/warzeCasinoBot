@@ -9,6 +9,7 @@ const { emojis } = require("../utils/emojis");
 const { ongoing_games } = require("../utils/games");
 const { getNums } = require("../utils/numchoice");
 const { send } = require("../utils/sender");
+const { addToStat } = require("../utils/stats");
 
 function casino2CardSwap(message, indices = "") {
 	const cgame = ongoing_games[message.author.id];
@@ -75,9 +76,17 @@ function casino2CardSwap(message, indices = "") {
 								// Win
 								send(message, `${emojis.geizesleep} You won... this time. (**+${bet_win}** ${emojis.diamond})`);
 								changeBalance(message.author.id, bet_win * 2)
+
+								// Statistics
+								addToStat('casino2dwon', message.author.id, bet_win);
+								addToStat('casino2won', message.author.id, 1);
 							} else {
 								// Loss
 								send(message, `${emojis.geizehappy} Ya lost, DUMBASS!`);
+
+								// Statistics
+								addToStat('casino2dlost', message.author.id, bet_win);
+								addToStat('casino2lost', message.author.id, 1);
 							}
 							// Delete ongoing game
 							delete ongoing_games[message.author.id];
@@ -95,14 +104,32 @@ function casino2CardSwap(message, indices = "") {
 						// Reward the winner
 						if (pscore == oscore) {
 							send(message, `You both tied! **+0** ${emojis.diamond}`);
+
+							// Both players get their betted money back
 							changeBalance(ogame.state.opponent, bet);
 							changeBalance(cgame.state.opponent, bet);
 						} else if (pscore > oscore) {
 							send(message, `<@${ogame.state.opponent}> won **+${bet}** ${emojis.diamond}`);
 							changeBalance(ogame.state.opponent, bet * 2);
+
+							// Statistics for winner
+							addToStat('casino2dwon', ogame.state.opponent, bet)
+							addToStat('casino2won', ogame.state.opponent, 1)
+
+							// Statistics for loser
+							addToStat('casino2dlost', cgame.state.opponent, bet)
+							addToStat('casino2lost', cgame.state.opponent, 1)
 						} else {
 							send(message, `<@${cgame.state.opponent}> won **+${bet}** ${emojis.diamond}`);
 							changeBalance(cgame.state.opponent, bet * 2);
+
+							// Statistics for winner
+							addToStat('casino2dwon', cgame.state.opponent, bet)
+							addToStat('casino2won', cgame.state.opponent, 1)
+
+							// Statistics for loser
+							addToStat('casino2dlost', ogame.state.opponent, bet)
+							addToStat('casino2lost', ogame.state.opponent, 1)
 						}
 						
 						// Remove the game from ongoing games
