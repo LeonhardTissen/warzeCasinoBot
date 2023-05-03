@@ -14,8 +14,7 @@ function profileCommand(message, target) {
     }
 
 	// This command does nothing except for return this message
-    getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon'], message.author.id).then((stats) => {
-		console.log(stats)
+    getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon'], target).then((stats) => {
         createRowIfNotExists(target, 'users');
 
         db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
