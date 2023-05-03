@@ -1,4 +1,5 @@
 const { registerCommand } = require("../commands");
+const { createRowIfNotExists } = require("../utils/db");
 const { send } = require("../utils/sender");
 const { getStat } = require("../utils/stats");
 
