@@ -1,9 +1,7 @@
 const { registerCommand } = require("../commands");
+const { valid_cards } = require("../utils/customcards");
 const { createRowIfNotExists, db } = require("../utils/db");
 const { send } = require("../utils/sender");
-
-// Valid card types
-const valid_cards = ['normal', 'cactus', 'weize', 'potion', 'gob', 'geize'];
 
 function setCardCommand(message, cardid) {
     // Validate the cardid given
