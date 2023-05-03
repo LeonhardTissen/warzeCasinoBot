@@ -47,3 +47,23 @@ function getStat(type, user) {
     })
 }
 exports.getStat = getStat;
+
+function getStats(types, user) {
+    return new Promise((resolve) => {
+        const returned_values = {};
+
+        types.forEach((type) => {
+            // Add the stat value to the object
+            getStat(type, user).then((value) => {
+                returned_values[type] = value;
+
+                // When all values are retrieved, resolve
+                if (Object.keys(returned_values).length === types.length) {
+                    resolve(returned_values);
+                }
+            })
+
+        })
+    })
+}
+exports.getStats = getStats;
