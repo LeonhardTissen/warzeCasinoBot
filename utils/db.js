@@ -20,9 +20,11 @@ CREATE TABLE IF NOT EXISTS ${tablename} (
 
 // Create database tables if they don't exist yet
 createDatabaseTable('users', {name: 'balance', type: 'INTEGER', default: '0'})
+createDatabaseTable('redchest', {name: 'redchest', type: 'INTEGER', default: '0'})
 createDatabaseTable('dailies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('hourlies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('shop', {name: 'bought', type: 'TEXT', default: '""'})
+createDatabaseTable('customcard', {name: 'owned', type: 'TEXT', default: '""'})
 createDatabaseTable('cascard', {name: 'cardtype', type: 'TEXT', default: '""'})
 createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
 createDatabaseTable('rewardnotify', {name: 'notify', type: 'INTEGER', default: '0'})

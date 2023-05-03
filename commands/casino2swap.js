@@ -2,11 +2,13 @@ const { registerCommand } = require("../commands");
 const { getCanvasHead, getCanvasFooter } = require("../utils/canvashead");
 const { C2Deck } = require("../utils/casino2deck");
 const { changeBalance } = require("../utils/currency");
+const { drawCustomCard } = require("../utils/customcard");
 const { valid_cards } = require("../utils/customcards");
 const { CvsBundler } = require("../utils/cvsbundler");
 const { createRowIfNotExists, db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { ongoing_games } = require("../utils/games");
+const { assets } = require("../utils/images");
 const { getNums } = require("../utils/numchoice");
 const { send } = require("../utils/sender");
 const { addToStat } = require("../utils/stats");
@@ -25,7 +27,11 @@ function casino2CardSwap(message, indices = "") {
 
 		let cardtype = row.cardtype;
 		if (!valid_cards.includes(cardtype)) {
-			cardtype = 'normal';
+			if (cardtype.startsWith('customcard-')) {
+				assets['cardclosed' + cardtype] = drawCustomCard(cardtype, false);
+			} else {
+				cardtype = 'normal';
+			}
 		}
 
 		if (cgame && cgame.type === 'casino2') {

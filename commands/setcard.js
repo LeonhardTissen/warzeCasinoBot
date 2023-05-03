@@ -1,9 +1,41 @@
 const { registerCommand } = require("../commands");
+const { drawCustomCard } = require("../utils/customcard");
 const { valid_cards } = require("../utils/customcards");
 const { createRowIfNotExists, db } = require("../utils/db");
-const { send } = require("../utils/sender");
+const { send, sendCvs } = require("../utils/sender");
 
 function setCardCommand(message, cardid) {
+    // Handle custom cards
+    if (cardid.startsWith('customcard-')) {
+        createRowIfNotExists(message.author.id, 'customcard');
+
+        db.get('SELECT owned FROM customcard WHERE id = ?', [message.author.id], (err, row) => {
+            if (err || !row) {
+                console.log(err.message);
+                return;
+            }
+
+            const owned_custom_cards = row.owned.split(',');
+
+            if (owned_custom_cards.includes(cardid)) {
+                db.run('UPDATE cascard SET cardtype = ? WHERE id = ?', [cardid, message.author.id], (err) => {
+                    if (err) {
+                        console.log(err.message);
+                        return;
+                    }
+    
+                    send(message, `Set card to **${cardid}**`);
+                    if (cardid.startsWith('customcard-')) {
+                        sendCvs(message, drawCustomCard(cardid, true))
+                    }
+                })
+            } else {
+                send(message, `You don't own this card.`)
+            }
+        });
+        return;
+    }
+
     // Validate the cardid given
     if (!valid_cards.includes(cardid)) {
         send(message, 'Invalid card. You can choose the following: ' + valid_cards.join(','))

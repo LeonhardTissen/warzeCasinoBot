@@ -16,19 +16,29 @@ function profileCommand(message, target) {
 	// This command does nothing except for return this message
     getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon'], target).then((stats) => {
         createRowIfNotExists(target, 'users');
+        createRowIfNotExists(target, 'redchest');
 
         db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
             if (err) {
                 console.error(err.message);
                 return;
             }
-    
             // Send the user's balance as a response
             const balance = row.balance;
 
-            send(message, `<@${target}>**'s Profile**:
+            db.get('SELECT redchest FROM redchest WHERE id = ?', [target], (err, row) => {
+                if (err) {
+                    console.error(err.message);
+                    return;
+                }
+        
+                // Send the user's balance as a response
+                const redchests = row.redchest;
+
+                send(message, `<@${target}>**'s Profile**:
 **Inventory:**
 - Diamonds: **${balance}** ${emojis.diamond}
+- Red Chests: **${redchests}** ${emojis.redchest}
 
 **Casino 2 Statistics:**
 - Wins: **${stats.casino2won}** :trophy:
@@ -36,7 +46,8 @@ function profileCommand(message, target) {
 - Diamonds won: **${stats.casino2dwon}** ${emojis.diamond}
 - Diamonds lost: **${stats.casino2dlost}** ${emojis.diamond}
 
-            `);
+                `);
+            })
         });
 	})
 }

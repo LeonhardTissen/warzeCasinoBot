@@ -5,6 +5,7 @@ const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 const { changeBalance } = require("../utils/currency");
 const { getSecUntilHourly } = require("../utils/secuntilhourly");
+const { changeRedChests } = require("../utils/changechests");
 
 // Amount of diamonds the hourly command grants
 const hourly_amount = 100;
@@ -23,8 +24,9 @@ function hourly(message) {
         // Reward the user with their hard-earned hourly diamonds
         const resulting_balance_change = hourly_amount;
         changeBalance(target, resulting_balance_change).then(() => {
-            send(message, `<@${target}>, you collected: **${hourly_amount} ${emojis.diamond}**`);
+            send(message, `<@${target}>, you collected: **${hourly_amount}** ${emojis.diamond} and **1** ${emojis.redchest}`);
         })
+        changeRedChests(target, 1);
         
         // Apply a timer that the user has to wait before collecting the next hourly
         const now = Math.floor(Date.now() / 1000);
