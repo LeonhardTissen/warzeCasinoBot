@@ -28,11 +28,21 @@ createDatabaseTable('customcard', {name: 'owned', type: 'TEXT', default: '""'})
 createDatabaseTable('cascard', {name: 'cardtype', type: 'TEXT', default: '""'})
 createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
 createDatabaseTable('rewardnotify', {name: 'notify', type: 'INTEGER', default: '0'})
+
+// Dummy stat
 createDatabaseTable('statsdummy', {name: 'dummy', type: 'INTEGER', default: '0'})
+
+// Casino 2 stats
 createDatabaseTable('statscasino2won', {name: 'casino2won', type: 'INTEGER', default: '0'})
 createDatabaseTable('statscasino2lost', {name: 'casino2lost', type: 'INTEGER', default: '0'})
 createDatabaseTable('statscasino2dwon', {name: 'casino2dwon', type: 'INTEGER', default: '0'})
 createDatabaseTable('statscasino2dlost', {name: 'casino2dlost', type: 'INTEGER', default: '0'})
+
+// Coinflip stats
+createDatabaseTable('statscfwon', {name: 'cfwon', type: 'INTEGER', default: '0'})
+createDatabaseTable('statscflost', {name: 'cflost', type: 'INTEGER', default: '0'})
+createDatabaseTable('statscfdwon', {name: 'cfdwon', type: 'INTEGER', default: '0'})
+createDatabaseTable('statscfdlost', {name: 'cfdlost', type: 'INTEGER', default: '0'})
 
 exports.db = db;
 
