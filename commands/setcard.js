@@ -6,7 +6,7 @@ const { send } = require("../utils/sender");
 function setCardCommand(message, cardid) {
     // Validate the cardid given
     if (!valid_cards.includes(cardid)) {
-        send(message, 'valid cards: ' + valid_cards.join(','))
+        send(message, 'Invalid card. You can choose the following: ' + valid_cards.join(','))
         return;
     }
 
