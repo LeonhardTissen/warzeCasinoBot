@@ -37,6 +37,11 @@ function getStat(type, user) {
                 return;
             };
 
+            // Return 0 if no data
+            if (!row || !row[type]) {
+                resolve(0);
+                return;
+            }
             resolve(row[type]);
         })
     })
