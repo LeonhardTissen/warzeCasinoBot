@@ -22,4 +22,4 @@ function cmdSetPrefix(message, newPrefix) {
     });
 }
 
-registerCommand(cmdSetPrefix, "Sets a new prefix, user specific.", ['setprefix'], "[string]");
+registerCommand(cmdSetPrefix, "Sets a new prefix, user specific.", ['setprefix', 'sp'], "[string]");

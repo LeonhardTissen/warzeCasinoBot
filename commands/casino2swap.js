@@ -114,4 +114,4 @@ function casino2CardSwap(message, indices = "") {
 		}
 	})
 }
-registerCommand(casino2CardSwap, "Swap your cards during the Casino 2 game.", ['swap'], "[cardnumbers]", false, true);
+registerCommand(casino2CardSwap, "Swap your cards during the Casino 2 game.", ['swap', 'sw'], "[cardnumbers]", false, true);

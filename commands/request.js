@@ -55,4 +55,4 @@ function requestCommand(message, action) {
 }
 
 // Register the command as this function with the description "Sample command", aliases ['sample', 'smpl'] and arguments
-registerCommand(requestCommand, "Handle a request", ['request', 'req'], "[accept|deny]");
+registerCommand(requestCommand, "Handle a request", ['request', 'req', 'r'], "[accept|deny]");

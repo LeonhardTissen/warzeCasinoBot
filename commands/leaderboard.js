@@ -23,4 +23,4 @@ function cmdLeaderboard(message) {
 	});
 }
 
-registerCommand(cmdLeaderboard, "Shows the balance leaderboard", ['leaderboard', 'lb', 'kg'], "");
+registerCommand(cmdLeaderboard, "Shows the balance leaderboard", ['leaderboard', 'lb'], "");

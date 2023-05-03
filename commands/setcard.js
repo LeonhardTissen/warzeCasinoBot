@@ -40,4 +40,4 @@ function setCardCommand(message, cardid) {
 }
 
 // Register the command as this function with the description "Sample command", aliases ['sample', 'smpl'] and arguments
-registerCommand(setCardCommand, "Set a card to another you own", ['setcard'], "[cardid]");
+registerCommand(setCardCommand, "Set a card to another you own", ['setcard', 'sc'], "[cardid]");

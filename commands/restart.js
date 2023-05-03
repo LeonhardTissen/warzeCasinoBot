@@ -9,4 +9,4 @@ function restartCommand(message) {
     }, 500)
 }
 
-registerCommand(restartCommand, "Restart the bot", ['restart', 'r'], "", true);
+registerCommand(restartCommand, "Restart the bot", ['restart', 'rest'], "", true);
