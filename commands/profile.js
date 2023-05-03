@@ -37,7 +37,7 @@ function profileCommand(message, target) {
 - Wins: **${c2w}** :trophy:
 - Losses: **${c2l}** :skull:
 - Diamonds won: **${c2dw}** ${emojis.diamond}
-- Diamonds lost: **-${c2dl}** ${emojis.diamond}
+- Diamonds lost: **${c2dl}** ${emojis.diamond}
 
                         `);
                     });
