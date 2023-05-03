@@ -19,4 +19,4 @@ function cmdAvatar(message) {
         sendCvs(message, cvs);
     })
 }
-registerCommand(cmdAvatar, "Responds with your avatar", ['avatar', 'av']);
+registerCommand(cmdAvatar, "Responds with your avatar", ['avatar', 'av'], "", false, true);

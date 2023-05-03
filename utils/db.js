@@ -25,6 +25,7 @@ createDatabaseTable('hourlies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('shop', {name: 'bought', type: 'TEXT', default: '""'})
 createDatabaseTable('cascard', {name: 'cardtype', type: 'TEXT', default: '""'})
 createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
+createDatabaseTable('rewardnotify', {name: 'notify', type: 'INTEGER', default: '0'})
 
 exports.db = db;
 

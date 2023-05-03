@@ -7,4 +7,4 @@ function sampleCommand(message) {
 }
 
 // Register the command as this function with the description "Sample command", aliases ['sample', 'smpl'] and arguments
-registerCommand(sampleCommand, "Sample command", ['sample', 'smpl'], "");
+registerCommand(sampleCommand, "Sample command", ['sample', 'smpl'], "", false, true);

@@ -3,6 +3,7 @@ const { createClient } = require('./utils/client');
 const { getPrefix } = require('./utils/getprefix');
 const settings = require('./settings.json');
 const { isAdmin } = require('./utils/admin');
+const { everyMinute } = require('./utils/cron');
 
 function startBot() {
 	const client = createClient();
@@ -36,6 +37,11 @@ function startBot() {
 			})
 		})
 	});
+
+	// See /utils/cron.js, these are for events happening every hour/minute/second
+	setInterval(() => {
+		everyMinute(client);
+	}, 60000);
 
 	// Log in the bot using the token
 	client.login(settings.token);

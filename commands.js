@@ -1,8 +1,8 @@
 const commands = [];
 exports.commands = commands;
 
-function registerCommand(func, description, aliases, usage = "", adminOnly = false) {
-    commands.push({func, aliases, description, usage, adminOnly});
+function registerCommand(func, description, aliases, usage = "", adminOnly = false, hiddenFromHelp = false) {
+    commands.push({func, aliases, description, usage, adminOnly, hiddenFromHelp});
 }
 exports.registerCommand = registerCommand;
 

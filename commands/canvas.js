@@ -7,4 +7,4 @@ function canvasTest(message) {
 
     sendCvs(message, cvs);
 }
-registerCommand(canvasTest, "Test Command for a Canvas", ['canvas', 'cvs']);
+registerCommand(canvasTest, "Test Command for a Canvas", ['canvas', 'cvs'], "", false, true);
