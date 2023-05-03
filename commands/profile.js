@@ -1,4 +1,6 @@
 const { registerCommand } = require("../commands");
+const { createRowIfNotExists, db } = require("../utils/db");
+const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/sender");
 const { getStat } = require("../utils/stats");
 const { parseUser } = require("../utils/usertarget");
@@ -16,14 +18,29 @@ function profileCommand(message, target) {
         getStat('casino2won', target).then((c2w) => {
             getStat('casino2dlost', target).then((c2dl) => {
                 getStat('casino2dwon', target).then((c2dw) => {
-                    send(message, `(WIP) <@${target}>
-**Casino 2:**
-- Wins: ${c2w}
-- Losses: ${c2l}
-- Diamonds won: ${c2dw}
-- Diamonds lost: ${c2dl}
+                    createRowIfNotExists(target, 'users');
 
-                    `);
+                    db.get('SELECT balance FROM users WHERE id = ?', [target], (err, row) => {
+                        if (err) {
+                            console.error(err.message);
+                            return;
+                        }
+                
+                        // Send the user's balance as a response
+                        const balance = row.balance;
+
+                        send(message, `<@${target}>**'s Profile**:
+**Inventory:**
+- Diamonds: **${balance}** ${emojis.diamond}
+
+**Casino 2 Statistics:**
+- Wins: **${c2w}** :trophy:
+- Losses: **${c2l}** :skull:
+- Diamonds won: **${c2dw}** ${emojis.diamond}
+- Diamonds lost: **-${c2dl}** ${emojis.diamond}
+
+                        `);
+                    });
                 })
             })
         })
