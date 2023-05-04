@@ -7,6 +7,7 @@ const { randRange } = require("../utils/random");
 const { changeBalance } = require("../utils/currency");
 const { changeRedChests } = require("../utils/changechests");
 const { isNumeric } = require("../utils/numchoice");
+const { addToInventory } = require("../utils/inventory");
 
 function cmdOpenChest(message, amount) {
     createRowIfNotExists(message.author.id, 'redchest');
@@ -38,28 +39,13 @@ function cmdOpenChest(message, amount) {
 
         let chestsOpened = 0;
         const openInterval = setInterval(function() {
-            if (Math.random() > 0.5) {
+            if (Math.random() >= 0.5) {
                 // 50% chance of card unboxing
                 const unboxed_card = randomCustomCard();
                 
                 // Add the new custom card to the users' inventory
                 createRowIfNotExists(message.author.id, 'customcard');
-                db.get('SELECT owned FROM customcard WHERE id = ?', [message.author.id], (err, row) => {
-                    if (err) {
-                        console.log(err.message);
-                        return;
-                    }
-                    
-                    const owned_cards = row.owned + ',' + unboxed_card;
-                    db.run('UPDATE customcard SET owned = ? WHERE id = ?', [owned_cards, message.author.id], (err) => {
-                        if (err) {
-                            console.log(err.message);
-                            return;
-                        }
-                        send(message, `You unboxed a **Red Chest** ${emojis.redchest} which contained: **${unboxed_card}**`);
-                        sendCvs(message, drawCustomCard(unboxed_card, true))
-                    })
-                })
+                addToInventory(message.author.id, 'customcard', 'owned', unboxed_card)
             } else {
                 // 50% chance of just getting diamonds
                 const won_amount = randRange(10,150);
