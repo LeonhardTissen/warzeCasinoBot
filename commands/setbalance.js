@@ -1,7 +1,6 @@
 const { registerCommand } = require("../commands");
 const { emojis } = require("../utils/emojis");
 const { parseUser } = require("../utils/usertarget");
-const { isAdmin } = require("../utils/admin");
 const { send } = require("../utils/sender");
 const { setBalance } = require("../utils/currency");
 const { validateAmount } = require("../utils/bet");
