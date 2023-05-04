@@ -1,6 +1,8 @@
-const { db } = require("./db");
+const { db, createRowIfNotExists } = require("./db");
 
 function addToInventory(target, table, column, item) {
+    createRowIfNotExists(target, table);
+
     return new Promise((resolve) => {
         db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
             if (err) {

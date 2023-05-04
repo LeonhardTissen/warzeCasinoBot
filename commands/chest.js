@@ -44,7 +44,6 @@ function cmdOpenChest(message, amount) {
                 const unboxed_card = randomCustomCard();
                 
                 // Add the new custom card to the users' inventory
-                createRowIfNotExists(message.author.id, 'customcard');
                 addToInventory(message.author.id, 'customcard', 'owned', unboxed_card);
                 send(message, `You unboxed a **Red Chest** ${emojis.redchest} which contained: **${unboxed_card}**`);
                 sendCvs(message, drawCustomCard(unboxed_card, true))
