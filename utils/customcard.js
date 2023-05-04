@@ -12,7 +12,7 @@ for (let hue = 0; hue < 360; hue += 10) {
     colors.push(hslToHex(hue, 100, 60))
 }
 
-const pattern_types = ['rotsquare', 'diaglines', 'windows', 'towers', 'circle', 'waves', 'arrow', 'triangle'];
+const pattern_types = ['rotsquare', 'diaglines', 'windows', 'towers', 'circle', 'waves', 'arrow', 'triangle', 'thunder', 'heart', 'rainbow', 'gradient'];
 
 function randomCustomCard() {
     return `customcard-${randRange(0, 180)}-${randChoice(pattern_types)}`
