@@ -1,3 +1,4 @@
+const { getUserID } = require("./client");
 const { isNumeric } = require("./numchoice");
 
 function parseUser(str, fallback) {
@@ -15,7 +16,7 @@ function parseUser(str, fallback) {
         str = str.substring(2, str.length - 1);
     }
     if (!isNumeric(str)) {
-        return false;
+        return getUserID(str);
     }
     return str;
 }

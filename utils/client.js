@@ -32,3 +32,14 @@ function getCache(userid) {
     return client.users.cache.get(userid);
 }
 exports.getCache = getCache;
+
+function getUserID(username) {
+    let user_id_found = false;
+    client.users.cache.forEach((user) => {
+        if (user.username.toLowerCase() == username) {
+            user_id_found = user.id;
+        }
+    })
+    return user_id_found;
+}
+exports.getUserID = getUserID;

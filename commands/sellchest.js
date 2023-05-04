@@ -14,7 +14,7 @@ function cmdSellChest(message, price, target) {
 		return;
 	}
 	if (recipient === sender) {
-		send(message, `You can't play against yourself.`);
+		send(message, `You can't sell to yourself.`);
 		return;
 	}
 
@@ -32,6 +32,7 @@ function cmdSellChest(message, price, target) {
     if (has_ongoing) return;
 
     getPrefix(recipient).then((prefix) => {
+        // Send the request to the recipient
         message.channel.send(`<@${recipient}>, ${message.author.username} wants to sell you a **Red Chest** ${emojis.redchest} for **${price}** ${emojis.diamond}.\nType ${prefix}req accept or ${prefix}req deny.`);
         
         ongoing_requests.push({
