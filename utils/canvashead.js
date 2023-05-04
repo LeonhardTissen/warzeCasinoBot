@@ -10,7 +10,6 @@ function pickTextColor(bgColor) {
 }
 
 function getCanvasHead(width, string, color = settings.color) {
-    console.log(color);
     const height = 30;
     const shadow = 15;
 
@@ -49,7 +48,6 @@ function getCanvasHead(width, string, color = settings.color) {
 exports.getCanvasHead = getCanvasHead;
 
 function getCanvasFooter(width, string, color = settings.color) {
-    console.log(color);
     const height = 25;
     const shadow = 15;
 
