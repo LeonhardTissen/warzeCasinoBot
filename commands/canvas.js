@@ -3,10 +3,10 @@ const { getCanvasHead } = require('../utils/canvashead');
 const { drawCustomCard } = require("../utils/customcard");
 const { sendCvs } = require("../utils/sender");
 
-function canvasTest(message, color) {
+function canvasTest(message, code) {
     //const cvs = getCanvasHead(248, message.author.username)
 
-    const cvs = drawCustomCard(color, true);
+    const cvs = drawCustomCard(code, true);
     
     sendCvs(message, cvs);
 }

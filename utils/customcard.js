@@ -37,63 +37,9 @@ function drawCustomCard(code, shopPreview = false) {
     }
 
     const pattern_type = pattern_name;
-    switch (pattern_type) {
-        case 'rotsquare':
-            pctx.fillRect(3, 0, 1, 1);
-            pctx.fillRect(2, 1, 3, 1);
-            pctx.fillRect(1, 2, 5, 1);
-            pctx.fillRect(0, 3, 7, 1);
-            pctx.fillRect(1, 4, 5, 1);
-            pctx.fillRect(2, 5, 3, 1);
-            pctx.fillRect(3, 6, 1, 1);
-            break;
-        case 'diaglines':
-            for (let i = 0; i < 8; i ++) {
-                pctx.fillRect(14 - i, i, 3, 1);
-                pctx.fillRect(6 - i, i, 3, 1);
-                pctx.fillRect(-2 - i, i, 3, 1);
-            }
-            break;
-        case 'windows':
-            pctx.fillRect(0, 0, 2, 4);
-            pctx.fillRect(4, 0, 2, 4);
-            pctx.fillRect(2, 4, 2, 4);
-            pctx.fillRect(6, 4, 2, 4);
-            break;
-        case 'towers':
-            pctx.fillRect(1, 0, 4, 4);
-            pctx.fillRect(3, 4, 4, 4);
-            break;
-        case 'circle':
-            pctx.fillRect(3, 1, 2, 1);
-            pctx.fillRect(2, 2, 4, 1);
-            pctx.fillRect(1, 3, 6, 1);
-            pctx.fillRect(1, 4, 6, 1);
-            pctx.fillRect(2, 5, 4, 1);
-            pctx.fillRect(3, 6, 2, 1);
-            break;
-        case 'waves':
-            pctx.fillRect(5, 0, 1, 3);
-            pctx.fillRect(0, 5, 3, 1);
-            pctx.fillRect(2, 2, 3, 1);
-            pctx.fillRect(2, 3, 1, 2);
-            pctx.fillRect(5, 5, 3, 1);
-            pctx.fillRect(5, 6, 1, 2);
-            break;
-        case 'arrow':
-            pctx.fillRect(2, 0, 4, 4);
-            pctx.fillRect(0, 4, 8, 1);
-            pctx.fillRect(1, 5, 6, 1);
-            pctx.fillRect(2, 6, 4, 1);
-            pctx.fillRect(3, 7, 2, 1);
-            break;
-        case 'triangle':
-            pctx.fillRect(3, 0, 1, 2);
-            pctx.fillRect(2, 2, 3, 2);
-            pctx.fillRect(1, 4, 5, 2);
-            pctx.fillRect(0, 6, 7, 2);
-            break;
-    }
+    // Draw the pattern
+    pctx.drawImage(assets['pattern' + pattern_type], 0, 0);
+
     pctx.globalAlpha = 1;
     
     const cvs = createCanvas(72, 72);
