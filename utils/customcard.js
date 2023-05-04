@@ -25,6 +25,8 @@ function drawCustomCard(code, shopPreview = false) {
     const pctx = pcvs.getContext('2d');
 
     const pattern_name = codeData[1];
+
+    // Draw the color of the pattern
     pctx.fillStyle = colors[parseInt(codeData[0])];
     pctx.fillRect(0, 0, 8, 8);
 
@@ -36,16 +38,17 @@ function drawCustomCard(code, shopPreview = false) {
         return;
     }
 
-    const pattern_type = pattern_name;
     // Draw the pattern
-    pctx.drawImage(assets['pattern' + pattern_type], 0, 0);
+    pctx.drawImage(assets[`pattern${pattern_name}`], 0, 0);
 
-    pctx.globalAlpha = 1;
-    
+    // New canvas
     const cvs = createCanvas(72, 72);
     const ctx = cvs.getContext('2d');
+
+    // Draw the pattern across the entire canvas
     const pattern = ctx.createPattern(pcvs, 'repeat');
 
+    // Draw the overlay
     ctx.fillStyle = pattern;
     ctx.fillRect(0, 0, 72, 72);
     ctx.drawImage(assets['shopcardover'], 0, 0, 72, 72);
