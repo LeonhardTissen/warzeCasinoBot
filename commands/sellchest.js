@@ -30,6 +30,14 @@ function cmdSellChest(message, amount, price, target) {
         send(message, `That doesn't make any sense, does it?`);
         return;
     }
+    if (!isNumeric(price)) {
+        send(message, `Invalid price`);
+        return;
+    }
+    if (parseInt(price) <= 0) {
+        send(message, `The price must be atleast **>0** ${emojis.diamond}`);
+        return;
+    }
 
     // Check if the sender or recipient have ongoing requests
     let has_ongoing = false;
