@@ -5,6 +5,7 @@ const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { emojis } = require("../utils/emojis");
 const { ongoing_requests } = require("../utils/games");
 const { send } = require("../utils/sender");
+const { pluralS } = require("../utils/timestr");
 
 function acceptRequest(request, message) {
     const sender = request.sender;
@@ -46,10 +47,10 @@ function acceptRequest(request, message) {
                 changeBalance(sender, price);
                 changeBalance(recipient, - price);
 
-                changeRedChests(sender, -1);
-                changeRedChests(recipient, 1);
+                changeRedChests(sender, -request.quantity);
+                changeRedChests(recipient, request.quantity);
 
-                send(message, `Successfully transferred **1 Red Chest** ${emojis.diamond} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
+                send(message, `Successfully transferred **${request.quantity} Red Chest${pluralS(request.quantity)}** ${emojis.diamond} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
             })
             break;
     }

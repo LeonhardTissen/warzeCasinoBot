@@ -2,6 +2,7 @@
 function pluralS(i) {
     return i == 1 ? '' : 's';
 }
+exports.pluralS = pluralS;
 
 // Convert seconds into a more readable time format, used in -daily
 function secToReadable(seconds) {

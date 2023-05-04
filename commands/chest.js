@@ -45,7 +45,9 @@ function cmdOpenChest(message, amount) {
                 
                 // Add the new custom card to the users' inventory
                 createRowIfNotExists(message.author.id, 'customcard');
-                addToInventory(message.author.id, 'customcard', 'owned', unboxed_card)
+                addToInventory(message.author.id, 'customcard', 'owned', unboxed_card);
+                send(message, `You unboxed a **Red Chest** ${emojis.redchest} which contained: **${unboxed_card}**`);
+                sendCvs(message, drawCustomCard(unboxed_card, true))
             } else {
                 // 50% chance of just getting diamonds
                 const won_amount = randRange(10,150);
