@@ -43,4 +43,4 @@ function balance(message, target) {
         })
     });
 }
-registerCommand(balance, "Check your balance.", ['balance', 'bal', 'b'], "[@user?]");
+registerCommand(balance, "Check your balance and pending rewards", ['balance', 'bal', 'b'], "[@user?]");

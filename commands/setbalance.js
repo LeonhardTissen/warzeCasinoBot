@@ -18,4 +18,4 @@ function cmdSetBalance(message, amount, target) {
     send(message, `<@${target}>'s Balance is now: **${amount} ${emojis.diamond}**`);
 }
 // The true at the end makes it an admin only command & changes the output of the help command
-registerCommand(cmdSetBalance, "Set a users balance.", ['setbalance', 'setbal'], "[amount] [@user?]", true);
+registerCommand(cmdSetBalance, "Set a users balance", ['setbalance', 'setbal'], "[amount] [@user?]", true);

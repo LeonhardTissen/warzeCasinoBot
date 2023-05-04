@@ -30,4 +30,4 @@ function casino2Start(message, betamount) {
 		})
 	})
 }
-registerCommand(casino2Start, "Start a Casino 2 game", ['casino2', 'c2'], "[amount]");
+registerCommand(casino2Start, "Start a Casino 2 game with Geize", ['casino2', 'c2'], "[amount]");

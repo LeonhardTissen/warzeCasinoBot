@@ -46,4 +46,4 @@ function coinFlip(message, amount) {
         });
     });
 }
-registerCommand(coinFlip, "Flip a coin and bet diamonds.", ['coinflip', 'cf'], "[amount]");
+registerCommand(coinFlip, "Flip a coin and bet diamonds", ['coinflip', 'cf'], "[amount]");

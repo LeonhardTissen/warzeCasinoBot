@@ -6,6 +6,11 @@ const { send } = require("../utils/sender");
 function setDeckCommand(message, deckid) {
     const valid_deck_ids = Object.keys(valid_decks);
 
+    // If "deck" wasn't added at the end
+    if (!deckid.endsWith('deck')) {
+        deckid += 'deck';
+    }
+
     // Validate the deckid given
     if (!valid_deck_ids.includes(deckid)) {
         send(message, 'Invalid deck. You can choose the following: ' + valid_deck_ids.join(','))

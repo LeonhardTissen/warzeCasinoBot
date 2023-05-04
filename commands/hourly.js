@@ -37,4 +37,4 @@ function hourly(message) {
         })
     })
 }
-registerCommand(hourly, "Collect 100 diamonds every hour.", ['hourly', 'hr']);
+registerCommand(hourly, "Collect 100 diamonds and 1 red chests every hour", ['hourly', 'hr']);

@@ -44,4 +44,4 @@ function cmdPay(message, amount, target) {
 		send(message, `${emojis.geizehappy} Successfully given **${amount}** ${emojis.diamond} to <@${target}>`);
 	});
 }
-registerCommand(cmdPay, "Pay someone else your diamonds.", ['pay', 'simp'], "[amount] [@user]");
+registerCommand(cmdPay, "Pay someone else your diamonds", ['pay', 'simp'], "[amount] [@user]");
