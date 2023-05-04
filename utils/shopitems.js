@@ -5,7 +5,14 @@ const shop_items = [
     {name: 'Potion Card', cost: 1600, id: 'potion', shopimg: 'shoppotion'},
     {name: 'Heart Card', cost: 2100, id: 'heart', shopimg: 'shopheart'},
     {name: 'Gob Card', cost: 2500, id: 'gob', shopimg: 'shopgob'},
-    {name: 'Geize Card', cost: 3500, id: 'geize', shopimg: 'shopgeize'}
+    {name: 'Geize Card', cost: 3500, id: 'geize', shopimg: 'shopgeize'},
+    {name: 'Gray Deck', cost: 125, id: 'graydeck', shopimg: 'shopdeckgray'},
+    {name: 'Red Deck', cost: 150, id: 'reddeck', shopimg: 'shopdeckred'},
+    {name: 'Yellow Deck', cost: 150, id: 'yellowdeck', shopimg: 'shopdeckyellow'},
+    {name: 'Blue Deck', cost: 150, id: 'bluedeck', shopimg: 'shopdeckblue'},
+    {name: 'Orange Deck', cost: 250, id: 'orangedeck', shopimg: 'shopdeckorange'},
+    {name: 'Green Deck', cost: 250, id: 'greendeck', shopimg: 'shopdeckgreen'},
+    {name: 'Pink Deck', cost: 250, id: 'pinkdeck', shopimg: 'shopdeckpink'},
 ]
 
 exports.shop_items = shop_items;

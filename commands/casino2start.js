@@ -25,8 +25,8 @@ function casino2Start(message, betamount) {
 			return;
 		}
 
-		changeBalance(message.author.id, - betamount).then((success) => {
-			const game = startGame(message, message.author.id, 'AI', betamount);
+		changeBalance(message.author.id, - betamount).then(() => {
+			startGame(message, message.author.id, 'AI', betamount);
 		})
 	})
 }

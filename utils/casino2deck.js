@@ -8,6 +8,7 @@ const { getCanvasHead, getCanvasFooter } = require("./canvashead");
 const { getPrefix } = require("./getprefix");
 const { ongoing_games } = require("./games");
 const { getCache } = require("./client");
+const { getDeckColor } = require("./deckcolor");
 
 function randCard() {
 	const num = randRange(1,6);
@@ -158,15 +159,17 @@ function startGame(message, player, opponent, betamount) {
 	ongoing_games[player] = game;
 
 	getPrefix(player).then((prefix) => {
-		const cvs = new CvsBundler(5);
+		getDeckColor(player).then((color) => {
+			const cvs = new CvsBundler(5);
 
-		cvs.add(getCanvasHead(248, `${getCache(player).username}'s Deck:`));
+			cvs.add(getCanvasHead(248, `${getCache(player).username}'s Deck:`, color));
 
-		cvs.add(game.state.deck.canvas());
+			cvs.add(game.state.deck.canvas());
 
-		cvs.add(getCanvasFooter(248, `Ex: ${prefix}swap 135`));
+			cvs.add(getCanvasFooter(248, `Ex: ${prefix}swap 135`, color));
 
-		cvs.send(message);
+			cvs.send(message);
+		})
 	});
 	return game;
 }

@@ -9,14 +9,15 @@ function pickTextColor(bgColor) {
     return (((r * 0.299) + (g * 0.587) + (b * 0.114)) > 186) ? '#000000' : '#FFFFFF';
 }
 
-function getCanvasHead(width, string) {
+function getCanvasHead(width, string, color = settings.color) {
+    console.log(color);
     const height = 30;
     const shadow = 15;
 
     const cvs = createCanvas(width, height);
     const ctx = cvs.getContext('2d');
     
-    ctx.fillStyle = `#${settings.color}`;
+    ctx.fillStyle = `#${color}`;
     ctx.beginPath();
 
     ctx.moveTo(0, 0)
@@ -39,7 +40,7 @@ function getCanvasHead(width, string) {
     ctx.globalAlpha = 1;
     ctx.fill();
 
-    ctx.fillStyle = pickTextColor(settings.color);
+    ctx.fillStyle = pickTextColor(`#${color}`);
     ctx.font = `${Math.round(height / 1.5)}px sansserif`
     ctx.fillText(string, 5, height - 8, width - height - shadow)
 
@@ -47,14 +48,15 @@ function getCanvasHead(width, string) {
 }
 exports.getCanvasHead = getCanvasHead;
 
-function getCanvasFooter(width, string) {
+function getCanvasFooter(width, string, color = settings.color) {
+    console.log(color);
     const height = 25;
     const shadow = 15;
 
     const cvs = createCanvas(width, height);
     const ctx = cvs.getContext('2d');
     
-    ctx.fillStyle = `#${settings.color}`;
+    ctx.fillStyle = `#${color}`;
     ctx.beginPath();
     ctx.globalAlpha = 0.6;
     ctx.fillRect(0, 0, width, height);
@@ -63,7 +65,7 @@ function getCanvasFooter(width, string) {
     ctx.globalAlpha = 1;
     ctx.fillRect(0, 0, width - shadow, height);
 
-    ctx.fillStyle = pickTextColor(settings.color);
+    ctx.fillStyle = pickTextColor(`#${color}`);
     ctx.font = `${Math.round(height / 1.5)}px sansserif`
     ctx.fillText(string, 5, height - 8, width - shadow)
 
