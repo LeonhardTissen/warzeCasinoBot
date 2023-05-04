@@ -27,8 +27,9 @@ function help(message, argument) {
     // Amount of pages there are
     const page_amount = Math.ceil(displayed_commands.length / 10);
 
-    // Clamp page index, passed in page num must be between 1 and page_amount, or default to 1
-    const page = Math.min(Math.max(1, (isNumeric(argument) ? parseInt(argument) : 1)), page_amount);
+    // Clamp page index, requested page num must be between 1 and page_amount, or default to 1
+    const requestedPage = isNumeric(argument) ? parseInt(argument) : 1;
+    const page = Math.min(Math.max(1, requestedPage), page_amount);
 
     const pageOffset = (page - 1) * 10;
     getPrefix(message.author.id).then((preferred_prefix) => {
