@@ -17,7 +17,6 @@ function addToInventory(target, table, column, item) {
                 // First item in inventory
                 owned_items = `${item}`;
             }
-            console.log('Owned items', owned_items);
 
             // Update the database with the updated inventory
             db.run(`UPDATE ${table} SET ${column} = ? WHERE id = ?`, [owned_items, target], (err) => {
