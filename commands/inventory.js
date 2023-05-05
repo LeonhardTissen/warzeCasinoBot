@@ -43,7 +43,7 @@ function cmdShowInventory(message, target) {
                 rendered_string += `__**Cards:**__\n`;
 
                 rendered_string += `*${prefix}setcard* **normal**\n`;
-                cards_str.split(',').sort().forEach((cardid) => {
+                cards_str.split(',').forEach((cardid) => {
                     if (cardid !== '') {
                         rendered_string += `*${prefix}setcard* **${cardid}**\n`;
                     }
@@ -52,7 +52,7 @@ function cmdShowInventory(message, target) {
                 rendered_string += `__**Decks:**__\n`;
 
                 rendered_string += `*${prefix}setdeck* **normal**\n`;
-                decks_str.split(',').sort().forEach((deckid) => {
+                decks_str.split(',').forEach((deckid) => {
                     if (deckid !== '') {
                         rendered_string += `*${prefix}setdeck* **${deckid}**\n`;
                     }
