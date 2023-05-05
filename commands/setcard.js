@@ -6,7 +6,7 @@ const { send, sendCvs } = require("../utils/sender");
 
 function setCardCommand(message, cardid) {
     // Handle custom cards
-    if (cardid.startsWith('customcard-')) {
+    if (cardid.startsWith('customcard-') || cardid.startsWith('cc-')) {
         createRowIfNotExists(message.author.id, 'customcard');
 
         db.get('SELECT owned FROM customcard WHERE id = ?', [message.author.id], (err, row) => {
@@ -25,7 +25,7 @@ function setCardCommand(message, cardid) {
                     }
     
                     send(message, `Set card to **${cardid}**`);
-                    if (cardid.startsWith('customcard-')) {
+                    if (cardid.startsWith('customcard-') || cardid.startsWith('cc-')) {
                         sendCvs(message, drawCustomCard(cardid, true))
                     }
                 })

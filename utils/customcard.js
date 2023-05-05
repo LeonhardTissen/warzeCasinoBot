@@ -15,12 +15,12 @@ for (let hue = 0; hue < 360; hue += 10) {
 const pattern_types = ['rotsquare', 'diaglines', 'windows', 'towers', 'circle', 'waves', 'arrow', 'triangle', 'thunder', 'heart', 'rainbow', 'gradient', 'moon', 'wind'];
 
 function randomCustomCard() {
-    return `customcard-${randRange(0, 180)}-${randChoice(pattern_types)}`
+    return `cc-${randRange(0, 180)}-${randChoice(pattern_types)}`
 }
 exports.randomCustomCard = randomCustomCard;
 
 function drawCustomCard(code, shopPreview = false) {
-    const codeData = code.replace('customcard-','').split('-')
+    const codeData = code.replace('customcard-','').replace('cc-','').split('-')
     const pcvs = createCanvas(8, 8);
     const pctx = pcvs.getContext('2d');
 
