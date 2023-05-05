@@ -43,7 +43,7 @@ function shopCommand(message, page) {
             for (let i = pageOffset; i < Math.min(shop_items.length, pageOffset + 5); i ++) {
                 const item = shop_items[i]
                 // Draw the shop item itself
-                ctx.drawImage(assets[item.shopimg], 0, ypos);
+                ctx.drawImage(assets[item.shopimg], 0, ypos, 72, 72);
 
                 // Draw the name of the item
                 ctx.fillStyle = 'white';
@@ -60,7 +60,8 @@ function shopCommand(message, page) {
                 // Command to buy the item, or a message showing that you own it
                 ctx.fillStyle = 'white';
                 ctx.font = '14px sansserif';
-                ctx.fillText(user_owns ? `${prefix}setcard ${item.id}` : `${prefix}buy ${item.id}`, space_per_item + 5, ypos + 65);
+                //ctx.fillText(user_owns ? `${prefix}setcard ${item.id}` : `${prefix}buy ${item.id}`, space_per_item + 5, ypos + 65);
+                ctx.fillText(user_owns ? `${prefix}inventory` : `${prefix}buy ${item.id}`, space_per_item + 5, ypos + 65);
                 
                 ypos += space_per_item;
             }

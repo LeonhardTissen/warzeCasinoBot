@@ -1,5 +1,6 @@
 const { createCanvas } = require("canvas");
 const { getCanvasHead, getCanvasFooter } = require("./canvashead");
+const { getChipColor } = require("./chips");
 const { getUsername } = require("./client");
 const { changeBalance } = require("./currency");
 const { CvsBundler } = require("./cvsbundler");
@@ -16,16 +17,21 @@ function array2D(width, height) {
 }
 exports.array2D = array2D;
 
-function drawCn4Game(field) {
+function drawCn4Game(field, color1, color2, swap) {
     const s = 64;
     const cvs = createCanvas(7 * s, 6 * s);
     const ctx = cvs.getContext('2d');
 
+    let colors = [color1, color2]
+    if (swap) {
+        colors = colors.reverse();
+    }
+
     for (let y = 0; y < field.length; y ++) {
         for (let x = 0; x < field[y].length; x ++) {
             if (field[y][x] > 0) {
-                ctx.fillStyle = ['red','blue'][field[y][x] - 1];
-                ctx.fillRect(x * s, y * s, s, s)
+                const color = colors[field[y][x] - 1];
+                ctx.drawImage(assets[color], x * s, y * s);
             }
             ctx.drawImage(assets['connectoverlay'], x * s, y * s);
         }
@@ -98,55 +104,70 @@ function checkWinner(f) {
 }
 
 function postUpdate(game, message) {
-    getPrefix(game.state.opponent).then((prefix) => {
-		getDeckColor(game.state.opponent).then((color) => {
-			const cvs = new CvsBundler(5);
-
-            const ogame = ongoing_games[game.state.opponent];
-			cvs.add(getCanvasHead(448, `${getUsername(game.state.opponent)} vs. ${getUsername(ogame.state.opponent)}`, color));
-
-			cvs.add(drawCn4Game(game.state.field));
-
-			cvs.add(getCanvasFooter(448, `ex: ${prefix}put 1`, color));
-
-			cvs.send(message);
-
-            // Check if there's a winner
-            const winner = checkWinner(game.state.field);
-            if (winner != false) {
-                const bet = game.state.bet;
-                if (winner == 'Tie') {
-                    // Give the two players their bet back
-                    changeBalance(game.state.playerid, bet);
-                    changeBalance(ogame.state.playerid, bet);
-
-                    send(message, `You both tied! **+0** ${emojis.diamond}`);
-                } else {
-                    // Concrete winner
-                    const winner_id = (game.state.playerid == winner ? ogame.state.opponent : game.state.opponent);
-                    const loser_id = (game.state.playerid == winner ? game.state.opponent : ogame.state.opponent);
-    
-                    send(message, `<@${winner_id}> won **+${bet}** ${emojis.diamond}`);
-    
-                    changeBalance(winner_id, bet * 2);
-    
-                    // Statistics for winner
-                    addToStat('connect4dwon', winner_id, bet).then(() => {
-                        addToStat('connect4won', winner_id, 1).then(() => {
-                            // Statistics for loser
-                            addToStat('connect4dlost', loser_id, bet).then(() => {
-                                addToStat('connect4lost', loser_id, 1);
-                            })
-                        })
-                    })
+    const player1 = game.state.opponent;
+    const ogame = ongoing_games[player1];
+    const player2 = ogame.state.opponent;
+    getPrefix(player1).then((prefix) => {
+		getDeckColor(player1).then((color) => {
+            getChipColor(player1).then((chipcolor1) => {
+                if (!chipcolor1 || chipcolor1 == '' || chipcolor1 == 'chipnormal') {
+                    chipcolor1 = 'chipred';
                 }
+                getChipColor(player2).then((chipcolor2) => {
+                    if (!chipcolor2 || chipcolor2 == '' || chipcolor2 == 'chipnormal') {
+                        chipcolor2 = 'chipblue';
+                    }
 
-                // Remove the game from ongoing games
-				delete ongoing_games[game.state.opponent];
-				delete ongoing_games[ogame.state.opponent];
-            } else {
-                toggleTurn(game, message);
-            }
+                    const cvs = new CvsBundler(5);
+
+                    // Draw the ongoing game
+                    cvs.add(getCanvasHead(448, `${getUsername(player1)} vs. ${getUsername(player2)}`, color));
+
+                    const swapped = (game.state.turn == 1);
+                    cvs.add(drawCn4Game(game.state.field, chipcolor1, chipcolor2, swapped));
+
+                    cvs.add(getCanvasFooter(448, `ex: ${prefix}put 1`, color));
+
+                    cvs.send(message);
+
+                    // Check if there's a winner
+                    const winner = checkWinner(game.state.field);
+                    if (winner != false) {
+                        const bet = game.state.bet;
+                        if (winner == 'Tie') {
+                            // Give the two players their bet back
+                            changeBalance(game.state.playerid, bet);
+                            changeBalance(ogame.state.playerid, bet);
+
+                            send(message, `You both tied! **+0** ${emojis.diamond}`);
+                        } else {
+                            // Concrete winner
+                            const winner_id = (player1 == winner ? player1 : player2);
+                            const loser_id = (player1 == winner ? player2 : player1);
+            
+                            send(message, `<@${winner_id}> won **+${bet}** ${emojis.diamond}`);
+            
+                            changeBalance(winner_id, bet * 2);
+            
+                            // Statistics for winner
+                            addToStat('connect4dwon', winner_id, bet).then(() => {
+                                addToStat('connect4won', winner_id, 1).then(() => {
+                                    // Statistics for loser
+                                    addToStat('connect4dlost', loser_id, bet).then(() => {
+                                        addToStat('connect4lost', loser_id, 1);
+                                    })
+                                })
+                            })
+                        }
+
+                        // Remove the game from ongoing games
+                        delete ongoing_games[player1];
+                        delete ongoing_games[player2];
+                    } else {
+                        toggleTurn(game, message);
+                    }
+                })
+            })
 		})
 	});
 }

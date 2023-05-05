@@ -15,6 +15,7 @@ function cmdShowInventory(message, target) {
 	// This command does nothing except for return this message
     let cards_str = '';
     let decks_str = '';
+    let chips_str = '';
     db.get('SELECT bought FROM shop WHERE id = ?', [target], (err, row) => {
         if (err) {
             console.log(err.message);
@@ -23,8 +24,9 @@ function cmdShowInventory(message, target) {
 
         // Order depending on the type of shop item
         if (row) {
-            cards_str += row.bought.split(',').filter((i) => !i.endsWith('deck')).join(',');
+            cards_str += row.bought.split(',').filter((i) => !i.endsWith('deck') && !i.startsWith('chip')).join(',');
             decks_str += row.bought.split(',').filter((i) => i.endsWith('deck')).join(',');
+            chips_str += row.bought.split(',').filter((i) => i.startsWith('chip')).join(',');
         }
 
         db.get('SELECT owned FROM customcard WHERE id = ?', [target], (err, row) => {
@@ -55,6 +57,15 @@ function cmdShowInventory(message, target) {
                 decks_str.split(',').forEach((deckid) => {
                     if (deckid !== '') {
                         rendered_string += `*${prefix}setdeck* **${deckid}**\n`;
+                    }
+                })
+
+                rendered_string += `__**Chips:**__\n`;
+
+                rendered_string += `*${prefix}setchip* **normal**\n`;
+                chips_str.split(',').forEach((chipid) => {
+                    if (chipid !== '') {
+                        rendered_string += `*${prefix}setchip* **${chipid}**\n`;
                     }
                 })
                 send(message, rendered_string);

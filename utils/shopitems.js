@@ -13,6 +13,11 @@ const shop_items = [
     {name: 'Orange Deck', cost: 250, id: 'orangedeck', shopimg: 'shopdeckorange'},
     {name: 'Green Deck', cost: 250, id: 'greendeck', shopimg: 'shopdeckgreen'},
     {name: 'Pink Deck', cost: 250, id: 'pinkdeck', shopimg: 'shopdeckpink'},
+    {name: 'Eye Chip', cost: 300, id: 'chipeye', shopimg: 'chipeye'},
+    {name: 'Wart Chip', cost: 500, id: 'chipwart', shopimg: 'chipwart'},
+    {name: 'Skull Chip', cost: 850, id: 'chipskull', shopimg: 'chipskull'},
+    {name: 'Lazor Chip', cost: 1000, id: 'chiplazor', shopimg: 'chiplazor'},
+    {name: 'Troll Chip', cost: 8000, id: 'chiptroll', shopimg: 'chiptroll'}
 ]
 
 exports.shop_items = shop_items;
