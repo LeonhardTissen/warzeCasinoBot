@@ -2,12 +2,20 @@ const { registerCommand } = require("../commands");
 const { db } = require("../utils/db");
 const { send } = require("../utils/sender");
 const { getPrefix } = require("../utils/getprefix");
+const { parseUser } = require("../utils/usertarget");
 
-function cmdShowInventory(message) {
+function cmdShowInventory(message, target) {
+    // Set self as target if not provided
+    target = parseUser(target, message.author.id);
+    if (!target) {
+        send(message, `Invalid target`);
+        return;
+    }
+
 	// This command does nothing except for return this message
     let cards_str = '';
     let decks_str = '';
-    db.get('SELECT bought FROM shop WHERE id = ?', [message.author.id], (err, row) => {
+    db.get('SELECT bought FROM shop WHERE id = ?', [target], (err, row) => {
         if (err) {
             console.log(err.message);
             return;
@@ -19,7 +27,7 @@ function cmdShowInventory(message) {
             decks_str += row.bought.split(',').filter((i) => i.endsWith('deck')).join(',');
         }
 
-        db.get('SELECT owned FROM customcard WHERE id = ?', [message.author.id], (err, row) => {
+        db.get('SELECT owned FROM customcard WHERE id = ?', [target], (err, row) => {
             if (err) {
                 console.log(err.message);
                 return;
@@ -29,8 +37,8 @@ function cmdShowInventory(message) {
                 cards_str += `,${row.owned}`
             }
 
-            getPrefix(message.author.id).then((prefix) => {
-                let rendered_string = `<@${message.author.id}>**'s Inventory:**\n\n`;
+            getPrefix(target).then((prefix) => {
+                let rendered_string = `<@${target}>**'s Inventory:**\n\n`;
 
                 rendered_string += `__**Cards:**__\n`;
 
@@ -56,4 +64,4 @@ function cmdShowInventory(message) {
 }
 
 // Register the command as this function with the description "Sample command", aliases ['sample', 'smpl'] and arguments
-registerCommand(cmdShowInventory, "Shows which cards and decks you own", ['inventory', 'inv', 'i', 'cards'], "", false, false);
+registerCommand(cmdShowInventory, "Shows which cards and decks you own", ['inventory', 'inv', 'i', 'cards'], "[@user?]", false, false);
