@@ -44,6 +44,12 @@ createDatabaseTable('statscflost', {name: 'cflost', type: 'INTEGER', default: '0
 createDatabaseTable('statscfdwon', {name: 'cfdwon', type: 'INTEGER', default: '0'})
 createDatabaseTable('statscfdlost', {name: 'cfdlost', type: 'INTEGER', default: '0'})
 
+// Coinflip stats
+createDatabaseTable('statsconnect4won', {name: 'connect4won', type: 'INTEGER', default: '0'})
+createDatabaseTable('statsconnect4lost', {name: 'connect4lost', type: 'INTEGER', default: '0'})
+createDatabaseTable('statsconnect4dwon', {name: 'connect4dwon', type: 'INTEGER', default: '0'})
+createDatabaseTable('statsconnect4dlost', {name: 'connect4dlost', type: 'INTEGER', default: '0'})
+
 exports.db = db;
 
 function createRowIfNotExists(user, table) {

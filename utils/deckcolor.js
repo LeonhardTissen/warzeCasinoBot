@@ -13,7 +13,7 @@ function getDeckColor(target) {
             }
 
             // If no custom decktype
-            if (row.decktype === '') {
+            if (!row || row.decktype == '') {
                 resolve(settings.color);
                 return
             }

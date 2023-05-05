@@ -43,3 +43,14 @@ function getUserID(username) {
     return user_id_found;
 }
 exports.getUserID = getUserID;
+
+function getUsername(userid) {
+    let user_id_found = false;
+    client.users.cache.forEach((user) => {
+        if (user.id == userid) {
+            user_id_found = user.username;
+        }
+    })
+    return user_id_found;
+}
+exports.getUsername = getUsername;

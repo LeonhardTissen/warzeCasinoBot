@@ -14,7 +14,7 @@ function profileCommand(message, target) {
     }
 
 	// This command does nothing except for return this message
-    getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon', 'cflost', 'cfwon', 'cfdlost', 'cfdwon'], target).then((stats) => {
+    getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon', 'cflost', 'cfwon', 'cfdlost', 'cfdwon', 'connect4lost', 'connect4won', 'connect4dlost', 'connect4dwon'], target).then((stats) => {
         createRowIfNotExists(target, 'users');
         createRowIfNotExists(target, 'redchest');
 
@@ -45,6 +45,12 @@ function profileCommand(message, target) {
 - Losses: **${stats.casino2lost}** :skull:
 - Diamonds won: **${stats.casino2dwon}** ${emojis.diamond}
 - Diamonds lost: **${stats.casino2dlost}** ${emojis.diamond}
+
+**Connect 4 Statistics:**
+- Wins: **${stats.connect4won}** :trophy:
+- Losses: **${stats.connect4lost}** :skull:
+- Diamonds won: **${stats.connect4dwon}** ${emojis.diamond}
+- Diamonds lost: **${stats.connect4dlost}** ${emojis.diamond}
 
 **Coinflip Statistics:**
 - Wins: **${stats.cfwon}** :trophy:
