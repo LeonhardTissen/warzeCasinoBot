@@ -53,6 +53,7 @@ createDatabaseTable('statsconnect4dlost', {name: 'connect4dlost', type: 'INTEGER
 
 // Lottery stats
 createDatabaseTable('statslotterywon', {name: 'lotterywon', type: 'INTEGER', default: '0'})
+createDatabaseTable('statslotterydwon', {name: 'lotterydwon', type: 'INTEGER', default: '0'})
 createDatabaseTable('statslotterytickets', {name: 'lotterytickets', type: 'INTEGER', default: '0'})
 
 exports.db = db;

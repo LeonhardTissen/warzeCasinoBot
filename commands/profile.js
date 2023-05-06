@@ -60,6 +60,7 @@ function profileCommand(message, target) {
 
 **Lottery Statistics:**
 - Wins: **${stats.lotterywon}** :trophy:
+- Diamonds won: **${stats.lotterydwon}** ${emojis.diamond}
 - Tickets bought: **${stats.lotterytickets}** ${emojis.ticket}
 
                 `);

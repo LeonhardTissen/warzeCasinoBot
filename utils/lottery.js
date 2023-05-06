@@ -98,7 +98,9 @@ class Lottery {
             const winner = winning_ticket.userid;
             send(this.ogmsg, `<@${winner}> won the lottery! :tada: **+${this.prize}** ${emojis.diamond}`)
             changeBalance(winner, this.prize);
-            addToStat('lotterywon', winner, 1);
+            addToStat('lotterywon', winner, 1).then(() => {
+                addToStat('lotterydwon', winner, this.prize);
+            });
 
             // Reset lottery
             this.tickets = [];
