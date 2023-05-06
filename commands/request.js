@@ -77,7 +77,7 @@ function acceptRequest(request, message) {
                 changeRedChests(sender, -request.quantity);
                 changeRedChests(recipient, request.quantity);
 
-                send(message, `Successfully transferred **${request.quantity} Red Chest${pluralS(request.quantity)}** ${emojis.diamond} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
+                send(message, `Successfully transferred **${request.quantity} Red Chest${pluralS(request.quantity)}** ${emojis.redchest} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
             })
             break;
         case 'transfercard':
