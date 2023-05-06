@@ -14,9 +14,13 @@ const shop_items = [
     {name: 'Green Deck', cost: 250, id: 'greendeck', shopimg: 'shopdeckgreen'},
     {name: 'Pink Deck', cost: 250, id: 'pinkdeck', shopimg: 'shopdeckpink'},
     {name: 'Eye Chip', cost: 300, id: 'chipeye', shopimg: 'chipeye'},
+    {name: 'Mouth Chip', cost: 450, id: 'chipmouth', shopimg: 'chipmouth'},
     {name: 'Wart Chip', cost: 500, id: 'chipwart', shopimg: 'chipwart'},
+    {name: 'Love Chip', cost: 500, id: 'chiplove', shopimg: 'chiplove'},
     {name: 'Skull Chip', cost: 850, id: 'chipskull', shopimg: 'chipskull'},
     {name: 'Lazor Chip', cost: 1000, id: 'chiplazor', shopimg: 'chiplazor'},
+    {name: 'Bowling Chip', cost: 1250, id: 'chipbowling', shopimg: 'chipbowling'},
+    {name: 'Awesome Chip', cost: 2500, id: 'chipawesome', shopimg: 'chipawesome'},
     {name: 'Troll Chip', cost: 8000, id: 'chiptroll', shopimg: 'chiptroll'}
 ]
 
