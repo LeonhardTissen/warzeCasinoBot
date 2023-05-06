@@ -15,7 +15,7 @@ for (let hue = 0; hue < 360; hue += 10) {
 const pattern_types = ['rotsquare', 'diaglines', 'windows', 'towers', 'circle', 'waves', 'arrow', 'triangle', 'thunder', 'heart', 'rainbow', 'gradient', 'moon', 'wind'];
 
 function randomCustomCard() {
-    return `cc-${randRange(0, 180)}-${randChoice(pattern_types)}`
+    return `cc-${randRange(0, 179)}-${randChoice(pattern_types)}`
 }
 exports.randomCustomCard = randomCustomCard;
 
