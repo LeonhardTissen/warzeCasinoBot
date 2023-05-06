@@ -20,6 +20,7 @@ function cmdCn4Put(message, column) {
     // Get the currently running game
     const game = ongoing_games[message.author.id];
     if (!game) {
+        send(message, `You have no ongoing game of **Connect 4**.`);
         return;
     }
 

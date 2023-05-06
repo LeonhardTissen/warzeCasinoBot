@@ -9,7 +9,6 @@ function setChipCommand(message, chipid) {
         chipid = 'chip' + chipid;
     }
 
-    console.log(chipid);
     // Validate the chipid given
     if (!valid_chips.includes(chipid)) {
         send(message, 'Invalid chip. You can choose the following: ' + valid_chips.join(','))

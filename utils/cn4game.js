@@ -107,15 +107,23 @@ function postUpdate(game, message) {
     const player1 = game.state.opponent;
     const ogame = ongoing_games[player1];
     const player2 = ogame.state.opponent;
+    const swapped = (game.state.turn == 1);
+
+    let default_colors = ['chipred', 'chipblue'];
+
+    if (swapped) {
+        default_colors = default_colors.reverse();
+    }
+
     getPrefix(player1).then((prefix) => {
 		getDeckColor(player1).then((color) => {
             getChipColor(player1).then((chipcolor1) => {
                 if (!chipcolor1 || chipcolor1 == '' || chipcolor1 == 'chipnormal') {
-                    chipcolor1 = 'chipred';
+                    chipcolor1 = default_colors[0];
                 }
                 getChipColor(player2).then((chipcolor2) => {
                     if (!chipcolor2 || chipcolor2 == '' || chipcolor2 == 'chipnormal') {
-                        chipcolor2 = 'chipblue';
+                        chipcolor2 = default_colors[1];
                     }
 
                     const cvs = new CvsBundler(5);
@@ -123,7 +131,6 @@ function postUpdate(game, message) {
                     // Draw the ongoing game
                     cvs.add(getCanvasHead(448, `${getUsername(player1)} vs. ${getUsername(player2)}`, color));
 
-                    const swapped = (game.state.turn == 1);
                     cvs.add(drawCn4Game(game.state.field, chipcolor1, chipcolor2, swapped));
 
                     cvs.add(getCanvasFooter(448, `ex: ${prefix}put 1`, color));
