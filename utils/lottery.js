@@ -3,6 +3,7 @@ const { changeBalance } = require("./currency");
 const { emojis } = require("./emojis");
 const { randChoice } = require("./random");
 const { send, sendBoth } = require("./sender");
+const { addToStat } = require("./stats");
 const { secToReadable } = require("./timestr");
 
 class Lottery {
