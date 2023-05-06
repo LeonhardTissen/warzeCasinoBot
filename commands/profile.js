@@ -14,7 +14,7 @@ function profileCommand(message, target) {
     }
 
 	// This command does nothing except for return this message
-    getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon', 'cflost', 'cfwon', 'cfdlost', 'cfdwon', 'connect4lost', 'connect4won', 'connect4dlost', 'connect4dwon', 'lotterywon', 'lotterytickets'], target).then((stats) => {
+    getStats(['casino2lost', 'casino2won', 'casino2dlost', 'casino2dwon', 'cflost', 'cfwon', 'cfdlost', 'cfdwon', 'connect4lost', 'connect4won', 'connect4dlost', 'connect4dwon', 'lotterywon', 'lotterytickets', 'lotterydwon'], target).then((stats) => {
         createRowIfNotExists(target, 'users');
         createRowIfNotExists(target, 'redchest');
 
