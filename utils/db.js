@@ -51,6 +51,10 @@ createDatabaseTable('statsconnect4lost', {name: 'connect4lost', type: 'INTEGER',
 createDatabaseTable('statsconnect4dwon', {name: 'connect4dwon', type: 'INTEGER', default: '0'})
 createDatabaseTable('statsconnect4dlost', {name: 'connect4dlost', type: 'INTEGER', default: '0'})
 
+// Lottery stats
+createDatabaseTable('statslotterywon', {name: 'lotterywon', type: 'INTEGER', default: '0'})
+createDatabaseTable('statslotterytickets', {name: 'lotterytickets', type: 'INTEGER', default: '0'})
+
 exports.db = db;
 
 function createRowIfNotExists(user, table) {

@@ -39,7 +39,7 @@ class Lottery {
 
         sendBoth(message, `Total tickets: **${this.tickets.length}** ${emojis.ticket} Prize: **${this.prize}** ${emojis.diamond}`, cvs);
     }
-    addtickets(message, userid, amount) {
+    addtickets(message, userid, amount, duration) {
         // If there is no ongoing lottery, the first user must start by putting atleast 10 tickets in
         if (!this.ongoing) {
             if (amount < 10) {
@@ -49,6 +49,7 @@ class Lottery {
                 this.ongoing = true;
                 this.startedAt = Date.now() / 1000;
                 this.ogmsg = message;
+                this.duration = duration * 60;
 
                 send(message, `The Lottery buying phase has begun!\nThe winner will be drawn in **${secToReadable(this.duration)}**.\nEvery new participant in the lottery adds **+100** ${emojis.diamond} to the pool.`);
             }
@@ -93,9 +94,10 @@ class Lottery {
         if (minutes_left <= 0) {
             // Draw the winner
             const winning_ticket = randChoice(this.tickets);
-
-            send(this.ogmsg, `<@${winning_ticket.userid}> won the lottery! :tada: **+${this.prize}** ${emojis.diamond}`)
-            changeBalance(winning_ticket.userid, this.prize);
+            const winner = winning_ticket.userid;
+            send(this.ogmsg, `<@${winner}> won the lottery! :tada: **+${this.prize}** ${emojis.diamond}`)
+            changeBalance(winner, this.prize);
+            addToStat('lotterywon', winner, 1);
 
             // Reset lottery
             this.tickets = [];
