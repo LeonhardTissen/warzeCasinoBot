@@ -1,6 +1,6 @@
 const { db, createRowIfNotExists } = require("./db");
 
-const valid_chips = ["chipnormal","chipeye","chipwart","chiplazor","chiptroll","chipskull"]
+const valid_chips = ["chipnormal","chipeye","chipwart","chiplazor","chiptroll","chipskull","chiplove","chipmouth","chipbowling","chipawesome"]
 exports.valid_chips = valid_chips;
 
 function getChipColor(target) {
