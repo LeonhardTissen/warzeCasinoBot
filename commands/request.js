@@ -5,6 +5,7 @@ const { startConnect4Game, postUpdate, array2D, toggleTurn } = require("../utils
 const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { emojis } = require("../utils/emojis");
 const { ongoing_requests } = require("../utils/games");
+const { removeFromInventory, addToInventory } = require("../utils/inventory");
 const { send } = require("../utils/sender");
 const { pluralS } = require("../utils/timestr");
 
@@ -12,6 +13,7 @@ function acceptRequest(request, message) {
     const sender = request.sender;
     const recipient = request.recipient;
     let betamount;
+    let price;
     
     switch (request.type) {
         case 'casino2':
@@ -62,7 +64,7 @@ function acceptRequest(request, message) {
             });
             break;
         case 'transferredchest':
-            const price = request.amount;
+            price = request.amount;
             checkIfLarger(recipient, price).then((success) => {
                 if (!success) {
                     send(message, `<@${recipient}> doesn't have enough diamonds ${emojis.diamond}.`);
@@ -76,6 +78,23 @@ function acceptRequest(request, message) {
                 changeRedChests(recipient, request.quantity);
 
                 send(message, `Successfully transferred **${request.quantity} Red Chest${pluralS(request.quantity)}** ${emojis.diamond} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
+            })
+            break;
+        case 'transfercard':
+            price = request.amount;
+            checkIfLarger(recipient, price).then((success) => {
+                if (!success) {
+                    send(message, `<@${recipient}> doesn't have enough diamonds ${emojis.diamond}.`);
+                    return;
+                }
+
+                changeBalance(sender, price);
+                changeBalance(recipient, - price);
+
+                removeFromInventory(sender, 'customcard', 'owned', request.cardid);
+                addToInventory(recipient, 'customcard', 'owned', request.cardid);
+
+                send(message, `Successfully transferred **${request.cardid}** from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
             })
             break;
     }

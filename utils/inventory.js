@@ -72,3 +72,27 @@ function removeFromInventory(target, table, column, item) {
     })
 }
 exports.removeFromInventory = removeFromInventory;
+
+function hasInInventory(target, table, column, item) {
+    return new Promise((resolve) => {
+        db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
+            if (err) {
+                console.log(err.message);
+                return;
+            }
+
+            let owned_items = ''
+
+            if (row && row[column] != '') {
+                owned_items = row[column];
+            }
+
+            let owned_items_array = owned_items.split(',');
+
+            // Check if item is in the users inventory
+            console.log(owned_items_array, item)
+            resolve(owned_items_array.includes(item))
+        })
+    })
+}
+exports.hasInInventory = hasInInventory;
