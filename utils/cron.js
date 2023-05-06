@@ -1,5 +1,6 @@
 const settings = require('../settings.json');
 const { db } = require('./db');
+const { lottery } = require('./lottery');
 
 function checkIfTimerReady(client, table, time, rewardName) {
     db.all(`SELECT * FROM ${table}`, [], (err, results) => {
@@ -40,5 +41,6 @@ function checkIfTimerReady(client, table, time, rewardName) {
 function everyMinute(client) {
     checkIfTimerReady(client, 'hourlies', 3600, 'hourly');
     checkIfTimerReady(client, 'dailies', 86400, 'daily');
+    lottery.drawwinner();
 }
 exports.everyMinute = everyMinute;

@@ -6,6 +6,7 @@ const emojis = {
 	geizeangry: '<:geizeangry:1100812715695538338>',
 	geizesleep: '<:geizesleep:1100812713074110495>',
 	geizehappy: '<:geizehappy:1100812717079666798>',
-	redchest: '<:redchest:1103385211032572046>'
+	redchest: '<:redchest:1103385211032572046>',
+	ticket: ':tickets:'
 }
 exports.emojis = emojis;

@@ -29,3 +29,16 @@ function sendCvs(message, cvs) {
     });
 }
 exports.sendCvs = sendCvs;
+
+// Sends a message to the channel with contents in an embed and a canvas as a fileupload
+function sendBoth(message, messageContents, cvs) {
+    message.channel.send({ 
+		embeds: [
+			createEmbed(messageContents)
+		],
+        files: [
+            new AttachmentBuilder(cvs.toBuffer(), {name: 'image.png'})
+        ] 
+    });
+}
+exports.sendBoth = sendBoth;
