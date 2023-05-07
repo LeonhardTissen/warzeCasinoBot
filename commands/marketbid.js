@@ -63,6 +63,7 @@ function cmdMarketplaceBid(message, itemid, bidamount) {
             }
             changeBalance(message.author.id, - bidamount);
 
+            // Update the marketplace item with new higher bid and updated bidder
             db.run('UPDATE marketplace SET highestbidder = ?, bidamount = ? WHERE id = ?', [message.author.id, bidamount, itemid]);
             send(message, `Set a bid of **${bidamount}** ${emojis.diamond} on \`${itemid}\``);
         })
