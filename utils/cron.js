@@ -1,6 +1,10 @@
 const settings = require('../settings.json');
+const { changeChests } = require('./chests');
+const { changeBalance } = require('./currency');
 const { db } = require('./db');
 const { lottery } = require('./lottery');
+const { market_item_names } = require('./market');
+const { randRange } = require('./random');
 
 function checkIfTimerReady(client, table, time, rewardName) {
     db.all(`SELECT * FROM ${table}`, [], (err, results) => {
@@ -38,9 +42,69 @@ function checkIfTimerReady(client, table, time, rewardName) {
     })
 }
 
+function updateMarketplace(client) {
+    db.all(`SELECT * FROM marketplace`, [], (err, rows) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        rows.forEach((row) => {
+            if (row.startedat + 3600 < Date.now() / 1000) {
+                const channel = client.channels.cache.get(settings.channel)
+                if (row.highestbidder != null) {
+                    // Someone gets the items
+                    changeChests(row.highestbidder, row.itemamount, row.type.replace('chest',''))
+
+                    // Seller gets the highest bid
+                    if (row.seller != 'Weize') {
+                        changeBalance(row.seller, row.bidamount);
+                    }
+                    channel.send(`<@${row.highestbidder}>, you won the auction and received **${row.itemamount}x** ${market_item_names[row.type]}!`);
+                } else {
+                    if (row.seller != 'Weize') {
+                        // Give the seller the items back
+                        changeChests(row.seller, row.itemamount, row.type.replace('chest',''))
+                        channel.send(`<@${row.seller}>, nobody bid for you. You got your **${row.itemamount}x** ${market_item_names[row.type]} back.`)
+                    }
+                }
+                // Remove item from marketplace
+                db.run('DELETE FROM marketplace WHERE id = ?', [row.id], (err) => {
+                    console.log(err);
+                    return;
+                });
+            }
+        })
+
+        if (rows.length < 5) {
+            // Place new item into the marketplace
+            const itemid = (Math.round(Math.random() * 100000)).toString(24);
+            const now = Math.floor(Date.now() / 1000);
+            let price;
+            let amount;
+            let item;
+            if (Math.random() < 0.1) {
+                item = 'goldenchest';
+                amount = 1;
+                price = randRange(600, 1000);
+            } else if (Math.random() < 0.4) {
+                item = 'bluechest';
+                amount = randRange(1, 2);
+                price = randRange(150, 400) * amount;
+            } else {
+                item = 'redchest';
+                amount = randRange(1, 7);
+                price = randRange(80, 180) * amount;
+            }
+            db.run(`INSERT INTO marketplace (id, seller, type, bidamount, highestbidder, startedat, itemamount) VALUES (?, ?, ?, ?, ?, ?, ?)`, [itemid, 'Weize', item, price, null, now, amount])
+        }
+    })
+}
+
 function everyMinute(client) {
     checkIfTimerReady(client, 'hourlies', 3600, 'hourly');
     checkIfTimerReady(client, 'dailies', 86400, 'daily');
     lottery.drawwinner();
+    updateMarketplace(client);
 }
 exports.everyMinute = everyMinute;

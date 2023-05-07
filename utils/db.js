@@ -17,6 +17,19 @@ CREATE TABLE IF NOT EXISTS ${tablename} (
 `);
 }
 
+// Marketplace
+db.run(`
+CREATE TABLE IF NOT EXISTS marketplace (
+	id TEXT PRIMARY KEY,
+	seller TEXT,
+	itemamount INTEGER,
+	type TEXT,
+	bidamount INTEGER,
+	highestbidder TEXT,
+	startedat INTEGER	
+)
+`)
+
 // Create database tables if they don't exist yet
 createDatabaseTable('users', {name: 'balance', type: 'INTEGER', default: '0'})
 createDatabaseTable('dailies', {name: 'last', type: 'INTEGER', default: '0'})
