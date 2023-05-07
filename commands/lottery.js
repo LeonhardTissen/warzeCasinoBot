@@ -20,11 +20,11 @@ function cmdLottery(message, amount, duration) {
     if (!lottery.ongoing) {
         duration = parseInt(duration);
         if (isNaN(duration)) {
-            send(message, `No duration specified. Duration must be **1-60**`);
+            send(message, `No duration specified. Duration must be **1-360** (minutes)`);
             return;
         }
-        if (duration <= 0 || duration > 60) {
-            send(message, `Invalid duration, must be **1-60**.`);
+        if (duration <= 0 || duration > 360) {
+            send(message, `Invalid duration, must be **1-360** (minutes).`);
             return;
         }
     }
@@ -48,4 +48,4 @@ function cmdLottery(message, amount, duration) {
     })
 }
 
-registerCommand(cmdLottery, "Start or partake in a lottery", ['lottery', 'lot'], "[amount] [duration?]", false, false);
+registerCommand(cmdLottery, "Start or partake in a lottery", ['lottery', 'lot'], "[amount] [minutes?]", false, false);

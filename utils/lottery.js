@@ -4,7 +4,7 @@ const { emojis } = require("./emojis");
 const { randChoice } = require("./random");
 const { send, sendBoth } = require("./sender");
 const { addToStat } = require("./stats");
-const { secToReadable } = require("./timestr");
+const { secToReadable, pluralS } = require("./timestr");
 
 class Lottery {
     constructor() {
@@ -52,7 +52,10 @@ class Lottery {
                 this.ogmsg = message;
                 this.duration = duration * 60;
 
-                send(message, `The Lottery buying phase has begun!\nThe winner will be drawn in **${secToReadable(this.duration)}**.\nEvery new participant in the lottery adds **+100** ${emojis.diamond} to the pool.`);
+                const min = this.duration / 60
+                send(message, `The Lottery buying phase has begun!
+The winner will be drawn in **${min} minute${pluralS(min)}**.
+Every new participant in the lottery adds **+100** ${emojis.diamond} to the pool.`);
             }
         }
 
@@ -109,8 +112,8 @@ class Lottery {
 
             // Stop the lottery
             this.ongoing = false;
-        } else {
-            send(this.ogmsg, `There are **${secToReadable(minutes_left * 60)}** left before the winner is announced.`)
+        } else if (minutes_left <= 5 || minutes_left % 5 == 0) {
+            send(this.ogmsg, `**${minutes_left} minute${pluralS(minutes_left)}** left before the winner is announced.`)
         }
     }
 }
