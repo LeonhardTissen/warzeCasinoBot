@@ -66,7 +66,7 @@ Highest Bidder: ${bidder}, Ends <t:${row.startedat + 3600}:R>\n\n`
                 })
 
                 // Help message at the bottom of marketplace
-                mp_msg += `Use \`!help mp\` to find out how to put your own items on the marketplace.`;
+                mp_msg += `Use \`${prefix}help mp\` to find out how to put your own items on the marketplace.`;
 
                 send(message, mp_msg);
             })
