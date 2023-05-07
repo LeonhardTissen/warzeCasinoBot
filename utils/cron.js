@@ -76,7 +76,7 @@ function updateMarketplace(client) {
             }
         })
 
-        if (rows.length < 5) {
+        if (rows.length < 5 && Math.random() > 0.8) {
             // Place new item into the marketplace
             const itemid = (Math.round(Math.random() * 50000)).toString(16);
             const now = Math.floor(Date.now() / 1000);
@@ -106,8 +106,6 @@ function everyMinute(client) {
     checkIfTimerReady(client, 'hourlies', 3600, 'hourly');
     checkIfTimerReady(client, 'dailies', 86400, 'daily');
     lottery.drawwinner();
-    if (Math.random() > 0.8) {
-        updateMarketplace(client);
-    }
+    updateMarketplace(client);
 }
 exports.everyMinute = everyMinute;
