@@ -53,9 +53,16 @@ class Lottery {
                 this.duration = duration * 60;
 
                 const min = this.duration / 60
+
+                let additional_message = '';
+                if (min >= 30) {
+                    additional_message = `At **3+** participants, the prize pool will include a **Golden Chest** ${emojis.goldenchest}`
+                }
+
                 send(message, `The Lottery buying phase has begun!
 The winner will be drawn in **${min} minute${pluralS(min)}**.
-Every new participant in the lottery adds **+100** ${emojis.diamond} to the pool.`);
+Every new participant in the lottery adds **+100** ${emojis.diamond} to the pool.
+${additional_message}`);
             }
         }
 
@@ -104,6 +111,10 @@ Every new participant in the lottery adds **+100** ${emojis.diamond} to the pool
             addToStat('lotterywon', winner, 1).then(() => {
                 addToStat('lotterydwon', winner, this.prize);
             });
+            // Add a golden chest to the prize pool if duration was atleast 30 min and 3+ participants
+            if (Object.keys(this.avatars).length >= 3 && this.duration >= 1800) {
+                send(this.ogmsg, `<@${winner}> also received a **Golden Chest** ${emojis.goldenchest}`);
+            }
 
             // Reset lottery
             this.tickets = [];
