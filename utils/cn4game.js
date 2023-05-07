@@ -1,5 +1,5 @@
 const { createCanvas } = require("canvas");
-const { getCanvasHead, getCanvasFooter } = require("./canvashead");
+const { getCanvasHead, getCanvasFooter } = require("./cvsdecorators");
 const { getChipColor } = require("./chips");
 const { getUsername } = require("./client");
 const { changeBalance } = require("./currency");
