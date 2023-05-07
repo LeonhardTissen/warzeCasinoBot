@@ -1,5 +1,5 @@
 const { registerCommand } = require("../commands");
-const { getCanvasHead } = require('../utils/canvashead');
+const { getCanvasHead } = require('../utils/cvsdecorators');
 const { drawCustomCard } = require("../utils/customcard");
 const { sendCvs } = require("../utils/sender");
 

@@ -70,10 +70,8 @@ function cmdSellChest(message, amount, color, price, target) {
         }
 
         getPrefix(recipient).then((prefix) => {
-            console.log(color);
-            const emoji = emojis[color + 'chest'];
-            console.log(emoji)
             // Send the request to the recipient
+            const emoji = emojis[color + 'chest'];
             message.channel.send(`<@${recipient}>, ${message.author.username} wants to sell you **${chestamount} ${capitalize(color)} Chest${pluralS(chestamount)}** ${emoji} for **${price}** ${emojis.diamond}.\nType ${prefix}req accept or ${prefix}req deny.`);
             
             ongoing_requests.push({

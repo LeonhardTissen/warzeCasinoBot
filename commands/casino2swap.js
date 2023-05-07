@@ -1,5 +1,5 @@
 const { registerCommand } = require("../commands");
-const { getCanvasHead, getCanvasFooter } = require("../utils/canvashead");
+const { getCanvasHead, getCanvasFooter } = require("../utils/cvsdecorators");
 const { C2Deck } = require("../utils/casino2deck");
 const { changeBalance } = require("../utils/currency");
 const { drawCustomCard } = require("../utils/customcard");
@@ -13,6 +13,7 @@ const { assets } = require("../utils/images");
 const { getNums } = require("../utils/numchoice");
 const { send } = require("../utils/sender");
 const { addToStat } = require("../utils/stats");
+const { changeChests } = require("../utils/chests");
 
 function casino2CardSwap(message, indices = "") {
 	const cgame = ongoing_games[message.author.id];
@@ -117,30 +118,32 @@ function casino2CardSwap(message, indices = "") {
 								// Both players get their betted money back
 								changeBalance(ogame.state.opponent, bet);
 								changeBalance(cgame.state.opponent, bet);
-							} else if (pscore > oscore) {
-								send(message, `<@${ogame.state.opponent}> won **+${bet}** ${emojis.diamond}`);
-								changeBalance(ogame.state.opponent, bet * 2);
-
-								// Statistics for winner
-								addToStat('casino2dwon', ogame.state.opponent, bet).then(() => {
-									addToStat('casino2won', ogame.state.opponent, 1).then(() => {
-										// Statistics for loser
-										addToStat('casino2dlost', cgame.state.opponent, bet).then(() => {
-											addToStat('casino2lost', cgame.state.opponent, 1);
-										})
-									})
-								})
-
 							} else {
-								send(message, `<@${cgame.state.opponent}> won **+${bet}** ${emojis.diamond}`);
-								changeBalance(cgame.state.opponent, bet * 2);
+								let winner;
+								let loser;
+
+								// Decide winner
+								if (pscore > oscore) {
+									winner = ogame.state.opponent;
+									loser = cgame.state.opponent;
+								} else {
+									winner = cgame.state.opponent;
+									loser = ogame.state.opponent;
+								}
+								send(message, `<@${winner}> won **+${bet}** ${emojis.diamond}`);
+								changeBalance(winner, bet * 2);
+
+								if (Math.random() > 0.8) {
+									changeChests(winner, 1, 'blue');
+									send(message, `<@${winner}> got lucky and received **1 Blue Chest** ${emojis.bluechest}`);
+								}
 
 								// Statistics for winner
-								addToStat('casino2dwon', cgame.state.opponent, bet).then(() => {
-									addToStat('casino2won', cgame.state.opponent, 1).then(() => {
+								addToStat('casino2dwon', winner, bet).then(() => {
+									addToStat('casino2won', winner, 1).then(() => {
 										// Statistics for loser
-										addToStat('casino2dlost', ogame.state.opponent, bet).then(() => {
-											addToStat('casino2lost', ogame.state.opponent, 1);
+										addToStat('casino2dlost', loser, bet).then(() => {
+											addToStat('casino2lost', loser, 1);
 										})
 									})
 								})

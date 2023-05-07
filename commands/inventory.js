@@ -36,39 +36,50 @@ function cmdShowInventory(message, target) {
             }
 
             if (row) {
-                cards_str += `,${row.owned}`
+                cards_str += `,${row.owned}`;
             }
 
-            getPrefix(target).then((prefix) => {
-                let rendered_string = `<@${target}>**'s Inventory:**\n\n`;
+            db.get('SELECT owned FROM customdeck WHERE id = ?', [target], (err, row) => {
+                if (err) {
+                    console.log(err.message);
+                    return;
+                }
 
-                rendered_string += `__**Cards:**__\n`;
+                if (row) {
+                    decks_str += `,${row.owned}`;
+                }
 
-                rendered_string += `*${prefix}setcard* **normal**\n`;
-                cards_str.split(',').forEach((cardid) => {
-                    if (cardid !== '') {
-                        rendered_string += `*${prefix}setcard* **${cardid}**\n`;
-                    }
-                });
+                getPrefix(target).then((prefix) => {
+                    let rendered_string = `<@${target}>**'s Inventory:**\n\n`;
 
-                rendered_string += `__**Decks:**__\n`;
+                    rendered_string += `__**Cards:**__\n`;
 
-                rendered_string += `*${prefix}setdeck* **normal**\n`;
-                decks_str.split(',').forEach((deckid) => {
-                    if (deckid !== '') {
-                        rendered_string += `*${prefix}setdeck* **${deckid}**\n`;
-                    }
+                    rendered_string += `*${prefix}setcard* **normal**\n`;
+                    cards_str.split(',').forEach((cardid) => {
+                        if (cardid !== '') {
+                            rendered_string += `*${prefix}setcard* **${cardid}**\n`;
+                        }
+                    });
+
+                    rendered_string += `__**Decks:**__\n`;
+
+                    rendered_string += `*${prefix}setdeck* **normal**\n`;
+                    decks_str.split(',').forEach((deckid) => {
+                        if (deckid !== '') {
+                            rendered_string += `*${prefix}setdeck* **${deckid}**\n`;
+                        }
+                    })
+
+                    rendered_string += `__**Chips:**__\n`;
+
+                    rendered_string += `*${prefix}setchip* **normal**\n`;
+                    chips_str.split(',').forEach((chipid) => {
+                        if (chipid !== '') {
+                            rendered_string += `*${prefix}setchip* **${chipid}**\n`;
+                        }
+                    })
+                    send(message, rendered_string);
                 })
-
-                rendered_string += `__**Chips:**__\n`;
-
-                rendered_string += `*${prefix}setchip* **normal**\n`;
-                chips_str.split(',').forEach((chipid) => {
-                    if (chipid !== '') {
-                        rendered_string += `*${prefix}setchip* **${chipid}**\n`;
-                    }
-                })
-                send(message, rendered_string);
             })
         })
     })

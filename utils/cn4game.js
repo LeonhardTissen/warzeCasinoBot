@@ -153,6 +153,11 @@ function postUpdate(game, message) {
                             sendBoth(message, `<@${winner_id}> won **+${bet}** ${emojis.diamond}`, cvs.draw());
             
                             changeBalance(winner_id, bet * 2);
+
+                            if (Math.random() > 0.6) {
+                                changeChests(winner_id, 1, 'blue');
+                                send(message, `<@${winner_id}> got lucky and received **1 Blue Chest** ${emojis.bluechest}`);
+                            }
             
                             // Statistics for winner
                             addToStat('connect4dwon', winner_id, bet).then(() => {
