@@ -1,6 +1,6 @@
 const { registerCommand } = require("../commands");
 const { startGame } = require("../utils/casino2deck");
-const { changeChests } = require("../utils/changechests");
+const { changeChests } = require("../utils/chests");
 const { startConnect4Game, postUpdate, array2D, toggleTurn } = require("../utils/cn4game");
 const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { emojis } = require("../utils/emojis");

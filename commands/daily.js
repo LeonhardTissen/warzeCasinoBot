@@ -5,7 +5,7 @@ const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 const { changeBalance } = require("../utils/currency");
 const { getSecUntilDaily } = require("../utils/secuntildaily");
-const { changeChests } = require("../utils/changechests");
+const { changeChests } = require("../utils/chests");
 
 // Amount of diamonds the daily command grants
 const daily_amount = 1000;

@@ -5,7 +5,7 @@ const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 const { changeBalance } = require("../utils/currency");
 const { getSecUntilHourly } = require("../utils/secuntilhourly");
-const { changeChests } = require("../utils/changechests");
+const { changeChests } = require("../utils/chests");
 
 // Amount of diamonds the hourly command grants
 const hourly_amount = 100;

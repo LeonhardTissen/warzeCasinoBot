@@ -1,4 +1,5 @@
 const { registerCommand } = require("../commands");
+const { getChests } = require("../utils/chests");
 const { createRowIfNotExists, db } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { send } = require("../utils/sender");
@@ -26,19 +27,11 @@ function profileCommand(message, target) {
             // Send the user's balance as a response
             const balance = row.balance;
 
-            db.get('SELECT redchest FROM redchest WHERE id = ?', [target], (err, row) => {
-                if (err) {
-                    console.error(err.message);
-                    return;
-                }
-        
-                // Send the user's balance as a response
-                const redchests = row.redchest;
-
+            getChests(target, ['red', 'blue', 'golden']).then((chests) => {
                 send(message, `<@${target}>**'s Profile**:
 **Inventory:**
 - Diamonds: **${balance}** ${emojis.diamond}
-- Red Chests: **${redchests}** ${emojis.redchest}
+- Chests: **${chests.red}** ${emojis.redchest} **${chests.blue}** ${emojis.bluechest} **${chests.golden}** ${emojis.goldenchest}
 
 **Casino 2 Statistics:**
 - Wins: **${stats.casino2won}** :trophy:
