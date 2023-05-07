@@ -45,6 +45,7 @@ function cmdMarketplace(message, amount, item, price) {
             const now = Math.floor(Date.now() / 1000);
             db.run(`INSERT INTO marketplace (id, seller, type, bidamount, highestbidder, startedat, itemamount) VALUES (?, ?, ?, ?, ?, ?, ?)`, [itemid, message.author.id, item, price, null, now, amount])
             changeChests(message.author.id, - amount, chest_color);
+            send(message, `Successfully placed item in the marketplace!`);
         })
     } else {
         // User just wants to view the marketplace
