@@ -1,11 +1,10 @@
 const { createRowIfNotExists, db } = require("./db");
 
-// Changes the targets balance by any amount, does not take into account if they end up with negative money 
-function changeRedChests(target, changeAmount) {
+function changeChests(target, changeAmount, color) {
     return new Promise((resolve) => {
-        createRowIfNotExists(target, 'redchest');
+        createRowIfNotExists(target, color + 'chest');
         
-        db.run('UPDATE redchest SET redchest = redchest + ? WHERE id = ?', [changeAmount, target], (err) => {
+        db.run(`UPDATE ${color}chest SET ${color}chest = ${color}chest + ? WHERE id = ?`, [changeAmount, target], (err) => {
             if (err) {
                 console.log(err.message);
                 return;
@@ -14,4 +13,4 @@ function changeRedChests(target, changeAmount) {
         });
     });
 }
-exports.changeRedChests = changeRedChests;
+exports.changeChests = changeChests;

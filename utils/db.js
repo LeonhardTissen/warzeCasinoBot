@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS ${tablename} (
 
 // Create database tables if they don't exist yet
 createDatabaseTable('users', {name: 'balance', type: 'INTEGER', default: '0'})
-createDatabaseTable('redchest', {name: 'redchest', type: 'INTEGER', default: '0'})
 createDatabaseTable('dailies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('hourlies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('shop', {name: 'bought', type: 'TEXT', default: '""'})
@@ -29,6 +28,17 @@ createDatabaseTable('casdeck', {name: 'decktype', type: 'TEXT', default: '""'})
 createDatabaseTable('caschip', {name: 'chiptype', type: 'TEXT', default: '""'})
 createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
 createDatabaseTable('rewardnotify', {name: 'notify', type: 'INTEGER', default: '0'})
+
+// Chests
+createDatabaseTable('redchest', {name: 'redchest', type: 'INTEGER', default: '0'})
+createDatabaseTable('orangechest', {name: 'orangechest', type: 'INTEGER', default: '0'})
+createDatabaseTable('yellowchest', {name: 'yellowchest', type: 'INTEGER', default: '0'})
+createDatabaseTable('greenchest', {name: 'greenchest', type: 'INTEGER', default: '0'})
+createDatabaseTable('cyanchest', {name: 'cyanchest', type: 'INTEGER', default: '0'})
+createDatabaseTable('bluechest', {name: 'bluechest', type: 'INTEGER', default: '0'})
+createDatabaseTable('magentachest', {name: 'magentachest', type: 'INTEGER', default: '0'})
+createDatabaseTable('goldenchest', {name: 'goldenchest', type: 'INTEGER', default: '0'})
+createDatabaseTable('wartchest', {name: 'wartchest', type: 'INTEGER', default: '0'})
 
 // Dummy stat
 createDatabaseTable('statsdummy', {name: 'dummy', type: 'INTEGER', default: '0'})

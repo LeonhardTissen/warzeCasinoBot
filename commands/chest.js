@@ -1,11 +1,11 @@
 const { registerCommand } = require("../commands");
-const { send, sendCvs } = require("../utils/sender");
+const { send, sendCvs, sendBoth } = require("../utils/sender");
 const { db, createRowIfNotExists } = require("../utils/db");
 const { emojis } = require("../utils/emojis");
 const { randomCustomCard, drawCustomCard } = require("../utils/customcard");
 const { randRange } = require("../utils/random");
 const { changeBalance } = require("../utils/currency");
-const { changeRedChests } = require("../utils/changechests");
+const { changeChests } = require("../utils/changechests");
 const { isNumeric } = require("../utils/numchoice");
 const { addToInventory } = require("../utils/inventory");
 
@@ -45,8 +45,7 @@ function cmdOpenChest(message, amount) {
                 
                 // Add the new custom card to the users' inventory
                 addToInventory(message.author.id, 'customcard', 'owned', unboxed_card);
-                send(message, `You unboxed a **Red Chest** ${emojis.redchest} which contained: **${unboxed_card}**`);
-                sendCvs(message, drawCustomCard(unboxed_card, true))
+                sendBoth(message, `You unboxed a **Red Chest** ${emojis.redchest} which contained: **${unboxed_card}**`, drawCustomCard(unboxed_card, true));
             } else {
                 // 50% chance of just getting diamonds
                 const won_amount = randRange(10,150);
@@ -56,7 +55,7 @@ function cmdOpenChest(message, amount) {
             chestsOpened ++;
 
             // Remove one red chest from their inventory
-            changeRedChests(message.author.id, -1);
+            changeChests(message.author.id, -1, 'red');
 
             if (chestsOpened >= amountNum) {
                 clearInterval(openInterval);

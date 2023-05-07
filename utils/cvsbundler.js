@@ -19,6 +19,9 @@ class CvsBundler {
     }
     // Send the full canvas bundle in the message's channel
     send(message) {
+        sendCvs(message, this.draw());
+    }
+    draw() {
         const full_cvs = createCanvas(this.width, this.height)
         const full_ctx = full_cvs.getContext('2d');
 
@@ -27,8 +30,8 @@ class CvsBundler {
             full_ctx.drawImage(cvs, 0, y, cvs.width, cvs.height);
             y += cvs.height + this.padding;
         })
-        
-        sendCvs(message, full_cvs);
+
+        return full_cvs
     }
 }
 exports.CvsBundler = CvsBundler;

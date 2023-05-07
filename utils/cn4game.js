@@ -9,7 +9,7 @@ const { emojis } = require("./emojis");
 const { ongoing_games } = require("./games");
 const { getPrefix } = require("./getprefix");
 const { assets } = require("./images");
-const { send } = require("./sender");
+const { send, sendBoth } = require("./sender");
 const { addToStat } = require("./stats");
 
 function array2D(width, height) {
@@ -135,8 +135,6 @@ function postUpdate(game, message) {
 
                     cvs.add(getCanvasFooter(448, `ex: ${prefix}put 1`, color));
 
-                    cvs.send(message);
-
                     // Check if there's a winner
                     const winner = checkWinner(game.state.field);
                     if (winner != false) {
@@ -146,13 +144,13 @@ function postUpdate(game, message) {
                             changeBalance(game.state.playerid, bet);
                             changeBalance(ogame.state.playerid, bet);
 
-                            send(message, `You both tied! **+0** ${emojis.diamond}`);
+                            sendBoth(message, `You both tied! **+0** ${emojis.diamond}`, cvs.draw());
                         } else {
                             // Concrete winner
                             const winner_id = (player1 == winner ? player1 : player2);
                             const loser_id = (player1 == winner ? player2 : player1);
             
-                            send(message, `<@${winner_id}> won **+${bet}** ${emojis.diamond}`);
+                            sendBoth(message, `<@${winner_id}> won **+${bet}** ${emojis.diamond}`, cvs.draw());
             
                             changeBalance(winner_id, bet * 2);
             
@@ -171,7 +169,14 @@ function postUpdate(game, message) {
                         delete ongoing_games[player1];
                         delete ongoing_games[player2];
                     } else {
-                        toggleTurn(game, message);
+                        // Swap turn
+                        const ogame = ongoing_games[game.state.opponent];
+
+                        const new_turn = (game.state.turn == 1 ? 2 : 1);
+                        game.state.turn = new_turn;
+                        ogame.state.turn = new_turn;
+
+                        sendBoth(message, `It's now <@${game.state.turn === game.state.playerid ? ogame.state.opponent : game.state.opponent}>'s turn.`, cvs.draw())
                     }
                 })
             })
@@ -196,13 +201,3 @@ function startConnect4Game(message, player, opponent, betamount, playerid, field
 	return game;
 }
 exports.startConnect4Game = startConnect4Game;
-
-function toggleTurn(game, message) {
-    const ogame = ongoing_games[game.state.opponent];
-
-    const new_turn = (game.state.turn == 1 ? 2 : 1);
-    game.state.turn = new_turn;
-    ogame.state.turn = new_turn;
-
-    send(message, `It's now <@${game.state.turn === game.state.playerid ? ogame.state.opponent : game.state.opponent}>'s turn.`)
-}

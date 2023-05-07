@@ -5,7 +5,7 @@ const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 const { changeBalance } = require("../utils/currency");
 const { getSecUntilDaily } = require("../utils/secuntildaily");
-const { changeRedChests } = require("../utils/changechests");
+const { changeChests } = require("../utils/changechests");
 
 // Amount of diamonds the daily command grants
 const daily_amount = 1000;
@@ -26,7 +26,7 @@ function daily(message) {
         changeBalance(target, resulting_balance_change).then(() => {
             send(message, `<@${target}>, you collected: **${daily_amount}** ${emojis.diamond} and **3** ${emojis.redchest}`);
         })
-        changeRedChests(target, 3)
+        changeChests(target, 3, 'red')
         
         // Apply a timer that the user has to wait before collecting the next daily
         const now = Math.floor(Date.now() / 1000);

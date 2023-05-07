@@ -1,6 +1,6 @@
 const { registerCommand } = require("../commands");
 const { startGame } = require("../utils/casino2deck");
-const { changeRedChests } = require("../utils/changechests");
+const { changeChests } = require("../utils/changechests");
 const { startConnect4Game, postUpdate, array2D, toggleTurn } = require("../utils/cn4game");
 const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { emojis } = require("../utils/emojis");
@@ -74,8 +74,8 @@ function acceptRequest(request, message) {
                 changeBalance(sender, price);
                 changeBalance(recipient, - price);
 
-                changeRedChests(sender, -request.quantity);
-                changeRedChests(recipient, request.quantity);
+                changeChests(sender, -request.quantity, 'red');
+                changeChests(recipient, request.quantity, 'red');
 
                 send(message, `Successfully transferred **${request.quantity} Red Chest${pluralS(request.quantity)}** ${emojis.redchest} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
             })
