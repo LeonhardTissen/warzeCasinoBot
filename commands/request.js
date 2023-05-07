@@ -1,7 +1,7 @@
 const { registerCommand } = require("../commands");
 const { capitalize } = require("../utils/capitalize");
 const { startGame } = require("../utils/casino2deck");
-const { changeChests } = require("../utils/chests");
+const { changeChests, getChests } = require("../utils/chests");
 const { startConnect4Game, postUpdate, array2D, toggleTurn } = require("../utils/cn4game");
 const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { emojis } = require("../utils/emojis");
@@ -72,14 +72,21 @@ function acceptRequest(request, message) {
                     return;
                 }
 
-                changeBalance(sender, price);
-                changeBalance(recipient, - price);
+                getChests(sender, [request.color]).then((chests) => {
+                    if (chests[request.color] < request.quantity) {
+                        send(message `<@${sender}> doesn't have enough chests.`);
+                        return;
+                    }
+                    
+                    changeBalance(sender, price);
+                    changeBalance(recipient, - price);
 
-                changeChests(sender, -request.quantity, request.color);
-                changeChests(recipient, request.quantity, request.color);
+                    changeChests(sender, -request.quantity, request.color);
+                    changeChests(recipient, request.quantity, request.color);
 
-                const emoji = emojis[request.color + 'chest'];
-                send(message, `Successfully transferred **${request.quantity} ${capitalize(request.color)} Chest${pluralS(request.quantity)}** ${emoji} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
+                    const emoji = emojis[request.color + 'chest'];
+                    send(message, `Successfully transferred **${request.quantity} ${capitalize(request.color)} Chest${pluralS(request.quantity)}** ${emoji} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
+                })
             })
             break;
         case 'transfercard':
