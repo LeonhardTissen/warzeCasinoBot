@@ -5,6 +5,7 @@ const { db } = require('./db');
 const { lottery } = require('./lottery');
 const { market_item_names } = require('./market');
 const { randRange } = require('./random');
+const { Luckpool } = require('./luckpool');
 
 function checkIfTimerReady(client, table, time, rewardName) {
     db.all(`SELECT * FROM ${table}`, [], (err, results) => {
@@ -82,24 +83,14 @@ function updateMarketplace(client) {
             // Place new item into the marketplace
             const itemid = (Math.round(Math.random() * 50000)).toString(16);
             const now = Math.floor(Date.now() / 1000);
-            let price;
-            let amount;
-            let item;
             // Chances of what chests Weize will put up
-            if (Math.random() < 0.2) {
-                item = 'goldenchest';
-                amount = 1;
-                price = randRange(600, 1000);
-            } else if (Math.random() < 0.55) {
-                item = 'bluechest';
-                amount = randRange(1, 3);
-                price = randRange(85, 400) * amount;
-            } else {
-                item = 'redchest';
-                amount = randRange(1, 7);
-                price = randRange(65, 140) * amount;
-            }
-            db.run(`INSERT INTO marketplace (id, seller, type, bidamount, highestbidder, startedat, itemamount) VALUES (?, ?, ?, ?, ?, ?, ?)`, [itemid, 'Weize', item, price, null, now, amount])
+            const lp = new Luckpool()
+            lp.add(40, {item: 'redchest', amount: randRange(1, 7), price: randRange(65, 140)})
+            lp.add(40, {item: 'bluechest', amount: randRange(1, 3), price: randRange(85, 400)})
+            lp.add(20, {item: 'goldenchest', amount: 1, price: randRange(600, 1000)})
+            const pick = lp.get();
+            
+            db.run(`INSERT INTO marketplace (id, seller, type, bidamount, highestbidder, startedat, itemamount) VALUES (?, ?, ?, ?, ?, ?, ?)`, [itemid, 'Weize', pick.item, pick.price * pick.amount, null, now, pick.amount])
         }
     })
 }
