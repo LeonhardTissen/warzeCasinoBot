@@ -1,4 +1,5 @@
 const { loadImage, createCanvas } = require("canvas");
+const { changeChests } = require("./chests");
 const { changeBalance } = require("./currency");
 const { emojis } = require("./emojis");
 const { randChoice } = require("./random");
@@ -108,11 +109,15 @@ ${additional_message}`);
             const winner = winning_ticket.userid;
             send(this.ogmsg, `<@${winner}> won the lottery! :tada: **+${this.prize}** ${emojis.diamond}`)
             changeBalance(winner, this.prize);
+
+            // Track statistics
             addToStat('lotterywon', winner, 1).then(() => {
                 addToStat('lotterydwon', winner, this.prize);
             });
+
             // Add a golden chest to the prize pool if duration was atleast 30 min and 3+ participants
             if (Object.keys(this.avatars).length >= 3 && this.duration >= 1800) {
+                changeChests(winner, 1, 'golden');
                 send(this.ogmsg, `<@${winner}> also received a **Golden Chest** ${emojis.goldenchest}`);
             }
 
