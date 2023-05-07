@@ -22,10 +22,13 @@ function cmdMarketplaceBid(message, itemid, bidamount) {
             console.log(err);
             return;
         }
-
         
         if (message.author.id == row.highestbidder) {
             send(message, `You're already the highest bid.`);
+            return;
+        }
+        if (message.author.id == row.seller) {
+            send(message, `You can't bid on your own auction.`);
             return;
         }
         
