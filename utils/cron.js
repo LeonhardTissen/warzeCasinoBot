@@ -70,8 +70,10 @@ function updateMarketplace(client) {
                 }
                 // Remove item from marketplace
                 db.run('DELETE FROM marketplace WHERE id = ?', [row.id], (err) => {
-                    console.log(err.message);
-                    return;
+                    if (err) {
+                        console.log(err.message);
+                        return;
+                    }
                 });
             }
         })
