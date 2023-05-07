@@ -12,7 +12,7 @@ for (let hue = 0; hue < 360; hue += 10) {
     colors.push(hslToHex(hue, 100, 60))
 }
 
-const pattern_types = ['rotsquare', 'diaglines', 'windows', 'towers', 'circle', 'waves', 'arrow', 'triangle', 'thunder', 'heart', 'rainbow', 'gradient', 'moon', 'wind'];
+const pattern_types = ['rotsquare', 'diaglines', 'windows', 'towers', 'circle', 'waves', 'arrow', 'triangle', 'thunder', 'heart', 'rainbow', 'gradient', 'moon', 'wind', 'cubes', 'warts', 'stripes'];
 
 function randomCustomCard() {
     return `cc-${randRange(0, 179)}-${randChoice(pattern_types)}`
@@ -21,22 +21,26 @@ exports.randomCustomCard = randomCustomCard;
 
 function drawCustomCard(code, shopPreview = false) {
     const codeData = code.replace('customcard-','').replace('cc-','').split('-')
-    const pcvs = createCanvas(8, 8);
-    const pctx = pcvs.getContext('2d');
 
+    // Pattern
     const pattern_name = codeData[1];
-
-    // Draw the color of the pattern
-    pctx.fillStyle = colors[parseInt(codeData[0])];
-    pctx.fillRect(0, 0, 8, 8);
-
-    pctx.fillStyle = 'white';
-    pctx.globalAlpha = 0.5;
-
+    const pt = assets[`pattern${pattern_name}`]
     if (!pattern_types.includes(pattern_name)) {
         console.log(pattern_name, 'is not valid');
         return;
     }
+
+    // Sub canvas for the pattern
+    const pcvs = createCanvas(pt.width, pt.height);
+    const pctx = pcvs.getContext('2d');
+
+    // Draw the color of the pattern
+    pctx.fillStyle = colors[parseInt(codeData[0])];
+    pctx.fillRect(0, 0, pt.width, pt.height);
+
+    pctx.fillStyle = 'white';
+    pctx.globalAlpha = 0.5;
+
 
     // Draw the pattern
     pctx.drawImage(assets[`pattern${pattern_name}`], 0, 0);
