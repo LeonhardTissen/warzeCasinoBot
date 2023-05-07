@@ -17,10 +17,7 @@ class CvsBundler {
         this.width = Math.max(this.width, cvs.width);
         this.height += cvs.height + this.padding;
     }
-    // Send the full canvas bundle in the message's channel
-    send(message) {
-        sendCvs(message, this.draw());
-    }
+    // Draw the full canvas bundle on a big canvas
     draw() {
         const full_cvs = createCanvas(this.width, this.height)
         const full_ctx = full_cvs.getContext('2d');
@@ -32,6 +29,10 @@ class CvsBundler {
         })
 
         return full_cvs
+    }
+    // Send in the messages channel
+    send(message) {
+        sendCvs(message, this.draw());
     }
 }
 exports.CvsBundler = CvsBundler;
