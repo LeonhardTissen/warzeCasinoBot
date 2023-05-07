@@ -28,7 +28,7 @@ function casino2CardSwap(message, indices = "") {
 		
 		let cardtype = row.cardtype;
 		if (!valid_cards.includes(cardtype)) {
-			if (cardtype.startsWith('customcard-')) {
+			if (cardtype.startsWith('customcard-') || cardtype.startsWith('cc-')) {
 				assets['cardclosed' + cardtype] = drawCustomCard(cardtype, false);
 			} else {
 				cardtype = 'normal';
