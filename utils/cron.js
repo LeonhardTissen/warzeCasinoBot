@@ -45,7 +45,7 @@ function checkIfTimerReady(client, table, time, rewardName) {
 function updateMarketplace(client) {
     db.all(`SELECT * FROM marketplace`, [], (err, rows) => {
         if (err) {
-            console.log(err);
+            console.log(err.message);
             return;
         }
 
@@ -70,7 +70,7 @@ function updateMarketplace(client) {
                 }
                 // Remove item from marketplace
                 db.run('DELETE FROM marketplace WHERE id = ?', [row.id], (err) => {
-                    console.log(err);
+                    console.log(err.message);
                     return;
                 });
             }
@@ -78,16 +78,17 @@ function updateMarketplace(client) {
 
         if (rows.length < 5) {
             // Place new item into the marketplace
-            const itemid = (Math.round(Math.random() * 100000)).toString(24);
+            const itemid = (Math.round(Math.random() * 50000)).toString(16);
             const now = Math.floor(Date.now() / 1000);
             let price;
             let amount;
             let item;
-            if (Math.random() < 0.15) {
+            // Chances of what chests Weize will put up
+            if (Math.random() < 0.2) {
                 item = 'goldenchest';
                 amount = 1;
                 price = randRange(600, 1000);
-            } else if (Math.random() < 0.4) {
+            } else if (Math.random() < 0.55) {
                 item = 'bluechest';
                 amount = randRange(1, 3);
                 price = randRange(85, 400) * amount;
@@ -105,6 +106,8 @@ function everyMinute(client) {
     checkIfTimerReady(client, 'hourlies', 3600, 'hourly');
     checkIfTimerReady(client, 'dailies', 86400, 'daily');
     lottery.drawwinner();
-    updateMarketplace(client);
+    if (Math.random() > 0.8) {
+        updateMarketplace(client);
+    }
 }
 exports.everyMinute = everyMinute;

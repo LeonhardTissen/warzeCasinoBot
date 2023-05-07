@@ -53,7 +53,7 @@ function cmdMarketplace(message, amount, item, price) {
             db.all('SELECT * FROM marketplace', [], (err, rows) => {
                 let mp_msg = '**__Marketplace:__**\n';
                 if (err) {
-                    console.log(err);
+                    console.log(err.message);
                     return;
                 }
 
@@ -64,6 +64,9 @@ function cmdMarketplace(message, amount, item, price) {
                     mp_msg += `\`${prefix}bid ${row.id}\` ${seller}: **${row.itemamount}x** ${market_item_names[row.type]} for **${row.bidamount}** ${emojis.diamond}
 Highest Bidder: ${bidder}, Ends <t:${row.startedat + 3600}:R>\n\n`
                 })
+
+                // Help message at the bottom of marketplace
+                mp_msg += `Use \`!help mp\` to find out how to put your own items on the marketplace.`;
 
                 send(message, mp_msg);
             })

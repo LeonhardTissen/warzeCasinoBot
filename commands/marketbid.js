@@ -22,29 +22,40 @@ function cmdMarketplaceBid(message, itemid, bidamount) {
             send(message, `You don't have enough diamonds to bid on this.`);
             return;
         }
-        
+
         db.get('SELECT * FROM marketplace WHERE id = ?', [itemid], (err, row) => {
             if (err) {
-                console.log(err);
+                console.log(err.message);
+                return;
+            }
+
+            // Id doesn't exist in database
+            if (!row) {
+                send(message, `No marketplace item with that ID found.`);
                 return;
             }
             
+            // Prevent outbidding oneself
             if (message.author.id == row.highestbidder) {
                 send(message, `You're already the highest bid.`);
                 return;
             }
+
+            // Prevent bidding on own auction
             if (message.author.id == row.seller) {
                 send(message, `You can't bid on your own auction.`);
                 return;
             }
             
             if (row.highestbidder) {
+                // New bids can't equal the current bid
                 if (bidamount <= row.bidamount) {
                     send(message, `Your bid must be larger than the current one.`);
                     return;
                 }
                 changeBalance(row.highestbidder, row.bidamount);
             } else {
+                // Bids can equal the minimum
                 if (bidamount < row.bidamount) {
                     send(message, `Your bid must be larger than the minimum.`);
                     return;
