@@ -83,18 +83,18 @@ function updateMarketplace(client) {
             let price;
             let amount;
             let item;
-            if (Math.random() < 0.1) {
+            if (Math.random() < 0.15) {
                 item = 'goldenchest';
                 amount = 1;
                 price = randRange(600, 1000);
             } else if (Math.random() < 0.4) {
                 item = 'bluechest';
-                amount = randRange(1, 2);
-                price = randRange(150, 400) * amount;
+                amount = randRange(1, 3);
+                price = randRange(85, 400) * amount;
             } else {
                 item = 'redchest';
                 amount = randRange(1, 7);
-                price = randRange(80, 180) * amount;
+                price = randRange(65, 140) * amount;
             }
             db.run(`INSERT INTO marketplace (id, seller, type, bidamount, highestbidder, startedat, itemamount) VALUES (?, ?, ?, ?, ?, ?, ?)`, [itemid, 'Weize', item, price, null, now, amount])
         }
