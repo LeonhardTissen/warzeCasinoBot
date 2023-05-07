@@ -1,4 +1,5 @@
 const { registerCommand } = require("../commands");
+const { capitalize } = require("../utils/capitalize");
 const { startGame } = require("../utils/casino2deck");
 const { changeChests } = require("../utils/chests");
 const { startConnect4Game, postUpdate, array2D, toggleTurn } = require("../utils/cn4game");
@@ -63,7 +64,7 @@ function acceptRequest(request, message) {
                 })
             });
             break;
-        case 'transferredchest':
+        case 'transferchest':
             price = request.amount;
             checkIfLarger(recipient, price).then((success) => {
                 if (!success) {
@@ -74,10 +75,11 @@ function acceptRequest(request, message) {
                 changeBalance(sender, price);
                 changeBalance(recipient, - price);
 
-                changeChests(sender, -request.quantity, 'red');
-                changeChests(recipient, request.quantity, 'red');
+                changeChests(sender, -request.quantity, request.color);
+                changeChests(recipient, request.quantity, request.color);
 
-                send(message, `Successfully transferred **${request.quantity} Red Chest${pluralS(request.quantity)}** ${emojis.redchest} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
+                const emoji = emojis[request.color + 'chest'];
+                send(message, `Successfully transferred **${request.quantity} ${capitalize(request.color)} Chest${pluralS(request.quantity)}** ${emoji} from <@${sender}> to <@${recipient}> for **${price}** ${emojis.diamond}.`);
             })
             break;
         case 'transfercard':

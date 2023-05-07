@@ -31,7 +31,7 @@ function startBot() {
 					if (command.adminOnly && !isAdmin(message)) {
 						return;
 					} else {
-						command.func(message, args[1], args[2], args[3])
+						command.func(message, args[1], args[2], args[3], args[4])
 					}
 				}
 			})

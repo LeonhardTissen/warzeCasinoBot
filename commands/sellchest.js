@@ -6,9 +6,11 @@ const { parseUser } = require("../utils/usertarget");
 const { emojis } = require("../utils/emojis");
 const { isNumeric } = require("../utils/numchoice");
 const { pluralS } = require("../utils/timestr");
-const { db, createRowIfNotExists } = require("../utils/db");
+const { createRowIfNotExists } = require("../utils/db");
+const { getChests, valid_chest_colors } = require("../utils/chests");
+const { capitalize } = require("../utils/capitalize");
 
-function cmdSellChest(message, amount, price, target) {
+function cmdSellChest(message, amount, color, price, target) {
 	// Validate recipient
 	const recipient = parseUser(target);
 	const sender = message.author.id;
@@ -20,6 +22,12 @@ function cmdSellChest(message, amount, price, target) {
 		send(message, `You can't sell to yourself.`);
 		return;
 	}
+
+    // Validate chest color
+    if (!valid_chest_colors.includes(color)) {
+        send(message, `Invalid chest color. Valid: **${valid_chest_colors.join(', ')}**`)
+        return;
+    }
 
     // Validate quantity
     let chestamount = 1;
@@ -35,7 +43,7 @@ function cmdSellChest(message, amount, price, target) {
         return;
     }
     if (parseInt(price) <= 0) {
-        send(message, `The price must be atleast **>0** ${emojis.diamond}`);
+        send(message, `The price must be atleast **>1** ${emojis.diamond}`);
         return;
     }
 
@@ -52,31 +60,31 @@ function cmdSellChest(message, amount, price, target) {
     })
     if (has_ongoing) return;
 
-    createRowIfNotExists(sender, 'redchest');
+    createRowIfNotExists(sender, `${color}chest`);
 
-    db.get('SELECT redchest FROM redchest WHERE id = ?', [sender], (err, row) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
+    getChests(sender, [color]).then((chests) => {
 
-        if (row.redchest < chestamount) {
-            send(message, `<@${sender}>, you don't have enough **Red Chests** ${emojis.redchest}`);
+        if (chests[color] < chestamount) {
+            send(message, `<@${sender}>, you don't have enough **${capitalize(color)} Chests** ${emojis.redchest}`);
             return;
         }
 
         getPrefix(recipient).then((prefix) => {
+            console.log(color);
+            const emoji = emojis[color + 'chest'];
+            console.log(emoji)
             // Send the request to the recipient
-            message.channel.send(`<@${recipient}>, ${message.author.username} wants to sell you **${chestamount} Red Chest${pluralS(chestamount)}** ${emojis.redchest} for **${price}** ${emojis.diamond}.\nType ${prefix}req accept or ${prefix}req deny.`);
+            message.channel.send(`<@${recipient}>, ${message.author.username} wants to sell you **${chestamount} ${capitalize(color)} Chest${pluralS(chestamount)}** ${emoji} for **${price}** ${emojis.diamond}.\nType ${prefix}req accept or ${prefix}req deny.`);
             
             ongoing_requests.push({
                 sender: sender,
                 recipient: recipient,
-                type: "transferredchest",
+                type: "transferchest",
                 amount: price,
-                quantity: chestamount
+                quantity: chestamount,
+                color: color
             })
         })
     })
 };
-registerCommand(cmdSellChest, "Sell a chest to another player", ['sellchest'], "[amount] [price] [@user]");
+registerCommand(cmdSellChest, "Sell a chest to another player", ['sellchest'], "[amount] [color] [price] [@user]");

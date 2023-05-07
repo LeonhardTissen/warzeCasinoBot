@@ -1,5 +1,8 @@
 const { createRowIfNotExists, db } = require("./db");
 
+const valid_chest_colors = ['red', 'blue', 'golden'];
+exports.valid_chest_colors = valid_chest_colors;
+
 function changeChests(target, changeAmount, color) {
     return new Promise((resolve) => {
         createRowIfNotExists(target, color + 'chest');

@@ -5,12 +5,10 @@ const { emojis } = require("../utils/emojis");
 const { randomCustomCard, drawCustomCard } = require("../utils/customcard");
 const { randRange } = require("../utils/random");
 const { changeBalance } = require("../utils/currency");
-const { changeChests, getChests } = require("../utils/chests");
+const { changeChests, getChests, valid_chest_colors } = require("../utils/chests");
 const { isNumeric } = require("../utils/numchoice");
 const { addToInventory } = require("../utils/inventory");
 const { capitalize } = require("../utils/capitalize");
-
-const valid_chest_colors = ['red', 'blue', 'golden'];
 
 function cmdOpenChest(message, color, amount) {
     createRowIfNotExists(message.author.id, 'redchest');
