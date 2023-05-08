@@ -32,8 +32,11 @@ CREATE TABLE IF NOT EXISTS marketplace (
 
 // Create database tables if they don't exist yet
 createDatabaseTable('users', {name: 'balance', type: 'INTEGER', default: '0'})
+
+createDatabaseTable('weeklies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('dailies', {name: 'last', type: 'INTEGER', default: '0'})
 createDatabaseTable('hourlies', {name: 'last', type: 'INTEGER', default: '0'})
+
 createDatabaseTable('shop', {name: 'bought', type: 'TEXT', default: '""'})
 createDatabaseTable('customcard', {name: 'owned', type: 'TEXT', default: '""'})
 createDatabaseTable('customdeck', {name: 'owned', type: 'TEXT', default: '""'})

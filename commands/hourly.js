@@ -4,8 +4,8 @@ const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 const { changeBalance } = require("../utils/currency");
-const { getSecUntilHourly } = require("../utils/secuntilhourly");
 const { changeChests } = require("../utils/chests");
+const { getSecUntilReward } = require("../utils/timereward");
 
 // Amount of diamonds the hourly command grants
 const hourly_amount = 100;
@@ -14,7 +14,7 @@ function hourly(message) {
     // Target is always author
     const target = message.author.id;
 
-    getSecUntilHourly(target).then((secTillHourly) => {
+    getSecUntilReward(target, 'hourlies', 3600).then((secTillHourly) => {
         // Prevent the user from collecting their hourly
         if (secTillHourly > 0) {
             send(message, `<@${target}>, you need to wait **${secToReadable(secTillHourly)}**.`);

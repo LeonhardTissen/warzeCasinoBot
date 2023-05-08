@@ -1,11 +1,10 @@
 const { registerCommand } = require("../commands");
 const { db, createRowIfNotExists } = require("../utils/db");
 const emojis = require('../emojis.json');
-const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
 const { getPrefix } = require("../utils/getprefix");
-const { getSecUntilHourly } = require("../utils/secuntilhourly");
+const { getSecUntilReward } = require("../utils/timereward");
 
 function balance(message, target) {
     // Set self as target if not provided
@@ -27,8 +26,8 @@ function balance(message, target) {
         // Send the user's balance as a response
         const balance = row.balance;
         
-        getSecUntilDaily(target).then((secondsUntilDaily) => {
-            getSecUntilHourly(target).then((secondsUntilHourly) => {
+        getSecUntilReward(target, 'dailies', 86400).then((secondsUntilDaily) => {
+            getSecUntilReward(target, 'hourlies', 3600).then((secondsUntilHourly) => {
                 getPrefix(target).then((preferred_prefix) => {
                     let added_message = '';
                     if (secondsUntilDaily <= 0) {

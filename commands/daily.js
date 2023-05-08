@@ -4,8 +4,8 @@ const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
 const { secToReadable } = require("../utils/timestr");
 const { changeBalance } = require("../utils/currency");
-const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { changeChests } = require("../utils/chests");
+const { getSecUntilReward } = require("../utils/timereward");
 
 // Amount of diamonds the daily command grants
 const daily_amount = 1000;
@@ -14,7 +14,7 @@ function daily(message) {
     // Target is always author
     const target = message.author.id;
 
-    getSecUntilDaily(target).then((secTillDaily) => {
+    getSecUntilReward(target, 'dailies', 86400).then((secTillDaily) => {
         // Prevent the user from collecting their daily
         if (secTillDaily > 0) {
             send(message, `<@${target}>, you need to wait **${secToReadable(secTillDaily)}**.`);
