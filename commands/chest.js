@@ -5,14 +5,36 @@ const emojis = require('../emojis.json');
 const { changeChests, getChests, valid_chest_colors, unboxDiamonds, unboxCard, unboxDeck } = require("../utils/chests");
 const { isNumeric } = require("../utils/numchoice");
 const { capitalize } = require("../utils/capitalize");
+const { getPrefix } = require("../utils/getprefix");
+const { pluralS } = require("../utils/timestr");
 
 function cmdOpenChest(message, color, amount) {
-    createRowIfNotExists(message.author.id, color + 'chest');
-
+    // Just show chests in inventory
+    if (!color) {
+        getPrefix(message.author.id).then((prefix) => {
+            getChests(message.author.id, ['red', 'blue', 'golden']).then((chests) => {
+                let chestMsg = `__Your Chests:__
+**${chests.red} Red Chest${pluralS(chests.red)}** ${emojis.redchest} 
+\`${prefix}chest red\`
+**${chests.blue} Blue Chest${pluralS(chests.blue)}** ${emojis.bluechest} 
+\`${prefix}chest blue\`
+**${chests.golden} Golden Chest${pluralS(chests.golden)}** ${emojis.goldenchest} 
+\`${prefix}chest golden\``;
+                
+                send(message, chestMsg);
+            })
+        })
+        return;
+    }
+    
+    // Invalid color passed in
     if (!valid_chest_colors.includes(color)) {
         send(message, `Invalid chest color. Valid: **${valid_chest_colors.join(', ')}**`)
         return;
     }
+    
+    
+    createRowIfNotExists(message.author.id, color + 'chest');
 
     const emoji = emojis[color + 'chest'];
 
