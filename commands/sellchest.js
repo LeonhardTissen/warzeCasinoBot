@@ -65,7 +65,7 @@ function cmdSellChest(message, amount, color, price, target) {
     getChests(sender, [color]).then((chests) => {
 
         if (chests[color] < chestamount) {
-            send(message, `<@${sender}>, you don't have enough **${capitalize(color)} Chests** ${emojis.redchest}`);
+            send(message, `<@${sender}>, you don't have enough **${capitalize(color)} Chests** ${emojis[color + 'chest']}`);
             return;
         }
 
