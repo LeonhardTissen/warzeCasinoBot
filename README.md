@@ -13,7 +13,7 @@ npm i
 {
     "token": "BOTTOKENHERE",
     "admin": "345103284463206400",
-    "prefix": "--",
+    "prefix": "-",
     "channel": "1101531707934527580",
     "color": "23F843"
 }
@@ -23,4 +23,4 @@ npm i
 node bot.js
 ```
 ### Add your own emotes
-Because the bot won't have access to the predefined emotes referenced in "/utils/emojis.js", you should add your own.
+Because the bot won't have access to the predefined emotes referenced in "/emojis.json", you should add them to a server the bot is in yourself and update that JSON file.
