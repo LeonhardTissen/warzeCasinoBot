@@ -1,6 +1,6 @@
 const { changeBalance } = require("./currency");
 const { randomCustomCard, drawCustomCard } = require("./customcard");
-const { valid_decks } = require("./customdecks");
+const valid_decks = require("../decks.json");
 const { createRowIfNotExists, db } = require("./db");
 const emojis = require('../emojis.json');
 const { randRange, randChoice } = require("./random");

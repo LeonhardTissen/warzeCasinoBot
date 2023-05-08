@@ -1,5 +1,5 @@
 const { registerCommand } = require("../commands");
-const { valid_decks } = require("../utils/customdecks");
+const valid_decks = require("../decks.json");
 const { getCanvasHead } = require("../utils/cvsdecorators");
 const { createRowIfNotExists, db } = require("../utils/db");
 const { send, sendBoth } = require("../utils/sender");
