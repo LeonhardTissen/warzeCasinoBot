@@ -51,13 +51,14 @@ exports.getChests = getChests;
 
 function unboxDiamonds(message, minimum, maximum, chestname, emoji) {
     const won_amount = randRange(minimum, maximum);
+
+    // Add the diamonds to the users' inventory
     changeBalance(message.author.id, won_amount);
     send(message, `You unboxed a **${chestname}** ${emoji} which contained: **${won_amount}** ${emojis.diamond}`);
 }
 exports.unboxDiamonds = unboxDiamonds;
 
 function unboxCard(message, chestname, emoji) {
-    // 50% chance of card unboxing
     const unboxed_card = randomCustomCard();
                         
     // Add the new custom card to the users' inventory
