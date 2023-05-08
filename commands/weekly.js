@@ -32,7 +32,7 @@ function weekly(message, target) {
         
         // Apply a timer that the user has to wait before collecting the next daily
         const now = Math.floor(Date.now() / 1000);
-        db.run('UPDATE weeklies SET last = ? WHERE id = ?', [now, target], (err) => {
+        db.run('UPDATE weeklies SET last = ? WHERE id = ?', [now, message.author.id], (err) => {
             if (err) {
                 console.log(err.message);
             }
