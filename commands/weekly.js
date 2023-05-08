@@ -19,7 +19,7 @@ function weekly(message, target) {
         return;
     }
 
-    getSecUntilReward(target, 'weeklies', 604800).then((secTillWeekly) => {
+    getSecUntilReward(message.author.id, 'weeklies', 604800).then((secTillWeekly) => {
         // Prevent the user from collecting their weekly
         if (secTillWeekly > 0) {
             send(message, `<@${message.author.id}>, you need to wait **${secToReadable(secTillWeekly)}**.`);
