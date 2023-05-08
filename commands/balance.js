@@ -26,19 +26,24 @@ function balance(message, target) {
         // Send the user's balance as a response
         const balance = row.balance;
         
-        getSecUntilReward(target, 'dailies', 86400).then((secondsUntilDaily) => {
-            getSecUntilReward(target, 'hourlies', 3600).then((secondsUntilHourly) => {
-                getPrefix(target).then((preferred_prefix) => {
-                    let added_message = '';
-                    if (secondsUntilDaily <= 0) {
-                        added_message += `\n*(Collect your ${preferred_prefix}daily to receive **1000** ${emojis.diamond})*`
-                    }
-                    if (secondsUntilHourly <= 0) {
-                        added_message += `\n*(Collect your ${preferred_prefix}hourly to receive **100** ${emojis.diamond})*`
-                    }
-                    send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**${added_message}`);
+        getSecUntilReward(target, 'weeklies', 604800).then((secondsUntilWeekly) => {
+            getSecUntilReward(target, 'dailies', 86400).then((secondsUntilDaily) => {
+                getSecUntilReward(target, 'hourlies', 3600).then((secondsUntilHourly) => {
+                    getPrefix(target).then((preferred_prefix) => {
+                        let added_message = '';
+                        if (secondsUntilWeekly <= 0) {
+                            added_message += `\n*(Collect your ${preferred_prefix}weekly to give someone **1 Golden Chest** ${emojis.goldenchest})*`
+                        }
+                        if (secondsUntilDaily <= 0) {
+                            added_message += `\n*(Collect your ${preferred_prefix}daily to receive **1000** ${emojis.diamond} and **3 Red Chests** ${emojis.redchest})*`
+                        }
+                        if (secondsUntilHourly <= 0) {
+                            added_message += `\n*(Collect your ${preferred_prefix}hourly to receive **100** ${emojis.diamond} and **1 Red Chest** ${emojis.redchest})*`
+                        }
+                        send(message, `<@${target}>'s Balance: **${balance} ${emojis.diamond}**${added_message}`);
+                    })
                 })
-            });
+            })
         })
     });
 }
