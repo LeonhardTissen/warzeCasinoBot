@@ -3,14 +3,14 @@ const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { db } = require("../utils/db");
 const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
-const { shop_items } = require("../utils/shopitems");
+const shop = require("../shop.json");
 
 function cmdBuyItem(message, itemid) {
 
     db.get('SELECT bought FROM shop WHERE id = ?', [message.author.id], (err, row) => {
         let owned_items = row.bought;
         
-        shop_items.forEach((item) => {
+        shop.items.forEach((item) => {
             if (item.id == itemid) {
                 if (owned_items.split(",").includes(itemid)) {
                     send(message, `You already own "${item.name}".`);

@@ -4,13 +4,13 @@ const { db, createRowIfNotExists } = require("../utils/db");
 const { sendCvs } = require("../utils/sender");
 const { assets } = require("../utils/images");
 const { getPrefix } = require('../utils/getprefix');
-const { shop_items } = require("../utils/shopitems");
+const shop = require("../shop.json");
 
 function shopCommand(message, page) {
     createRowIfNotExists(message.author.id, 'shop');
 
     // Amount of pages there are
-    const page_amount = Math.ceil(shop_items.length / 5);
+    const page_amount = Math.ceil(shop.items.length / 5);
 
     page = parseInt(page);
     if (!(page >= 1 && page <= page_amount)) {
@@ -40,8 +40,8 @@ function shopCommand(message, page) {
 
             const pageOffset = (page - 1) * 5;
 
-            for (let i = pageOffset; i < Math.min(shop_items.length, pageOffset + 5); i ++) {
-                const item = shop_items[i]
+            for (let i = pageOffset; i < Math.min(shop.items.length, pageOffset + 5); i ++) {
+                const item = shop.items[i]
                 // Draw the shop item itself
                 ctx.drawImage(assets[item.shopimg], 0, ypos, 72, 72);
 
