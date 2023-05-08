@@ -1,6 +1,7 @@
 const { createCanvas } = require("canvas");
 const settings = require('../settings.json');
 
+// Depending on background color, it will pick black or white depending on which is more readable
 function pickTextColor(bgColor) {
     var r = parseInt(bgColor.substring(0, 2), 16); // hexToR
     var g = parseInt(bgColor.substring(2, 4), 16); // hexToG
@@ -10,11 +11,12 @@ function pickTextColor(bgColor) {
 
 function getFillStyle(color, ctx, width) {
     if (color.length > 6) {
+        // Create a gradient with any series of colors
         const gradient = ctx.createLinearGradient(0, 0, width, 0);
         const grad_colors = color.split(',');
+        gradient.addColorStop(0, '#' + grad_colors[0])
         for (let i = 0; i < grad_colors.length; i ++) {
-            gradient.addColorStop(0, '#' + grad_colors[0])
-            gradient.addColorStop((i + 1) / grad_colors.length, '#' + grad_colors[1])
+            gradient.addColorStop((i + 1) / grad_colors.length, '#' + grad_colors[i])
         }
         return(gradient);
     } else {

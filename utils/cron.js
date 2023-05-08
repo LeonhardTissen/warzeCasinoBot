@@ -8,6 +8,7 @@ const { randRange } = require('./random');
 const { Luckpool } = require('./luckpool');
 
 function checkIfTimerReady(client, table, time, rewardName) {
+    // Go through hourlies or dailies to see if users can redeem them
     db.all(`SELECT * FROM ${table}`, [], (err, results) => {
         if (err) {
             console.log(err.message);
@@ -50,6 +51,7 @@ function updateMarketplace(client) {
             return;
         }
 
+        // Go through all marketplace items to see if they ended
         rows.forEach((row) => {
             if (row.startedat + 3600 < Date.now() / 1000) {
                 const channel = client.channels.cache.get(settings.channel)
@@ -79,10 +81,12 @@ function updateMarketplace(client) {
             }
         })
 
+        // If there are too few offers, Weize has a chance to put something into the marketplace
         if (rows.length < 5 && Math.random() > 0.8) {
             // Place new item into the marketplace
             const itemid = (Math.round(Math.random() * 50000)).toString(16);
             const now = Math.floor(Date.now() / 1000);
+
             // Chances of what chests Weize will put up
             const lp = new Luckpool()
             lp.add(40, {item: 'redchest', amount: randRange(1, 7), price: randRange(65, 140)})
@@ -90,6 +94,7 @@ function updateMarketplace(client) {
             lp.add(20, {item: 'goldenchest', amount: 1, price: randRange(600, 1000)})
             const pick = lp.get();
             
+            // Insert into the marketplace database
             db.run(`INSERT INTO marketplace (id, seller, type, bidamount, highestbidder, startedat, itemamount) VALUES (?, ?, ?, ?, ?, ?, ?)`, [itemid, 'Weize', pick.item, pick.price * pick.amount, null, now, pick.amount])
         }
     })

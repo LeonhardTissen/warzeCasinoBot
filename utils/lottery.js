@@ -1,7 +1,7 @@
 const { loadImage, createCanvas } = require("canvas");
 const { changeChests } = require("./chests");
 const { changeBalance } = require("./currency");
-const { emojis } = require("./emojis");
+const emojis = require('../emojis.json');
 const { randChoice } = require("./random");
 const { send, sendBoth } = require("./sender");
 const { addToStat } = require("./stats");
@@ -32,7 +32,7 @@ class Lottery {
             for (let x = 0; x < width; x ++) {
                 const ticket = this.tickets[index]
                 if (ticket) {
-                    const img = this.avatars[ticket.userid];
+                    const img = this.avatars[ticket];
                     ctx.drawImage(img, x * px, y * px, px, px);
                 }
                 index ++;
@@ -55,6 +55,7 @@ class Lottery {
 
                 const min = this.duration / 60
 
+                // Lotteries over 30 minutes long can have an additional reward
                 let additional_message = '';
                 if (min >= 30) {
                     additional_message = `At **3+** participants, the prize pool will include a **Golden Chest** ${emojis.goldenchest}`
@@ -69,7 +70,7 @@ ${additional_message}`);
 
         // Buy n tickets as the userid
         for (let i = 0; i < amount; i ++) {
-            this.tickets.push(this.randomticketid(userid))
+            this.tickets.push(userid)
         }
 
         // Add the amount to the prize
@@ -88,12 +89,6 @@ ${additional_message}`);
             this.canvas(message);
         })
     }
-    randomticketid(userid) {
-        return {
-            userid: userid,
-            ticketid: `tkt-${Math.floor(Math.random() * 10000000)}`
-        }
-    }
     minuntilwinner() {
         const now = Date.now() / 1000;
         const minutes_left = Math.floor((this.startedAt + this.duration - now) / 60)
@@ -105,8 +100,7 @@ ${additional_message}`);
         const minutes_left = this.minuntilwinner();
         if (minutes_left <= 0) {
             // Draw the winner
-            const winning_ticket = randChoice(this.tickets);
-            const winner = winning_ticket.userid;
+            const winner = randChoice(this.tickets);
             send(this.ogmsg, `<@${winner}> won the lottery! :tada: **+${this.prize}** ${emojis.diamond}`)
             changeBalance(winner, this.prize);
 

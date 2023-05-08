@@ -5,7 +5,7 @@ const { ongoing_requests, ongoing_games } = require("../utils/games");
 const { parseUser } = require("../utils/usertarget");
 const { getPrefix } = require("../utils/getprefix");
 const { checkIfLarger } = require("../utils/currency");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 
 function cmdCn4Start(message, betamount, target) {
     // Validate recipient

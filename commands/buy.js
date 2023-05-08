@@ -1,7 +1,7 @@
 const { registerCommand } = require("../commands");
 const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { db } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
 const { shop_items } = require("../utils/shopitems");
 

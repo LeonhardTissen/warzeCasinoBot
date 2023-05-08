@@ -1,3 +1,4 @@
+// Create a Luckpool with any amount of items with a differing poolsize to make
 class Luckpool {
     constructor() {
         this.items = [];

@@ -1,7 +1,7 @@
 const { registerCommand } = require("../commands");
 const { send } = require("../utils/sender");
 const { createRowIfNotExists } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { changeChests, getChests, valid_chest_colors, unboxDiamonds, unboxCard, unboxDeck } = require("../utils/chests");
 const { isNumeric } = require("../utils/numchoice");
 const { capitalize } = require("../utils/capitalize");

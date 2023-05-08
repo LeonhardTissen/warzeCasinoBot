@@ -1,5 +1,5 @@
 const { registerCommand } = require("../commands");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { parseUser } = require("../utils/usertarget");
 const { send } = require("../utils/sender");
 const { setBalance } = require("../utils/currency");

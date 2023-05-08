@@ -1,9 +1,11 @@
 const { db, createRowIfNotExists } = require("./db");
 
 function addToInventory(target, table, column, item) {
+    // First make sure the user has a row in that table
     createRowIfNotExists(target, table);
 
     return new Promise((resolve) => {
+        // Get the users' current inventory
         db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
             if (err) {
                 console.log(err.message);
@@ -75,6 +77,7 @@ exports.removeFromInventory = removeFromInventory;
 
 function hasInInventory(target, table, column, item) {
     return new Promise((resolve) => {
+        // Get the target's inventory
         db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
             if (err) {
                 console.log(err.message);

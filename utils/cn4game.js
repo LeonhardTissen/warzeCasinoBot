@@ -5,34 +5,40 @@ const { getUsername } = require("./client");
 const { changeBalance } = require("./currency");
 const { CvsBundler } = require("./cvsbundler");
 const { getDeckColor } = require("./deckcolor");
-const { emojis } = require("./emojis");
+const emojis = require('../emojis.json');
 const { ongoing_games } = require("./games");
 const { getPrefix } = require("./getprefix");
 const { assets } = require("./images");
 const { send, sendBoth } = require("./sender");
 const { addToStat } = require("./stats");
 
+// Creates a 2D array with any width & height and fills it with 0
 function array2D(width, height) {
     return Array(height).fill(0).map(()=>Array(width).fill(0));
 }
 exports.array2D = array2D;
 
 function drawCn4Game(field, color1, color2, swap) {
+    // Chips are 64x64 and the field is 7x6
     const s = 64;
     const cvs = createCanvas(7 * s, 6 * s);
     const ctx = cvs.getContext('2d');
 
+    // Depending on whose turn it is, these have to swap
     let colors = [color1, color2]
     if (swap) {
         colors = colors.reverse();
     }
 
+    // Loop through the connect 4 game field
     for (let y = 0; y < field.length; y ++) {
         for (let x = 0; x < field[y].length; x ++) {
             if (field[y][x] > 0) {
-                const color = colors[field[y][x] - 1];
-                ctx.drawImage(assets[color], x * s, y * s);
+                // Draw chip
+                const chipImg = colors[field[y][x] - 1];
+                ctx.drawImage(assets[chipImg], x * s, y * s);
             }
+            // Always draw the overlay regardless of whether a chip is in or not
             ctx.drawImage(assets['connectoverlay'], x * s, y * s);
         }
     }
@@ -100,6 +106,7 @@ function checkWinner(f) {
         return 'Tie'
     }
 
+    // Game keeps going
     return false;
 }
 
@@ -109,14 +116,19 @@ function postUpdate(game, message) {
     const player2 = ogame.state.opponent;
     const swapped = (game.state.turn == 1);
 
+    // Default chip colors if players haven't bought a custom one
     let default_colors = ['chipred', 'chipblue'];
 
+    // Depending on whose turn it is, the defaults swap
     if (swapped) {
         default_colors = default_colors.reverse();
     }
 
+    // Whoevers turn it is now has their deck and prefix displayed
     getPrefix(player1).then((prefix) => {
 		getDeckColor(player1).then((color) => {
+
+            // Get both players' chips or default
             getChipColor(player1).then((chipcolor1) => {
                 if (!chipcolor1 || chipcolor1 == '' || chipcolor1 == 'chipnormal') {
                     chipcolor1 = default_colors[0];
@@ -125,10 +137,10 @@ function postUpdate(game, message) {
                     if (!chipcolor2 || chipcolor2 == '' || chipcolor2 == 'chipnormal') {
                         chipcolor2 = default_colors[1];
                     }
-
+                    
+                    // Draw the ongoing game
                     const cvs = new CvsBundler(5);
 
-                    // Draw the ongoing game
                     cvs.add(getCanvasHead(448, `${getUsername(player1)} vs. ${getUsername(player2)}`, color));
 
                     cvs.add(drawCn4Game(game.state.field, chipcolor1, chipcolor2, swapped));

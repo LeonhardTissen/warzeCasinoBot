@@ -2,7 +2,7 @@ const { registerCommand } = require("../commands");
 const { checkIfLarger, changeBalance } = require("../utils/currency");
 const { lottery } = require("../utils/lottery");
 const { send } = require("../utils/sender");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { addToStat } = require("../utils/stats");
 
 function cmdLottery(message, amount, duration) {

@@ -1,6 +1,6 @@
 const { registerCommand } = require("../commands");
 const { db } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
 
 // The emojis that appear before the users

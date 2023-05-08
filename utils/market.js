@@ -1,4 +1,4 @@
-const { emojis } = require("./emojis");
+const emojis = require('../emojis.json');
 
 const market_item_names = {
     'redchest': `**Red Chest** ${emojis.redchest}`,

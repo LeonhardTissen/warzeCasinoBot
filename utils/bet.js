@@ -1,4 +1,4 @@
-const { emojis } = require("./emojis");
+const emojis = require('../emojis.json');
 const { send } = require("./sender");
 
 // Check if a bet is high enough to meet the requirements of a gambling command

@@ -1,7 +1,7 @@
 const { registerCommand } = require("../commands");
 const { changeChests, getChests } = require("../utils/chests");
 const { db } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { getPrefix } = require("../utils/getprefix");
 const { market_item_names } = require("../utils/market");
 const { send } = require("../utils/sender");

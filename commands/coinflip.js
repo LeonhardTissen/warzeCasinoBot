@@ -2,7 +2,7 @@ const { registerCommand } = require("../commands");
 const { validateBetAmount } = require("../utils/bet");
 const { checkIfLarger } = require("../utils/currency");
 const { db, createRowIfNotExists } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
 const { addToStat } = require("../utils/stats");
 

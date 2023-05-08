@@ -1,6 +1,6 @@
 const { registerCommand } = require("../commands");
 const { db } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { getPrefix } = require("../utils/getprefix");
 const { changeBalance, checkIfLarger } = require("../utils/currency");
 const { send } = require("../utils/sender");

@@ -1,6 +1,6 @@
 const { registerCommand } = require("../commands");
 const { db, createRowIfNotExists } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { getSecUntilDaily } = require("../utils/secuntildaily");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");

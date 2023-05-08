@@ -3,7 +3,7 @@ const { getPrefix } = require("../utils/getprefix");
 const { ongoing_requests } = require("../utils/games");
 const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { isNumeric } = require("../utils/numchoice");
 const { hasInInventory } = require("../utils/inventory");
 

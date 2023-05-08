@@ -1,7 +1,7 @@
 const { registerCommand } = require("../commands");
 const { getChests } = require("../utils/chests");
 const { createRowIfNotExists, db } = require("../utils/db");
-const { emojis } = require("../utils/emojis");
+const emojis = require('../emojis.json');
 const { send } = require("../utils/sender");
 const { getStats } = require("../utils/stats");
 const { parseUser } = require("../utils/usertarget");
