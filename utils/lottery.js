@@ -41,36 +41,57 @@ class Lottery {
 
         sendBoth(message, `Total tickets: **${this.tickets.length}** ${emojis.ticket} Prize: **${this.prize}** ${emojis.diamond}`, cvs);
     }
-    addtickets(message, userid, amount, duration) {
+    addtickets(message, userid, amount, duration, maxtickets) {
         // If there is no ongoing lottery, the first user must start by putting atleast 10 tickets in
         if (!this.ongoing) {
             if (amount < 10) {
                 send(message, `You have to buy atleast **10 tickets** ${emojis.ticket} yourself to start the lottery.`)
                 return;
-            } else {
-                this.ongoing = true;
-                this.startedAt = Date.now() / 1000;
-                this.ogmsg = message;
-                this.duration = duration * 60;
+            }
+            this.ongoing = true;
+            this.startedAt = Date.now() / 1000;
+            this.ogmsg = message;
+            this.duration = duration * 60;
+            this.maxtickets = maxtickets;
 
-                const min = this.duration / 60
+            const min = this.duration / 60
 
-                // Lotteries over 30 minutes long can have an additional reward
-                let additional_message = '';
-                if (min >= 30) {
-                    additional_message = `At **3+** participants, the prize pool will include a **Golden Chest** ${emojis.goldenchest}`
-                }
+            // Lotteries over 30 minutes long can have an additional reward
+            let additional_message = '';
+            if (min >= 30) {
+                additional_message += `At **3+** participants, the prize pool will include a **Golden Chest** ${emojis.goldenchest}\n`
+            }
+            // Add warning about max tickets in the start msg
+            if (this.maxtickets > 0) {
+                additional_message += `(There is a maximum of **${this.maxtickets}** tickets per user ${emojis.ticket})`;
+            }
 
-                send(message, `The Lottery buying phase has begun!
+            send(message, `The Lottery buying phase has begun!
 The winner will be drawn in **${min} minute${pluralS(min)}**.
 Every new participant in the lottery adds **+100** ${emojis.diamond} to the pool.
 ${additional_message}`);
+        }
+        // Limit tickets
+        if (this.maxtickets > 0) {
+            // Check how many tickets the user already has
+            const own_tickets = this.tickets.filter((t) => t == userid).length;
+            const can_buy = this.maxtickets - own_tickets;
+
+            // User tries to buy more than they can
+            if (can_buy < amount) {
+                send(message, `You've reached the maximum tickets you can purchase.`);
+                amount = can_buy;
             }
+        }
+
+        // User can't buy any more tickets
+        if (amount == 0) {
+            return;
         }
 
         // Buy n tickets as the userid
         for (let i = 0; i < amount; i ++) {
-            this.tickets.push(userid)
+            this.tickets.push(userid);
         }
 
         // Add the amount to the prize

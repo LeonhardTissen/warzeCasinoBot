@@ -5,8 +5,9 @@ const { send } = require("../utils/sender");
 const emojis = require('../emojis.json');
 const { addToStat } = require("../utils/stats");
 
-function cmdLottery(message, amount, duration) {
+function cmdLottery(message, amount, duration, maxtickets) {
 
+    // Validate ticket amount
     if (!amount) {
         send(message, `No ticket amount provided`);
         return;
@@ -17,6 +18,17 @@ function cmdLottery(message, amount, duration) {
         return;
     }
 
+    // Default maxtickets = 0
+    if (!maxtickets) {
+        maxtickets = 0;
+    } else {
+        maxtickets = parseInt(maxtickets);
+        if (maxtickets < 10) {
+            send(message, `Minimum tickets must be atleast **>10**`)
+            return;
+        }
+    }
+
     if (!lottery.ongoing) {
         duration = parseInt(duration);
         if (isNaN(duration)) {
@@ -24,7 +36,7 @@ function cmdLottery(message, amount, duration) {
             return;
         }
         if (duration <= 0 || duration > 360) {
-            send(message, `Invalid duration, must be **1-360** (minutes).`);
+            send(message, `Invalid duration, must be **1-360** (minutes)`);
             return;
         }
     }
@@ -44,8 +56,8 @@ function cmdLottery(message, amount, duration) {
         // Add ticket count to the statistic of the user
         addToStat('lotterytickets', message.author.id, amount);
 
-        lottery.addtickets(message, message.author.id, amount, duration)
+        lottery.addtickets(message, message.author.id, amount, duration, maxtickets)
     })
 }
 
-registerCommand(cmdLottery, "Start or partake in a lottery", ['lottery', 'lot'], "[amount] [minutes?]", false, false);
+registerCommand(cmdLottery, "Start or partake in a lottery", ['lottery', 'lot'], "[amount] [minutes?] [maxtickets?]", false, false);
