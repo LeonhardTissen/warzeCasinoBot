@@ -7,7 +7,7 @@ const { isNumeric } = require("../utils/numchoice");
 const { capitalize } = require("../utils/capitalize");
 
 function cmdOpenChest(message, color, amount) {
-    createRowIfNotExists(message.author.id, 'redchest');
+    createRowIfNotExists(message.author.id, color + 'chest');
 
     if (!valid_chest_colors.includes(color)) {
         send(message, `Invalid chest color. Valid: **${valid_chest_colors.join(', ')}**`)
@@ -64,7 +64,7 @@ function cmdOpenChest(message, color, amount) {
             }
             chestsOpened ++;
 
-            // Remove one red chest from their inventory
+            // Remove that chest from their inventory
             changeChests(message.author.id, -1, color);
 
             if (chestsOpened >= amountNum) {
