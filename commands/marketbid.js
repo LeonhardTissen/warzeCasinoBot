@@ -63,9 +63,19 @@ function cmdMarketplaceBid(message, itemid, bidamount) {
             }
             changeBalance(message.author.id, - bidamount);
 
+            // Always make sure atleast 3 minutes are left after a bid
+            const now = Date.now() / 1000;
+            const seconds_until_end = Math.max(row.startedat + 3600 - now, 180);
+            const new_started_at = Math.floor(now - 3600 + seconds_until_end);
+
             // Update the marketplace item with new higher bid and updated bidder
-            db.run('UPDATE marketplace SET highestbidder = ?, bidamount = ? WHERE id = ?', [message.author.id, bidamount, itemid]);
+            db.run('UPDATE marketplace SET highestbidder = ?, bidamount = ?, startedat = ? WHERE id = ?', [message.author.id, bidamount, new_started_at, itemid]);
             send(message, `Set a bid of **${bidamount}** ${emojis.diamond} on \`${itemid}\``);
+
+            // Ping the last bidder
+            if (row.highestbidder) {
+                message.channel.send(`<@${row.highestbidder}>, you have been outbid!`)
+            }
         })
     })
 }
