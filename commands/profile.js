@@ -34,25 +34,25 @@ function profileCommand(message, target) {
 - Chests: **${chests.red}** ${emojis.redchest} **${chests.blue}** ${emojis.bluechest} **${chests.golden}** ${emojis.goldenchest}
 
 **Casino 2 Statistics:**
-- Wins: **${stats.casino2won}** :trophy:
-- Losses: **${stats.casino2lost}** :skull:
+- Wins: **${stats.casino2won}** ${emojis.winner}
+- Losses: **${stats.casino2lost}** ${emojis.loser}
 - Diamonds won: **${stats.casino2dwon}** ${emojis.diamond}
 - Diamonds lost: **${stats.casino2dlost}** ${emojis.diamond}
 
 **Connect 4 Statistics:**
-- Wins: **${stats.connect4won}** :trophy:
-- Losses: **${stats.connect4lost}** :skull:
+- Wins: **${stats.connect4won}** ${emojis.winner}
+- Losses: **${stats.connect4lost}** ${emojis.loser}
 - Diamonds won: **${stats.connect4dwon}** ${emojis.diamond}
 - Diamonds lost: **${stats.connect4dlost}** ${emojis.diamond}
 
 **Coinflip Statistics:**
-- Wins: **${stats.cfwon}** :trophy:
-- Losses: **${stats.cflost}** :skull:
+- Wins: **${stats.cfwon}** ${emojis.winner}
+- Losses: **${stats.cflost}** ${emojis.loser}
 - Diamonds won: **${stats.cfdwon}** ${emojis.diamond}
 - Diamonds lost: **${stats.cfdlost}** ${emojis.diamond}
 
 **Lottery Statistics:**
-- Wins: **${stats.lotterywon}** :trophy:
+- Wins: **${stats.lotterywon}** ${emojis.winner}
 - Diamonds won: **${stats.lotterydwon}** ${emojis.diamond}
 - Tickets bought: **${stats.lotterytickets}** ${emojis.ticket}
 
