@@ -29,7 +29,8 @@ const default_settings = [
         description: "The prefix you use before commands.",
         id: "pp",
         type: "string",
-        default: settings.prefix
+        default: settings.prefix,
+        maxstringlength: 3
     }
 ]
 exports.default_settings = default_settings;
