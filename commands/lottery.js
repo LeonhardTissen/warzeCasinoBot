@@ -9,7 +9,7 @@ function cmdLottery(message, amount, duration, maxtickets) {
 
     // Validate ticket amount
     if (!amount) {
-        send(message, `No ticket amount provided`);
+        lottery.canvas(message)
         return;
     }
     amount = parseInt(amount);
