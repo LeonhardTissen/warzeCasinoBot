@@ -42,12 +42,8 @@ class Lottery {
         sendBoth(message, `Total tickets: **${this.tickets.length}** ${emojis.ticket} Prize: **${this.prize}** ${emojis.diamond}`, cvs);
     }
     addtickets(message, userid, amount, duration, maxtickets) {
-        // If there is no ongoing lottery, the first user must start by putting atleast 10 tickets in
+        // If there is no ongoing lottery, start it
         if (!this.ongoing) {
-            if (amount < 10) {
-                send(message, `You have to buy atleast **10 tickets** ${emojis.ticket} yourself to start the lottery.`)
-                return;
-            }
             this.ongoing = true;
             this.startedAt = Date.now() / 1000;
             this.ogmsg = message;
