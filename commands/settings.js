@@ -57,4 +57,4 @@ ${m}${parseSettingType(user_settings[setting.id], setting.type)} \`${prefix}sett
     })
 }
 
-registerCommand(cmdSettings, "Show and modify your personal settings", ['settings', 's'], "[settingid?] [newvalue?]", false, false);
+registerCommand(cmdSettings, "Show and modify your personal settings", ['settings', 'set', 's'], "[settingid?] [newvalue?]", false, false);
