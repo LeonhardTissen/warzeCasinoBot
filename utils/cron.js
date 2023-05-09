@@ -7,6 +7,7 @@ const { market_item_names } = require('./market');
 const { randRange } = require('./random');
 const { Luckpool } = require('./luckpool');
 const { getSettings } = require('./settings');
+const { getPrefix } = require('./getprefix');
 
 function checkIfTimerReady(client, table, time, rewardName) {
     // Go through hourlies or dailies to see if users can redeem them
@@ -22,11 +23,13 @@ function checkIfTimerReady(client, table, time, rewardName) {
             if (seconds_left < 0 && seconds_left > -60) {
 
                 getSettings(user.id).then((s) => {
-                    // Only ping if they want to be notified
-                    if (s.rn) {
-                        const channel = client.channels.cache.get(settings.channel)
-                        channel.send(`<@${user.id}>, your ${rewardName} is ready to be collected!`);
-                    }
+                    getPrefix(user.id).then((prefix) => {
+                        // Only ping if they want to be notified
+                        if (s.rn) {
+                            const channel = client.channels.cache.get(settings.channel)
+                            channel.send(`<@${user.id}>, your \`${prefix}${rewardName}\` is ready to be collected!`);
+                        }
+                    })
                 })
             }
         })
