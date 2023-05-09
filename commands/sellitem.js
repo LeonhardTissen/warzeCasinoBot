@@ -21,6 +21,12 @@ const weize_sell_msgs = [
 ]
 
 function cmdSellCard(message, cardid, price, target) {
+    // Validate cardid
+    if (!cardid) {
+        send(message, `No card ID provided.`);
+        return;
+    }
+
 	// Validate recipient
 	const recipient = parseUser(target);
 	const sender = message.author.id;
