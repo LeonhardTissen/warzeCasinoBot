@@ -5,14 +5,43 @@ const { send } = require("../utils/sender");
 const { parseUser } = require("../utils/usertarget");
 const emojis = require('../emojis.json');
 const { isNumeric } = require("../utils/numchoice");
-const { hasInInventory } = require("../utils/inventory");
+const { hasInInventory, removeFromInventory } = require("../utils/inventory");
+const { randChoice, randRange } = require("../utils/random");
+const { changeBalance } = require("../utils/currency");
+
+const weize_sell_msgs = [
+    "Mmm, that's looking like a good one.",
+    "Wow that one is so precious.",
+    "I've been looking for this exact one.",
+    "Nice, do you have more like that?",
+    "That fits right into my collection.",
+    "I love how this one looks.",
+    "This one's a real rarity.",
+    "Crazy that you'd sell this one."
+]
 
 function cmdSellCard(message, cardid, price, target) {
 	// Validate recipient
 	const recipient = parseUser(target);
 	const sender = message.author.id;
 	if (!recipient) {
-		send(message, `Invalid target`);
+		hasInInventory(message.author.id, 'customcard', 'owned', cardid).then((hasTheCard) => {
+            if (!hasTheCard) {
+                send(message, `You don't own that card.`)
+                return;
+            }
+
+            const sell_price = randRange(15, 120);
+
+            // Weize gives a cute message while buying the users card
+            send(message, `${emojis.geizehappy} ${randChoice(weize_sell_msgs)} **+${sell_price}** ${emojis.diamond}`);
+
+            // Reward the user with a random number of diamonds
+            changeBalance(message.author.id, sell_price);
+
+            // Remove the card from their inventory
+            removeFromInventory(message.author.id, 'customcard', 'owned', cardid);
+        })
 		return;
 	}
 	if (recipient === sender) {
@@ -61,4 +90,4 @@ function cmdSellCard(message, cardid, price, target) {
         })
     })
 };
-registerCommand(cmdSellCard, "Sell a card to another player", ['sellcard'], "[cardid] [price] [@user]");
+registerCommand(cmdSellCard, "Sell a card to another player or to Weize", ['sellcard', 'sc'], "[cardid] [price] [@user?]");
