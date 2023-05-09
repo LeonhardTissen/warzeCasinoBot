@@ -22,6 +22,11 @@ function cmdSettings(message, settingid, newvalue) {
                         if (default_setting.type === "boolean") {
                             user_settings[settingid] = !user_settings[settingid];
                         } else if (default_setting.type === "string") {
+                            if (!newvalue) {
+                                send(message, `No value provided.`);
+                                return
+                            }
+
                             user_settings[settingid] = newvalue.substring(0, default_setting.maxstringlength);
                         }
                     }
