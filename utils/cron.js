@@ -21,9 +21,9 @@ function checkIfTimerReady(client, table, time, rewardName) {
 
             if (seconds_left < 0 && seconds_left > -60) {
 
-                getSettings(user.id).then((settings) => {
+                getSettings(user.id).then((s) => {
                     // Only ping if they want to be notified
-                    if (settings.rn) {
+                    if (s.rn) {
                         const channel = client.channels.cache.get(settings.channel)
                         channel.send(`<@${user.id}>, your ${rewardName} is ready to be collected!`);
                     }
@@ -52,9 +52,9 @@ function updateMarketplace(client) {
                     if (row.seller != 'Weize') {
                         changeBalance(row.seller, row.bidamount);
                     }
-                    getSettings(row.highestbidder).then((settings) => {
+                    getSettings(row.highestbidder).then((s) => {
                         // Only ping if the user wants to be notified about auction wins
-                        if (settings.mw) {
+                        if (s.mw) {
                             channel.send(`<@${row.highestbidder}>, you won the auction and received **${row.itemamount}x** ${market_item_names[row.type]}!`);
                         }
                     })

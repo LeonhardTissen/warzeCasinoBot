@@ -75,9 +75,9 @@ function cmdMarketplaceBid(message, itemid, bidamount) {
 
             // Ping the last bidder
             if (row.highestbidder) {
-                getSettings(row.highestbidder).then((settings) => {
+                getSettings(row.highestbidder).then((s) => {
                     // Only ping if they want to be notified
-                    if (settings.mb) {
+                    if (s.mb) {
                         message.channel.send(`<@${row.highestbidder}>, you have been outbid!`)
                     }
                 })
