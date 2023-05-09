@@ -55,7 +55,7 @@ function updateMarketplace(client) {
                     getSettings(row.highestbidder).then((s) => {
                         // Only ping if the user wants to be notified about auction wins
                         if (s.mw) {
-                            channel.send(`<@${row.highestbidder}>, you won the auction and received **${row.itemamount}x** ${market_item_names[row.type]}!`);
+                            channel.send(`<@${row.highestbidder}>, you won the auction and received **${row.itemamount}x** ${market_item_names[row.type]}`);
                         }
                     })
                 } else {
