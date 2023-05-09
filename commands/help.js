@@ -15,7 +15,15 @@ function help(message, argument) {
 
     // Check if argument is the help of a specific command
     if (!isNumeric(argument) && argument) {
-        displayed_commands = displayed_commands.filter((c) => c.aliases.includes(argument))
+        displayed_commands = displayed_commands.filter((c) => {
+            let matches = false;
+            c.aliases.forEach((alias) => {
+                if (alias.includes(argument)) {
+                    matches = true;
+                }
+            })
+            return matches;
+        })
     }
     
     // Either no commands have been registered or they're all not applicable to the request
