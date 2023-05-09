@@ -44,7 +44,9 @@ createDatabaseTable('cascard', {name: 'cardtype', type: 'TEXT', default: '""'})
 createDatabaseTable('casdeck', {name: 'decktype', type: 'TEXT', default: '""'})
 createDatabaseTable('caschip', {name: 'chiptype', type: 'TEXT', default: '""'})
 createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
+
 createDatabaseTable('rewardnotify', {name: 'notify', type: 'INTEGER', default: '0'})
+createDatabaseTable('settings', {name: 'settings', type: 'TEXT', default: '""'})
 
 // Chests
 createDatabaseTable('redchest', {name: 'redchest', type: 'INTEGER', default: '0'})
