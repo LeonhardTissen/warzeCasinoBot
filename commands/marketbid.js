@@ -4,6 +4,7 @@ const emojis = require('../emojis.json');
 const { getPrefix } = require("../utils/getprefix");
 const { changeBalance, checkIfLarger } = require("../utils/currency");
 const { send } = require("../utils/sender");
+const { getSettings } = require("../utils/settings");
 
 function cmdMarketplaceBid(message, itemid, bidamount) {
     bidamount = parseInt(bidamount)
@@ -74,7 +75,12 @@ function cmdMarketplaceBid(message, itemid, bidamount) {
 
             // Ping the last bidder
             if (row.highestbidder) {
-                message.channel.send(`<@${row.highestbidder}>, you have been outbid!`)
+                getSettings(row.highestbidder).then((settings) => {
+                    // Only ping if they want to be notified
+                    if (settings.mb) {
+                        message.channel.send(`<@${row.highestbidder}>, you have been outbid!`)
+                    }
+                })
             }
         })
     })

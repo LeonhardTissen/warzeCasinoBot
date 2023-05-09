@@ -6,6 +6,7 @@ const { lottery } = require('./lottery');
 const { market_item_names } = require('./market');
 const { randRange } = require('./random');
 const { Luckpool } = require('./luckpool');
+const { getSettings } = require('./settings');
 
 function checkIfTimerReady(client, table, time, rewardName) {
     // Go through hourlies or dailies to see if users can redeem them
@@ -20,23 +21,11 @@ function checkIfTimerReady(client, table, time, rewardName) {
 
             if (seconds_left < 0 && seconds_left > -60) {
 
-                // Look if the user wants to get notified
-                db.get('SELECT notify FROM rewardnotify WHERE id = ?', [user.id], (err, row) => {
-                    if (err) {
-                        console.log(err.message);
-                        return;
-                    }
-
-                    // User has never touched that setting before
-                    if (!row) {
-                        return;
-                    }
-                    
-                    // If they want to be notified
-                    if (row.notify == 1) {
-                        // Ping them!
+                getSettings(user.id).then((settings) => {
+                    // Only ping if they want to be notified
+                    if (settings.rn) {
                         const channel = client.channels.cache.get(settings.channel)
-                        channel.send(`<@${user.id}>, your ${rewardName} is ready!`);
+                        channel.send(`<@${user.id}>, your ${rewardName} is ready to be collected!`);
                     }
                 })
             }
@@ -63,7 +52,12 @@ function updateMarketplace(client) {
                     if (row.seller != 'Weize') {
                         changeBalance(row.seller, row.bidamount);
                     }
-                    channel.send(`<@${row.highestbidder}>, you won the auction and received **${row.itemamount}x** ${market_item_names[row.type]}!`);
+                    getSettings(row.highestbidder).then((settings) => {
+                        // Only ping if the user wants to be notified about auction wins
+                        if (settings.mw) {
+                            channel.send(`<@${row.highestbidder}>, you won the auction and received **${row.itemamount}x** ${market_item_names[row.type]}!`);
+                        }
+                    })
                 } else {
                     if (row.seller != 'Weize') {
                         // Give the seller the items back
@@ -103,6 +97,7 @@ function updateMarketplace(client) {
 function everyMinute(client) {
     checkIfTimerReady(client, 'hourlies', 3600, 'hourly');
     checkIfTimerReady(client, 'dailies', 86400, 'daily');
+    checkIfTimerReady(client, 'weeklies', 604800, 'weekly');
     lottery.drawwinner();
     updateMarketplace(client);
 }
