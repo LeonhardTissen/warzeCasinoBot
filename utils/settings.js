@@ -1,5 +1,6 @@
 const { createRowIfNotExists, db } = require("./db")
 const emojis = require('../emojis.json');
+const settings = require('../settings.json');
 
 const default_settings = [
     {
@@ -22,6 +23,13 @@ const default_settings = [
         id: "mb",
         type: "boolean",
         default: true
+    },
+    {
+        name: "Personal Prefix",
+        description: "The prefix you use before commands.",
+        id: "pp",
+        type: "string",
+        default: settings.prefix
     }
 ]
 exports.default_settings = default_settings;
@@ -29,6 +37,8 @@ exports.default_settings = default_settings;
 function parseSettingType(value, type) {
     if (type === "boolean") {
         return (value ? emojis.yes : emojis.no);
+    } else if (type === "string") {
+        return `**"${value}"**`;
     }
     return value;
 }

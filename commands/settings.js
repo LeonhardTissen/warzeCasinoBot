@@ -4,7 +4,7 @@ const { getPrefix } = require("../utils/getprefix");
 const { send } = require("../utils/sender");
 const { getSettings, default_settings, parseSettingType } = require("../utils/settings");
 
-function cmdSettings(message, settingid) {
+function cmdSettings(message, settingid, newvalue) {
     getSettings(message.author.id).then((user_settings) => {
         getPrefix(message.author.id).then((prefix) => {
             // Store which setting was changed
@@ -21,6 +21,8 @@ function cmdSettings(message, settingid) {
                         // Toggle the value if it's just a boolean
                         if (default_setting.type === "boolean") {
                             user_settings[settingid] = !user_settings[settingid];
+                        } else if (default_setting.type === "string") {
+                            user_settings[settingid] = newvalue;
                         }
                     }
                     
@@ -50,4 +52,4 @@ ${m}${parseSettingType(user_settings[setting.id], setting.type)} \`${prefix}sett
     })
 }
 
-registerCommand(cmdSettings, "Show and modify your personal settings", ['settings', 's'], "[settingid?]", false, false);
+registerCommand(cmdSettings, "Show and modify your personal settings", ['settings', 's'], "[settingid?] [newvalue?]", false, false);
