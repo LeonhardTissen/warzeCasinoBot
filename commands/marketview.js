@@ -51,7 +51,7 @@ function cmdMarketplace(message, amount, item, price) {
         // User just wants to view the marketplace
         getPrefix(message.author.id).then((prefix) => {
             db.all('SELECT * FROM marketplace', [], (err, rows) => {
-                let mp_msg = '**__Marketplace:__**\n';
+                let mp_msg = '**__Marketplace:__**\n\n';
                 if (err) {
                     console.log(err.message);
                     return;

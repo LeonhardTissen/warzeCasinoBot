@@ -28,13 +28,13 @@ function cmdSettings(message, settingid) {
             }
 
             // Send message displaying all the settings
-            let settingsMsg = '__Your Settings:__\n';
+            let settingsMsg = '**__Your Settings:__**\n\n';
             default_settings.forEach((setting) => {
                 const m = (marked_changed == setting.id ? '> ' : '');
 
                 settingsMsg += `${m}**${setting.name}** 
 ${m}${setting.description}
-${m}${parseSettingType(user_settings[setting.id], setting.type)} \`${prefix}setting ${setting.id}\`\n`
+${m}${parseSettingType(user_settings[setting.id], setting.type)} \`${prefix}setting ${setting.id}\`\n\n`
             })
             send(message, settingsMsg);
         
