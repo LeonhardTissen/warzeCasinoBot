@@ -1,5 +1,4 @@
 const sqlite3 = require('sqlite3').verbose();
-const settings = require('../settings.json');
 
 // Connect to the SQLite database
 const db = new sqlite3.Database('./users.db', (err) => {
@@ -43,7 +42,6 @@ createDatabaseTable('customdeck', {name: 'owned', type: 'TEXT', default: '""'})
 createDatabaseTable('cascard', {name: 'cardtype', type: 'TEXT', default: '""'})
 createDatabaseTable('casdeck', {name: 'decktype', type: 'TEXT', default: '""'})
 createDatabaseTable('caschip', {name: 'chiptype', type: 'TEXT', default: '""'})
-createDatabaseTable('prefix', {name: 'prefix', type: 'TEXT', default: `"${settings.prefix}"`})
 
 createDatabaseTable('rewardnotify', {name: 'notify', type: 'INTEGER', default: '0'})
 createDatabaseTable('settings', {name: 'settings', type: 'TEXT', default: '""'})
