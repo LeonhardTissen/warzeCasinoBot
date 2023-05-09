@@ -38,8 +38,13 @@ class Lottery {
                 index ++;
             }   
         }
+        // Also show that there is a golden chest in the pool
+        let additional_prize = '';
+        if (Object.keys(this.avatars).length >= 3 && this.duration / 60 >= 30) {
+            additional_prize = `(also **1** ${emojis.goldenchest})`;
+        }
 
-        sendBoth(message, `Total tickets: **${this.tickets.length}** ${emojis.ticket} Prize: **${this.prize}** ${emojis.diamond}`, cvs);
+        sendBoth(message, `Total tickets: **${this.tickets.length}** ${emojis.ticket} Prize: **${this.prize}** ${emojis.diamond} ${additional_prize}`, cvs);
     }
     addtickets(message, userid, amount, duration, maxtickets) {
         // If there is no ongoing lottery, start it
