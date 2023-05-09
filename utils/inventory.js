@@ -38,7 +38,6 @@ exports.addToInventory = addToInventory;
 
 function removeFromInventory(target, table, column, item) {
     return new Promise((resolve) => {
-        console.log(`SELECT ${column} FROM ${table} WHERE id = ?`);
         db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
             if (err) {
                 console.log(err.message);
@@ -93,7 +92,6 @@ function hasInInventory(target, table, column, item) {
             let owned_items_array = owned_items.split(',');
 
             // Check if item is in the users inventory
-            console.log(owned_items_array, item)
             resolve(owned_items_array.includes(item))
         })
     })
