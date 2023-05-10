@@ -14,7 +14,8 @@ npm i
     "token": "BOTTOKENHERE",
     "admin": "345103284463206400",
     "prefix": "-",
-    "channel": "1101531707934527580",
+    "mainchannel": "1101531707934527580",
+    "channels": ["1101531707934527580"],
     "color": "23F843"
 }
 ```
