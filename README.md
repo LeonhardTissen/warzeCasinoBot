@@ -42,4 +42,7 @@ Please make sure that:
 - The channel you're executing the command in is in the **settings.json's "channels"**
 - The bot has **"Manage Expressions"** permissions
 - There are enough emote slots (12 or more)
+<br>
 When done, copy the generated JSON into **"emojis.json"** and restart the bot.
+
+### If you enjoy this bot, please leave a Star ⭐
