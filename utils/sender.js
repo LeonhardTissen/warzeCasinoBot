@@ -12,8 +12,8 @@ function createEmbed(messageContents) {
 
 // Send a message to the channel with contents in an embed
 function send(message, messageContents) {
-	console.log(messageContents.length);
 	if (messageContents.length > 2000) {
+		// Split message every 50th newline and send them individually
 		splitMessages = messageContents.match(/(?=[\s\S])(?:.*\n?){1,50}/g);
 		splitMessages.forEach((splitMessage) => {
 			message.channel.send({
