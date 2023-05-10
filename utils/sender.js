@@ -5,18 +5,29 @@ const settings = require('../settings.json');
 function createEmbed(messageContents) {
 	const embed = new EmbedBuilder()
 		.setColor('#' + settings.color)
-		.setDescription(messageContents.substring(0, 4000))
+		.setDescription(messageContents)
 
 	return embed;
 };
 
 // Send a message to the channel with contents in an embed
 function send(message, messageContents) {
-	message.channel.send({
-		embeds: [
-			createEmbed(messageContents)
-		]
-	});
+	if (messageContents.length > 4000) {
+		splitMessages = messageContents.match(/.{1,4000}/g);
+		splitMessages.forEach((splitMessage) => {
+			message.channel.send({
+				embeds: [
+					createEmbed(splitMessage)
+				]
+			});
+		})
+	} else {
+		message.channel.send({
+			embeds: [
+				createEmbed(messageContents)
+			]
+		});
+	}
 }
 exports.send = send;
 
