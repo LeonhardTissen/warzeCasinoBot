@@ -1,13 +1,25 @@
 # Warze.org/casino Discord bot
-You can try the bot over on my Discord server: https://discord.gg/jtcqgvkZY7
+
+Please try the bot here: [My Discord Server](https://discord.gg/jtcqgvkZY7)
+
+## Features
+- Economy
+- Inventory
+- Shop
+- Singleplayer and Multiplayer games
+
 ## Setup
+
 ### Create an application
 - Build a bot at https://discordapp.com/developers
+- Enable all 3 intents
 - Copy the token for later
+
 ### Get required packages, make sure you're on a recent version of node
 ```bash
 npm i
 ```
+
 ### Enter your bot's token and discord user ID in "/settings.json" (You can rename "/sample_settings.json):
 ```json
 {
@@ -23,5 +35,11 @@ npm i
 ```bash
 node bot.js
 ```
-### Add your own emotes
-Because the bot won't have access to the predefined emotes referenced in "/emojis.json", you should add them to a server the bot is in yourself and update that JSON file.
+### Setup custom emotes
+Because your bot needs to be in a server where the custom emotes are present, there is a utility that adds all the necessary emotes in any server.
+Run -setupemotes in the server you want the emotes to be added in.
+Please make sure that:
+- The channel you're executing the command in is in the **settings.json's "channels"**
+- The bot has **"Manage Expressions"** permissions
+- There are enough emote slots (12 or more)
+When done, copy the generated JSON into **"emojis.json"** and restart the bot.
