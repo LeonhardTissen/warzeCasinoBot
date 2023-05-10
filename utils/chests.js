@@ -71,7 +71,14 @@ function unboxDeck(message, chestname, emoji) {
     const unboxed_deck = randChoice(Object.keys(valid_decks).filter((c) => c != 'normaldeck'));
                             
     // Add the new custom deck to the users' inventory
-    addToInventory(message.author.id, 'customdeck', 'owned', unboxed_deck);
-    sendBoth(message, `You unboxed a **${chestname}** ${emoji} which contained: **${unboxed_deck}**`, getCanvasHead(300, message.author.username, valid_decks[unboxed_deck]));
+    addToInventory(message.author.id, 'customdeck', 'owned', unboxed_deck).then((msg) => {
+        if (msg == 'duplicate') {
+            const amount = randRange(100,250);
+            send(message, `You unboxed a deck that you already had, so you get **+${amount}** ${emojis.diamond}`);
+            changeBalance(message.author.id, amount);
+        } else if (msg == 'added') {
+            sendBoth(message, `You unboxed a **${chestname}** ${emoji} which contained: **${unboxed_deck}**`, getCanvasHead(300, message.author.username, valid_decks[unboxed_deck]));
+        }
+    });
 }
 exports.unboxDeck = unboxDeck;

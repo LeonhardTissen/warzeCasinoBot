@@ -6,30 +6,36 @@ function addToInventory(target, table, column, item) {
 
     return new Promise((resolve) => {
         // Get the users' current inventory
-        db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
-            if (err) {
-                console.log(err.message);
+        hasInInventory(target, table, column, item).then((ownsItem) => {
+            if (ownsItem) {
+                resolve('duplicate')
                 return;
             }
-
-            let owned_items = '';
-
-            if (row && row[column] != '') {
-                // Append with comma inbetween
-                owned_items = `${row[column]},${item}`;
-            } else {
-                // First item in inventory
-                owned_items = `${item}`;
-            }
-
-            // Update the database with the updated inventory
-            db.run(`UPDATE ${table} SET ${column} = ? WHERE id = ?`, [owned_items, target], (err) => {
+            db.get(`SELECT ${column} FROM ${table} WHERE id = ?`, [target], (err, row) => {
                 if (err) {
                     console.log(err.message);
                     return;
                 }
-
-                resolve();
+    
+                let owned_items = '';
+    
+                if (row && row[column] != '') {
+                    // Append with comma inbetween
+                    owned_items = `${row[column]},${item}`;
+                } else {
+                    // First item in inventory
+                    owned_items = `${item}`;
+                }
+    
+                // Update the database with the updated inventory
+                db.run(`UPDATE ${table} SET ${column} = ? WHERE id = ?`, [owned_items, target], (err) => {
+                    if (err) {
+                        console.log(err.message);
+                        return;
+                    }
+    
+                    resolve('added');
+                })
             })
         })
     })
