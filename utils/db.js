@@ -48,14 +48,14 @@ createDatabaseTable('settings', {name: 'settings', type: 'TEXT', default: '""'})
 
 // Chests
 createDatabaseTable('redchest', {name: 'redchest', type: 'INTEGER', default: '0'})
-createDatabaseTable('orangechest', {name: 'orangechest', type: 'INTEGER', default: '0'})
-createDatabaseTable('yellowchest', {name: 'yellowchest', type: 'INTEGER', default: '0'})
-createDatabaseTable('greenchest', {name: 'greenchest', type: 'INTEGER', default: '0'})
-createDatabaseTable('cyanchest', {name: 'cyanchest', type: 'INTEGER', default: '0'})
+// createDatabaseTable('orangechest', {name: 'orangechest', type: 'INTEGER', default: '0'})
+// createDatabaseTable('yellowchest', {name: 'yellowchest', type: 'INTEGER', default: '0'})
+// createDatabaseTable('greenchest', {name: 'greenchest', type: 'INTEGER', default: '0'})
+// createDatabaseTable('cyanchest', {name: 'cyanchest', type: 'INTEGER', default: '0'})
 createDatabaseTable('bluechest', {name: 'bluechest', type: 'INTEGER', default: '0'})
-createDatabaseTable('magentachest', {name: 'magentachest', type: 'INTEGER', default: '0'})
+// createDatabaseTable('magentachest', {name: 'magentachest', type: 'INTEGER', default: '0'})
 createDatabaseTable('goldenchest', {name: 'goldenchest', type: 'INTEGER', default: '0'})
-createDatabaseTable('wartchest', {name: 'wartchest', type: 'INTEGER', default: '0'})
+// createDatabaseTable('wartchest', {name: 'wartchest', type: 'INTEGER', default: '0'})
 
 // Dummy stat
 createDatabaseTable('statsdummy', {name: 'dummy', type: 'INTEGER', default: '0'})

@@ -5,7 +5,7 @@ const emojis = require('../emojis.json');
 const { randChoice } = require("./random");
 const { send, sendBoth } = require("./sender");
 const { addToStat } = require("./stats");
-const { secToReadable, pluralS } = require("./timestr");
+const { pluralS } = require("./timestr");
 
 class Lottery {
     constructor() {
@@ -38,6 +38,7 @@ class Lottery {
                 index ++;
             }   
         }
+        
         // Also show that there is a golden chest in the pool
         let additional_prize = '';
         if (Object.keys(this.avatars).length >= 3 && this.duration / 60 >= 30) {
