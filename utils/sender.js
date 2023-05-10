@@ -5,7 +5,7 @@ const settings = require('../settings.json');
 function createEmbed(messageContents) {
 	const embed = new EmbedBuilder()
 		.setColor('#' + settings.color)
-		.setDescription(messageContents)
+		.setDescription(messageContents.substring(0, 4000))
 
 	return embed;
 };
