@@ -18,6 +18,10 @@ class Lottery {
         this.startedAt = 0;
     }
     canvas(message) {
+        if (!lottery.ongoing) {
+            return;
+        }
+        
         // Size of the canvas stays about the same but size of indiv avatars gets smaller
         const width = Math.ceil(Math.sqrt(this.tickets.length));
 
