@@ -26,7 +26,7 @@ function checkIfTimerReady(client, table, time, rewardName) {
                     getPrefix(user.id).then((prefix) => {
                         // Only ping if they want to be notified
                         if (s.rn) {
-                            const channel = client.channels.cache.get(settings.channel)
+                            const channel = client.channels.cache.get(settings.mainchannel)
                             channel.send(`<@${user.id}>, your \`${prefix}${rewardName}\` is ready to be collected!`);
                         }
                     })
@@ -46,7 +46,7 @@ function updateMarketplace(client) {
         // Go through all marketplace items to see if they ended
         rows.forEach((row) => {
             if (row.startedat + 3600 < Date.now() / 1000) {
-                const channel = client.channels.cache.get(settings.channel)
+                const channel = client.channels.cache.get(settings.mainchannel)
                 if (row.highestbidder != null) {
                     // Someone gets the items
                     changeChests(row.highestbidder, row.itemamount, row.type.replace('chest',''))

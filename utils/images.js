@@ -1,10 +1,10 @@
 const { loadImage } = require('canvas');
+const { readdirSync } = require('fs');
 
 // Preload all images to use in canvases, is ran on startup
 const assets = {}
 
-// Go through all the "/images" directory
-const { readdirSync } = require('fs');
+// Go through all the files in the "/images/load" directory
 const files = readdirSync('./images/load/');
 files.forEach((filename) => {
     path = 'images/load/' + filename;

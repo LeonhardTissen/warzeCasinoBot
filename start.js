@@ -14,7 +14,7 @@ function startBot() {
 		if (message.author.bot) return;
 
 		// Ignore messages outside of the designated channel
-		if (message.channel.id != settings.channel) return;
+		if (!settings.channels.includes(message.channel.id)) return;
 
 		// Get the preferred prefix of the user, but default to the bot prefix
 		getPrefix(message.author.id).then((preferred_prefix) => {
