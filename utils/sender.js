@@ -12,8 +12,9 @@ function createEmbed(messageContents) {
 
 // Send a message to the channel with contents in an embed
 function send(message, messageContents) {
-	if (messageContents.length > 4000) {
-		splitMessages = messageContents.match(/.{1,4000}/g);
+	console.log(messageContents.length);
+	if (messageContents.length > 2000) {
+		splitMessages = messageContents.match(/(?=[\s\S])(?:.*\n?){1,50}/g);
 		splitMessages.forEach((splitMessage) => {
 			message.channel.send({
 				embeds: [
