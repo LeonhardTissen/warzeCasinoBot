@@ -11,6 +11,7 @@ const { getPrefix } = require("./getprefix");
 const { assets } = require("./images");
 const { send, sendBoth } = require("./sender");
 const { addToStat } = require("./stats");
+const { changeChests } = require("./chests");
 
 // Creates a 2D array with any width & height and fills it with 0
 function array2D(width, height) {
