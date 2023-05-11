@@ -12,10 +12,12 @@ function cmdSetupEmotes(message) {
 
     emotenames.forEach((emotename) => {
         // Upload emote
-        const attachment = new AttachmentBuilder(`./images/emotes/${emotename}.png`, {name: emotename});
+        const animated_prefix = (emotename == 'diamond' ? 'a' : '');
+        const animated_file = (emotename == 'diamond' ? 'gif' : 'png');
+        const attachment = new AttachmentBuilder(`./images/emotes/${emotename}.${animated_file}`, {name: emotename});
         message.guild.emojis.create(attachment).then((emoteobj) => {
             // Keep track of the emote id
-            newemotes[emotename] = `<:${emoteobj.name}:${emoteobj.id}>`;
+            newemotes[emotename] = `<${animated_prefix}:${emoteobj.name}:${emoteobj.id}>`;
 
             // Check if all emotes are uploaded
             if (Object.keys(newemotes).length === emotenames.length) {
