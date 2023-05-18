@@ -31,22 +31,32 @@ function cmdSellCard(message, cardid, price, target) {
 	const recipient = parseUser(target);
 	const sender = message.author.id;
 	if (!recipient) {
-		hasInInventory(message.author.id, 'customcard', 'owned', cardid).then((hasTheCard) => {
-            if (!hasTheCard) {
-                send(message, `You don't own that card.`)
-                return;
-            }
+        let cards_to_sell;
 
-            const sell_price = randRange(15, 120);
+        if (cardid.includes(',')) {
+            cards_to_sell = cardid.split(',');
+        } else {
+            cards_to_sell = [cardid];
+        }
 
-            // Weize gives a cute message while buying the users card
-            send(message, `${emojis.geizehappy} ${randChoice(weize_sell_msgs)} **+${sell_price}** ${emojis.diamond}`);
+        cards_to_sell.forEach((card) => {
+            hasInInventory(message.author.id, 'customcard', 'owned', card).then((hasTheCard) => {
+                if (!hasTheCard) {
+                    send(message, `You don't own that card.`)
+                    return;
+                }
 
-            // Reward the user with a random number of diamonds
-            changeBalance(message.author.id, sell_price);
+                const sell_price = randRange(15, 120);
 
-            // Remove the card from their inventory
-            removeFromInventory(message.author.id, 'customcard', 'owned', cardid);
+                // Weize gives a cute message while buying the users card
+                send(message, `${emojis.geizehappy} ${randChoice(weize_sell_msgs)} **+${sell_price}** ${emojis.diamond}`);
+
+                // Reward the user with a random number of diamonds
+                changeBalance(message.author.id, sell_price);
+
+                // Remove the card from their inventory
+                removeFromInventory(message.author.id, 'customcard', 'owned', card);
+            })
         })
 		return;
 	}
