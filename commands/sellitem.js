@@ -17,7 +17,10 @@ const weize_sell_msgs = [
     "That fits right into my collection.",
     "I love how this one looks.",
     "This one's a real rarity.",
-    "Crazy that you'd sell this one."
+    "Crazy that you'd sell this one.",
+    "This has such a nice color.",
+    "Woah, that one's rare.",
+    "This one kinda sucks but I'll buy it anyway."
 ]
 
 function cmdSellCard(message, cardid, price, target) {
