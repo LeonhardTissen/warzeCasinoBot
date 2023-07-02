@@ -28,7 +28,8 @@ function cmdOpenChest(message, color, amount) {
     }
     
     // Invalid color passed in
-    if (!valid_chest_colors.includes(getMatchingChestName(color))) {
+    color = getMatchingChestName(color);
+    if (!valid_chest_colors.includes(color)) {
         send(message, `Invalid chest color. Valid: **${valid_chest_colors.join(', ')}**`)
         return;
     }
