@@ -82,3 +82,17 @@ function unboxDeck(message, chestname, emoji) {
     });
 }
 exports.unboxDeck = unboxDeck;
+
+function getMatchingChestName(chestname) {
+	let closest_chest_name = false;
+
+    // Go through all the valid chests and compare the first characters only
+    valid_chest_colors.forEach((valid_chest) => {
+        if (valid_chest[0] === chestname[0]) {
+            closest_chest_name = valid_chest;
+        }
+    });
+
+    return closest_chest_name;
+}
+exports.getMatchingChestName = getMatchingChestName;

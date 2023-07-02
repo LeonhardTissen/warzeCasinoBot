@@ -7,7 +7,7 @@ const emojis = require('../emojis.json');
 const { isNumeric } = require("../utils/numchoice");
 const { pluralS } = require("../utils/timestr");
 const { createRowIfNotExists } = require("../utils/db");
-const { getChests, valid_chest_colors } = require("../utils/chests");
+const { getChests, valid_chest_colors, getMatchingChestName } = require("../utils/chests");
 const { capitalize } = require("../utils/capitalize");
 
 function cmdSellChest(message, amount, color, price, target) {
@@ -24,7 +24,7 @@ function cmdSellChest(message, amount, color, price, target) {
 	}
 
     // Validate chest color
-    if (!valid_chest_colors.includes(color)) {
+    if (!valid_chest_colors.includes(getMatchingChestName(color))) {
         send(message, `Invalid chest color. Valid: **${valid_chest_colors.join(', ')}**`)
         return;
     }

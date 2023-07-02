@@ -2,7 +2,7 @@ const { registerCommand } = require("../commands");
 const { send } = require("../utils/sender");
 const { createRowIfNotExists } = require("../utils/db");
 const emojis = require('../emojis.json');
-const { changeChests, getChests, valid_chest_colors, unboxDiamonds, unboxCard, unboxDeck } = require("../utils/chests");
+const { changeChests, getChests, valid_chest_colors, unboxDiamonds, unboxCard, unboxDeck, getMatchingChestName } = require("../utils/chests");
 const { isNumeric } = require("../utils/numchoice");
 const { capitalize } = require("../utils/capitalize");
 const { getPrefix } = require("../utils/getprefix");
@@ -28,7 +28,7 @@ function cmdOpenChest(message, color, amount) {
     }
     
     // Invalid color passed in
-    if (!valid_chest_colors.includes(color)) {
+    if (!valid_chest_colors.includes(getMatchingChestName(color))) {
         send(message, `Invalid chest color. Valid: **${valid_chest_colors.join(', ')}**`)
         return;
     }
