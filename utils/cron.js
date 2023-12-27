@@ -102,6 +102,13 @@ function everyMinute(client) {
     checkIfTimerReady(client, 'dailies', 86400, 'daily');
     checkIfTimerReady(client, 'weeklies', 604800, 'weekly');
     lottery.drawwinner();
+    
+    client.user.setActivity({
+        name: "on Warze.org",
+        type: ActivityType.Streaming,
+        url: "https://twitch.tv/warzedev",
+    })
+
     updateMarketplace(client);
 }
 exports.everyMinute = everyMinute;
