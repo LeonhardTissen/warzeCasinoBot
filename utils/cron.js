@@ -8,6 +8,7 @@ const { randRange } = require('./random');
 const { Luckpool } = require('./luckpool');
 const { getSettings } = require('./settings');
 const { getPrefix } = require('./getprefix');
+const { ActivityType } = require("discord.js");
 
 function checkIfTimerReady(client, table, time, rewardName) {
     // Go through hourlies or dailies to see if users can redeem them
