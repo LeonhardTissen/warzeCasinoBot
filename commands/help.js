@@ -3,13 +3,14 @@ const { getPrefix } = require("../utils/getprefix");
 const settings = require('../settings.json');
 const { isNumeric } = require("../utils/numchoice");
 const { send } = require("../utils/sender");
+const { isAdmin } = require("../utils/admin");
 
 function help(message, argument) {
     // Filter out hidden commands
     let displayed_commands = commands.filter((c) => !c.hiddenFromHelp);
 
     // Filter out admin-only commands
-    if (message.author.id !== settings.admin) {
+    if (isAdmin(message)) {
         displayed_commands = displayed_commands.filter((c) => !c.adminOnly);
     }
 
