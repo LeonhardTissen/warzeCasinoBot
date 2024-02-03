@@ -4,5 +4,8 @@
     "cluster": "^0.7.7",
     "discord.js": "^14.9.0",
     "sqlite3": "^5.1.6"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
